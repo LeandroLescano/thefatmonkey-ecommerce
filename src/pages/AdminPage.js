@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar";
-import ProductCatalog from "../components/product-catalog";
+import ProductUpload from "../components/product-upload";
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/firebase-storage";
@@ -8,13 +8,14 @@ import "firebase/auth";
 import Swal from "sweetalert2";
 
 function HomePage() {
-  // const [loaded, setLoaded] = useState(false);
   const [user, setUser] = useState(null);
 
   document.addEventListener("DOMContentLoaded", () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUser({ user: user });
+      } else {
+        window.location.href = "/";
       }
     });
   });
@@ -57,7 +58,7 @@ function HomePage() {
         deslog={() => desloguear()}
         usuario={user}
       />
-      <ProductCatalog />
+      {user !== null && <ProductUpload usuario={user} />}
     </>
   );
 }
