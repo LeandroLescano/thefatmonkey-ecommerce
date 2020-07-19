@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/navbar.css";
+import firebase from "firebase/app";
 
-function navbar(props) {
+function Navbar(props) {
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    if (props.usuario !== null && props.emails !== undefined) {
+      if (props.emails.includes(props.usuario.user.email)) {
+        setAdmin(true);
+      } else {
+        setAdmin(false);
+      }
+    } else {
+      setAdmin(false);
+    }
+  }, [props.emails, props.usuario]);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <a className="navbar-brand" href="/">
@@ -21,16 +36,15 @@ function navbar(props) {
             </a>
           </li>
         </ul>
-        {props.usuario !== null &&
-          props.usuario.user.email === "tatilescano11@gmail.com" && (
-            <div className="navbar-nav mr-2">
-              <div className="nav-item">
-                <a href="/administrar" className="nav-link">
-                  Administrar
-                </a>
-              </div>
+        {admin && (
+          <div className="navbar-nav mr-2">
+            <div className="nav-item">
+              <a href="/administrar" className="nav-link">
+                Administrar
+              </a>
             </div>
-          )}
+          </div>
+        )}
         {props.usuario !== null && (
           <div className="navbar-nav mr-2">
             <form>
@@ -60,4 +74,4 @@ function navbar(props) {
   );
 }
 
-export default navbar;
+export default Navbar;

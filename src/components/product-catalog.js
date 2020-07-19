@@ -5,6 +5,8 @@ import "firebase/database";
 import "firebase/firebase-storage";
 
 function ProductCatalog() {
+  const [categories, setCategories] = useState([]);
+  const [selectCategory, setSelectCategory] = useState("");
   const [state, setState] = useState({
     data: [],
     loading: null,
@@ -15,14 +17,18 @@ function ProductCatalog() {
       const db = firebase.database();
       const dbRef = db.ref("products");
       dbRef.on("child_added", (snapshot) => {
-        snapshot.forEach((snapshot) => {
+        let categoryAct =
+          snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
+        setCategories((categories) => [...categories, categoryAct]);
+        snapshot.forEach((snapshotChild) => {
           setState((state) => ({
-            data: state.data.concat(snapshot.val()),
+            data: state.data.concat(snapshotChild.val()),
             loading: false,
           }));
         });
       });
     }
+    setCategories([]);
     setState({
       data: [],
       loading: true,
@@ -41,27 +47,42 @@ function ProductCatalog() {
             <div className="sidebar-sticky pt-3">
               <ul className="nav flex-column">
                 <li className="nav-item">
-                  <a href="/#" className="nav-link">
-                    Hornos
+                  <a
+                    href="/#"
+                    className="nav-link"
+                    onClick={() => setSelectCategory("")}
+                  >
+                    Todos
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a href="/#" className="nav-link">
-                    Macetas
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/#" className="nav-link">
-                    Tazas
-                  </a>
-                </li>
+                {categories.map((item, i) => {
+                  return (
+                    <li key={i} className="nav-item">
+                      <a
+                        href="/#"
+                        className="nav-link"
+                        onClick={() => {
+                          setSelectCategory(item);
+                        }}
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </nav>
           <div className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
             <div className="row row-cols-1 row-cols-md-4">
               {state.data.map((item, i) => {
-                return <Product product={item} key={i} />;
+                return (
+                  <Product
+                    product={item}
+                    key={i}
+                    show={selectCategory.toLowerCase()}
+                  />
+                );
               })}
             </div>
           </div>

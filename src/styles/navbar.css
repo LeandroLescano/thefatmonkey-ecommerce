@@ -7,3 +7,32 @@
 .navbar {
   border-bottom: 1px solid lightpink;
 }
+
+/*
+Full screen Modal 
+*/
+.fullscreen-modal .modal-dialog,
+.modal-backdrop {
+  margin: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .fullscreen-modal .modal-dialog,
+  .modal-backdrop {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .fullscreen-modal .modal-dialog,
+  .modal-backdrop {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .fullscreen-modal .modal-dialog,
+  .modal-backdrop {
+    width: 1170px;
+  }
+}

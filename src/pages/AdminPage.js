@@ -11,8 +11,9 @@ import UploadProduct from "../components/upload-product";
 
 function AdminPage() {
   const [user, setUser] = useState(null);
-
+  const [categories, setCategories] = useState([]);
   const [newProducts, setNewProducts] = useState(0);
+  const [emailsAuth, setEmailsAuth] = useState([]);
 
   const [state, setState] = useState({
     data: [],
@@ -28,6 +29,8 @@ function AdminPage() {
       }
     });
   });
+
+  useEffect(() => {}, []);
 
   const loguear = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -61,21 +64,32 @@ function AdminPage() {
   };
 
   useEffect(() => {
-    setState({
-      data: [],
-      loading: true,
-    });
     const db = firebase.database();
     const dbRef = db.ref("products");
-    dbRef.on("child_added", (snapshot) => {
+    dbRef.on("value", (snapshot) => {
+      setState({
+        data: [],
+        loading: true,
+      });
       snapshot.forEach((snapshot) => {
-        setState((state) => ({
-          data: state.data.concat(snapshot.val()),
-          loading: false,
-        }));
+        snapshot.forEach((snapshotChild) => {
+          setState((state) => ({
+            data: state.data.concat(snapshotChild),
+            loading: false,
+          }));
+        });
       });
     });
-  }, [newProducts]);
+
+    const usersRef = firebase.database().ref("users");
+    let emails = [];
+    usersRef.on("child_added", (snapshot) => {
+      snapshot.forEach((snapshotChild) => {
+        emails.push(snapshotChild.val());
+      });
+      setEmailsAuth(emails);
+    });
+  }, []);
 
   return (
     <>
@@ -83,6 +97,7 @@ function AdminPage() {
         log={() => loguear()}
         deslog={() => desloguear()}
         usuario={user}
+        emails={emailsAuth}
       />
       {user !== null && (
         <div className="container">

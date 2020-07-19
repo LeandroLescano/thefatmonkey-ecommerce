@@ -10,6 +10,7 @@ function ProductCard(props) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    setShow(false);
     let referencia = props.product.img;
     firebase
       .storage()
@@ -21,31 +22,37 @@ function ProductCard(props) {
       .catch((error) => {
         console.log(error.message);
       });
-  });
+  }, [props.product.img]);
 
   const showCard = () => {
     setShow(true);
   };
 
   return (
-    <div className="col mb-4">
-      <div className="card product-card img-fluid">
-        {!show && <Loading />}
-        <img
-          style={show ? {} : { display: "none" }}
-          src={url}
-          className="card-img-top"
-          alt="..."
-          onLoad={() => showCard()}
-        />
-        <div className="card-body">
-          <h5 className="card-title">{props.product.name}</h5>
-          <p className="card-text text-card">{props.product.description}</p>
-          <p className="card-text text-price">${props.product.price} c/u</p>
-          <p className="card-text text-card">Stock: {props.product.stock}</p>
+    <>
+      {(props.show === props.product.category || props.show === "") && (
+        <div className="col mb-4">
+          <div className="card product-card img-fluid">
+            {!show && <Loading />}
+            <img
+              style={show ? {} : { display: "none" }}
+              src={url}
+              className="card-img-top"
+              alt="..."
+              onLoad={() => showCard()}
+            />
+            <div className="card-body">
+              <h5 className="card-title">{props.product.name}</h5>
+              <p className="card-text text-card">{props.product.description}</p>
+              <p className="card-text text-price">${props.product.price} c/u</p>
+              <p className="card-text text-card">
+                Stock: {props.product.stock}
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

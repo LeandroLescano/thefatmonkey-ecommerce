@@ -10,10 +10,21 @@ function UploadProduct(props) {
   const [uploadValue, setUploadValue] = useState(0);
 
   const handleChange = (e) => {
-    setUrl(URL.createObjectURL(e.target.files[0]));
-    let nameFile = e.target.value.substr(12);
-    if (e.target.files.length > 0) {
-      setImage(e.target.files[0]);
+    if (
+      e.target.files[0].type === "image/jpeg" ||
+      e.target.files[0].type === "image.png"
+    ) {
+      setUrl(URL.createObjectURL(e.target.files[0]));
+      if (e.target.files.length > 0) {
+        setImage(e.target.files[0]);
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Formato incorrecto",
+        text: "La imagen debe estar en formato JPEG o PNG.",
+        confirmButtonText: "Entendido",
+      });
     }
   };
 
@@ -32,6 +43,7 @@ function UploadProduct(props) {
       price: newPrice.value,
       stock: newStock.value,
       img: newImg,
+      state: 1,
     };
     const db = firebase.database();
     const dbRef = db.ref("products/" + category.toLowerCase());
