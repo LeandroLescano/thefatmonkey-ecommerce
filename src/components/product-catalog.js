@@ -14,19 +14,13 @@ function ProductCatalog() {
     function getProducts() {
       const db = firebase.database();
       const dbRef = db.ref("products");
-      const hornoRef = dbRef.child("hornos");
-      hornoRef.on("child_added", (snapshot) => {
-        setState((state) => ({
-          data: state.data.concat(snapshot.val()),
-          loading: false,
-        }));
-      });
-      const macetaRef = dbRef.child("macetas");
-      macetaRef.on("child_added", (snapshot) => {
-        setState((state) => ({
-          data: state.data.concat(snapshot.val()),
-          loading: false,
-        }));
+      dbRef.on("child_added", (snapshot) => {
+        snapshot.forEach((snapshot) => {
+          setState((state) => ({
+            data: state.data.concat(snapshot.val()),
+            loading: false,
+          }));
+        });
       });
     }
     setState({
@@ -37,13 +31,43 @@ function ProductCatalog() {
   }, []);
 
   return (
-    <div className="container">
-      <div className="row row-cols-1 row-cols-md-4">
-        {state.data.map((item, i) => {
-          return <Product product={item} key={i} />;
-        })}
+    <>
+      <div className="container-fluid">
+        <div className="row">
+          <nav
+            id="sidebarMenu"
+            className="colmd-3 col-lg-2 d-md-block bg-light sidebar collapse"
+          >
+            <div className="sidebar-sticky pt-3">
+              <ul className="nav flex-column">
+                <li className="nav-item">
+                  <a href="/#" className="nav-link">
+                    Hornos
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a href="/#" className="nav-link">
+                    Macetas
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a href="/#" className="nav-link">
+                    Tazas
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <div className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div className="row row-cols-1 row-cols-md-4">
+              {state.data.map((item, i) => {
+                return <Product product={item} key={i} />;
+              })}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -11,7 +11,7 @@ function ProductCard(props) {
 
   useEffect(() => {
     let referencia = props.product.img;
-    let pathReference = firebase
+    firebase
       .storage()
       .ref(referencia)
       .getDownloadURL()
@@ -43,9 +43,6 @@ function ProductCard(props) {
           <p className="card-text text-card">{props.product.description}</p>
           <p className="card-text text-price">${props.product.price} c/u</p>
           <p className="card-text text-card">Stock: {props.product.stock}</p>
-        </div>
-        <div className="card-footer text-right">
-          <button className="btn btn-card">Comprar</button>
         </div>
       </div>
     </div>

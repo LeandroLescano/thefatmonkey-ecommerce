@@ -1,3 +1,7 @@
 .centrar {
   text-align: center;
 }
+
+.flex-column .nav-item a {
+  color: rgb(0, 0, 0, 0.5);
+}

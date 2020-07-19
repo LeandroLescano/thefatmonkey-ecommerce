@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar";
-import ProductUpload from "../components/product-upload";
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/firebase-storage";
 import "firebase/auth";
 import Swal from "sweetalert2";
+import "../styles/AdminPage.css";
+import TableProduct from "../components/table-products";
+import UploadProduct from "../components/upload-product";
 
-function HomePage() {
+function AdminPage() {
   const [user, setUser] = useState(null);
+
+  const [newProducts, setNewProducts] = useState(0);
+
+  const [state, setState] = useState({
+    data: [],
+    loading: null,
+  });
 
   document.addEventListener("DOMContentLoaded", () => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -51,6 +60,23 @@ function HomePage() {
     });
   };
 
+  useEffect(() => {
+    setState({
+      data: [],
+      loading: true,
+    });
+    const db = firebase.database();
+    const dbRef = db.ref("products");
+    dbRef.on("child_added", (snapshot) => {
+      snapshot.forEach((snapshot) => {
+        setState((state) => ({
+          data: state.data.concat(snapshot.val()),
+          loading: false,
+        }));
+      });
+    });
+  }, [newProducts]);
+
   return (
     <>
       <Navbar
@@ -58,9 +84,16 @@ function HomePage() {
         deslog={() => desloguear()}
         usuario={user}
       />
-      {user !== null && <ProductUpload usuario={user} />}
+      {user !== null && (
+        <div className="container">
+          <div className="float-right">
+            <UploadProduct new={() => setNewProducts(newProducts + 1)} />
+          </div>
+          <TableProduct productos={state.data} />
+        </div>
+      )}
     </>
   );
 }
 
-export default HomePage;
+export default AdminPage;

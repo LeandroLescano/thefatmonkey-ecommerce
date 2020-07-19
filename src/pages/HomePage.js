@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/navbar";
+import "../styles/HomePage.css";
 import ProductCatalog from "../components/product-catalog";
 import firebase from "firebase/app";
 import "firebase/database";

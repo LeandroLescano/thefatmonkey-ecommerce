@@ -1,6 +1,5 @@
 import React from "react";
 import "../styles/navbar.css";
-import firebase from "firebase/app";
 
 function navbar(props) {
   return (
