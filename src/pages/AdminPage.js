@@ -71,7 +71,11 @@ function AdminPage() {
         data: [],
         loading: true,
       });
+      let cat = [];
       snapshot.forEach((snapshot) => {
+        let categoryAct =
+          snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
+        cat.push(categoryAct);
         snapshot.forEach((snapshotChild) => {
           setState((state) => ({
             data: state.data.concat(snapshotChild),
@@ -79,6 +83,7 @@ function AdminPage() {
           }));
         });
       });
+      setCategories(cat);
     });
 
     const usersRef = firebase.database().ref("users");
@@ -102,7 +107,10 @@ function AdminPage() {
       {user !== null && (
         <div className="container">
           <div className="float-right">
-            <UploadProduct new={() => setNewProducts(newProducts + 1)} />
+            <UploadProduct
+              categories={categories}
+              new={() => setNewProducts(newProducts + 1)}
+            />
           </div>
           <TableProduct productos={state.data} />
         </div>

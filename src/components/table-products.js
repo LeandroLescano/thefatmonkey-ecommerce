@@ -1,6 +1,7 @@
 import React from "react";
 import firebase from "firebase/app";
 import "../styles/table-products.css";
+import Swal from "sweetalert2";
 
 function TableProduct(props) {
   const changeStateProduct = (e, item) => {
@@ -13,6 +14,27 @@ function TableProduct(props) {
     } else {
       dbRef.update({ state: 1 });
     }
+  };
+
+  const deleteProduct = (e, item) => {
+    Swal.fire({
+      icon: "warning",
+      title: "¿Deseas eliminar este producto?",
+      text:
+        "Una vez eliminado, en caso de requerirlo deberás volver a cargarlo",
+      showCancelButton: true,
+      reverseButtons: true,
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminar",
+    }).then((result) => {
+      if (result.value) {
+        firebase
+          .database()
+          .ref()
+          .child("/products/" + item.val().category + "/" + item.key)
+          .remove();
+      }
+    });
   };
 
   return (
@@ -46,7 +68,12 @@ function TableProduct(props) {
                 </button>
               </td>
               <td>
-                <button className="btn btn-pink">Eliminar</button>
+                <button
+                  className="btn btn-pink"
+                  onClick={(ref) => deleteProduct(ref, item)}
+                >
+                  Eliminar
+                </button>
               </td>
             </tr>
           );

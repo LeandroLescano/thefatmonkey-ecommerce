@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import firebase from "firebase/app";
 import Swal from "sweetalert2";
+import "../styles/upload-product.css";
+import autocomplete from "./autocomplete.js";
+import ProfileImg from "../images/default.jpg";
 
 function UploadProduct(props) {
-  const [url, setUrl] = useState(
-    "https://dummyimage.com/200x200/575657/000000.jpg"
-  );
+  const [url, setUrl] = useState(ProfileImg);
   const [image, setImage] = useState(null);
   const [uploadValue, setUploadValue] = useState(0);
 
@@ -28,16 +29,26 @@ function UploadProduct(props) {
     }
   };
 
+  useEffect(() => {
+    autocomplete(document.getElementById("inputCategory"), props.categories);
+  }, [props]);
+
   const uploadNewProduct = () => {
-    let category = document.getElementById("inputCategory").selectedOptions[0]
-      .innerHTML;
+    let newCategory = document.getElementById("inputCategory").value;
     let newName = document.getElementById("inputNombre");
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
     let newStock = document.getElementById("inputStock");
-    let newImg = `images/${image.name}`;
+    let newImg;
+    if (image !== null) {
+      newImg = `images/${image.name}`;
+    } else {
+      newImg = "images/default.jpg";
+      setUploadValue(100);
+    }
 
     const product = {
+      category: newCategory.toLowerCase(),
       name: newName.value,
       description: newDescription.value,
       price: newPrice.value,
@@ -46,7 +57,8 @@ function UploadProduct(props) {
       state: 1,
     };
     const db = firebase.database();
-    const dbRef = db.ref("products/" + category.toLowerCase());
+    const dbRef = db.ref("products/" + newCategory.toLowerCase());
+    console.log("products/" + newCategory.toLowerCase());
     const newProduct = dbRef.push();
     newProduct.set(product);
     Swal.fire({
@@ -75,24 +87,28 @@ function UploadProduct(props) {
   };
 
   const subirArchivo = () => {
-    const storageRef = firebase.storage().ref(`/images/${image.name}`);
-    const task = storageRef.put(image);
-    task.on(
-      "state_changed",
-      (snapshot) => {
-        let percentage =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setUploadValue(Math.round(percentage));
-        console.log(percentage);
-      },
-      (error) => {
-        console.log(error.message);
-      },
-      () => {
-        setUploadValue(100);
-        uploadNewProduct();
-      }
-    );
+    if (image !== null) {
+      const storageRef = firebase.storage().ref(`/images/${image.name}`);
+      const task = storageRef.put(image);
+      task.on(
+        "state_changed",
+        (snapshot) => {
+          let percentage =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadValue(Math.round(percentage));
+          console.log(percentage);
+        },
+        (error) => {
+          console.log(error.message);
+        },
+        () => {
+          setUploadValue(100);
+          uploadNewProduct();
+        }
+      );
+    } else {
+      uploadNewProduct();
+    }
   };
   return (
     <>
@@ -133,12 +149,14 @@ function UploadProduct(props) {
                     {" "}
                     <div className="form-group">
                       <label htmlFor="inputCategoria">Categoría</label>
-                      <select className="custom-select" id="inputCategory">
-                        <option selectedvalue="true">Seleccionar...</option>
-                        <option value="1">Hornos</option>
-                        <option value="2">Macetas</option>
-                        <option value="3">Tazas</option>
-                      </select>
+                      <div className="autocomplete">
+                        <input
+                          className="form-control"
+                          type="text"
+                          id="inputCategory"
+                          placeholder="Categoría..."
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="col-6">

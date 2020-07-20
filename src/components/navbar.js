@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../styles/navbar.css";
-import firebase from "firebase/app";
 
 function Navbar(props) {
   const [admin, setAdmin] = useState(false);
