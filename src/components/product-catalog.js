@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 import JumbotronNoProducts from "./jumbotron-no-products";
 import "firebase/database";
 import "firebase/firebase-storage";
+import Loading from "./loading";
 
 function ProductCatalog() {
   const [categories, setCategories] = useState([]);
@@ -23,10 +24,11 @@ function ProductCatalog() {
         setCategories((categories) => [...categories, categoryAct]);
         snapshot.forEach((snapshotChild) => {
           setState((state) => ({
+            ...state,
             data: state.data.concat(snapshotChild.val()),
-            loading: false,
           }));
         });
+        setState((state) => ({ ...state, loading: false }));
       });
     }
     setCategories([]);
@@ -40,7 +42,9 @@ function ProductCatalog() {
   return (
     <>
       <div className="container-fluid">
-        {state.data.filter((prod) => prod.state) <= 0 ? (
+        {state.loading ? (
+          <Loading />
+        ) : !state.loading && state.data.filter((prod) => prod.state) <= 0 ? (
           <JumbotronNoProducts />
         ) : (
           <div className="row">
