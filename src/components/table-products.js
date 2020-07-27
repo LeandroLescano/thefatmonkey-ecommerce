@@ -4,17 +4,12 @@ import "../styles/table-products.css";
 import Swal from "sweetalert2";
 import ProfileImg from "../images/default.jpg";
 import ModalProduct from "./modal-product";
-import $ from "jquery";
 
 function TableProduct(props) {
   const [url, setUrl] = useState([ProfileImg]);
   const [image, setImage] = useState([]);
   const [uploadValue, setUploadValue] = useState(0);
   const [productModify, setProductModify] = useState(null);
-
-  $("#modalProduct").on("hidden.bs.modal", () => {
-    setProductModify(null);
-  });
 
   const handleChange = (e) => {
     if (e.target.files.length > 0) {
@@ -25,8 +20,9 @@ function TableProduct(props) {
         setUrl(URL.createObjectURL(e.target.files[0]));
         if (e.target.files.length > 0) {
           let newImg = e.target.files[0];
-          setImage((images) => [...image, { newImg }]);
+          setImage((image) => [...image, { newImg }]);
         }
+        console.log(image);
       } else {
         Swal.fire({
           icon: "error",
@@ -45,15 +41,15 @@ function TableProduct(props) {
     let newPrice = document.getElementById("inputPrecio");
     let newStock = document.getElementById("inputStock");
     var newImg = [];
-    if (image !== null) {
+    if (image.length > 0) {
       image.forEach((image) => {
         newImg.push(`images/${Object.values(image)[0].name}`);
       });
     } else {
-      newImg = "images/default.jpg";
+      newImg[0] = "images/default.jpg";
       setUploadValue(100);
     }
-
+    console.log(newImg);
     const product = {
       category: newCategory.toLowerCase(),
       name: newName.value,
@@ -82,26 +78,29 @@ function TableProduct(props) {
   };
 
   const subirArchivo = (type) => {
-    if (image !== null) {
+    if (image !== null && Object.values(image)[0] !== "images/default.jpg") {
       let percentage;
+      console.log(image);
       image.forEach((image) => {
-        const storageRef = firebase
-          .storage()
-          .ref(`/images/${Object.values(image)[0].name}`);
-        const task = storageRef.put(Object.values(image)[0]);
-        task.on(
-          "state_changed",
-          (snapshot) => {
-            percentage +=
-              ((snapshot.bytesTransferred / snapshot.totalBytes) * 100) /
-              image.length;
-            setUploadValue(Math.round(percentage));
-            console.log(percentage);
-          },
-          (error) => {
-            console.log(error.message);
-          }
-        );
+        if (typeof image !== "string") {
+          const storageRef = firebase
+            .storage()
+            .ref(`/images/${Object.values(image)[0]}`);
+          const task = storageRef.put(Object.values(image)[0]);
+          task.on(
+            "state_changed",
+            (snapshot) => {
+              percentage +=
+                ((snapshot.bytesTransferred / snapshot.totalBytes) * 100) /
+                image.length;
+              setUploadValue(Math.round(percentage));
+              console.log(percentage);
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        }
       });
       setUploadValue(100);
       if (type === "Cargar") {
@@ -148,14 +147,18 @@ function TableProduct(props) {
   };
 
   const cleanModal = () => {
+    setProductModify(null);
     setUploadValue(0);
-    setImage(null);
-    setUrl(ProfileImg);
+    setImage([]);
+    setUrl([ProfileImg]);
     document.getElementById("inputCategoria").value = "";
     document.getElementById("inputNombre").value = "";
     document.getElementById("inputDescripcion").value = "";
     document.getElementById("inputPrecio").value = "";
     document.getElementById("inputStock").value = "";
+    document.getElementById("btnSubmit").innerHTML = "Cargar";
+    document.getElementById("modalTitle").innerHTML = "Nuevo producto";
+    document.getElementById("progressBar").classList.remove("progress-modify");
   };
 
   const changeStateProduct = (e, item) => {
@@ -174,12 +177,12 @@ function TableProduct(props) {
     setProductModify(item);
     document.getElementById("progressBar").classList.add("progress-modify");
     let imgPath = item.val().img[0];
+    setImage(item.val().img);
     let category = document.getElementById("inputCategoria");
     let name = document.getElementById("inputNombre");
     let desc = document.getElementById("inputDescripcion");
     let price = document.getElementById("inputPrecio");
     let stock = document.getElementById("inputStock");
-    let img = document.getElementById("imgProduct");
     let itemCategory = item.val().category;
 
     if (imgPath.substring(imgPath.indexOf("/") + 1) !== "default.jpg") {
@@ -189,11 +192,13 @@ function TableProduct(props) {
         .ref(imgPath)
         .getDownloadURL()
         .then((url) => {
-          img.src = url;
+          setUrl([url]);
         })
         .catch((error) => {
           console.log(error.message);
         });
+    } else {
+      setUrl([ProfileImg]);
     }
     category.value =
       itemCategory.charAt(0).toUpperCase() + itemCategory.slice(1);
@@ -211,11 +216,17 @@ function TableProduct(props) {
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
     let newStock = document.getElementById("inputStock");
-    let newImg;
-    if (image !== null) {
-      newImg = `images/${image.name}`;
+    var newImg = [];
+    if (image.length > 0) {
+      image.forEach((image) => {
+        if (typeof image !== "string") {
+          newImg.push(`images/${Object.values(image)[0].name}`);
+        } else {
+          newImg.push(image);
+        }
+      });
     } else {
-      newImg = "images/default.jpg";
+      newImg[0] = "images/default.jpg";
       setUploadValue(100);
     }
 
@@ -282,6 +293,7 @@ function TableProduct(props) {
           className="btn btn-pink my-2"
           data-toggle="modal"
           data-target="#modalProduct"
+          onClick={() => cleanModal()}
         >
           Nuevo producto
         </button>

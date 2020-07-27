@@ -43,6 +43,7 @@ function ProductPage() {
   }, [state.product]);
 
   useEffect(() => {
+    let mounted = true;
     setState((state) => ({
       ...state,
       loading: true,
@@ -59,11 +60,14 @@ function ProductPage() {
       .ref()
       .child("/products/" + productCategory + "/" + productKey);
     dbRef.on("value", (snapshot) => {
-      setState((state) => ({
-        ...state,
-        product: snapshot.val(),
-      }));
+      if (mounted) {
+        setState((state) => ({
+          ...state,
+          product: snapshot.val(),
+        }));
+      }
     });
+    return () => (mounted = false);
   }, []);
 
   return (

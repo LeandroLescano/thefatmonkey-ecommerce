@@ -1,18 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import autocomplete from "./autocomplete.js";
-import $ from "jquery";
+import Loading from "../components/loading";
+import Swal from "sweetalert2";
 
 function ModalProduct(props) {
-  useEffect(() => {
-    autocomplete(document.getElementById("inputCategoria"), props.categories);
-  }, [props]);
+  const [loading, setLoading] = useState(true);
 
-  $("#modalProduct").on("hidden.bs.modal", () => {
-    document.getElementById("imgProduct").src = props.url;
-    document.getElementById("btnSubmit").innerHTML = "Cargar";
-    document.getElementById("modalTitle").innerHTML = "Nuevo producto";
-    document.getElementById("progressBar").classList.remove("progress-modify");
-  });
+  useEffect(() => {
+    setLoading(true);
+    autocomplete(document.getElementById("inputCategoria"), props.categories);
+    if (
+      props.image !== null &&
+      props.image.length > 0 &&
+      typeof props.image[0] === "string"
+    ) {
+      if (props.image[0].includes("default")) {
+        setLoading(false);
+      }
+    }
+  }, [props]);
 
   return (
     <div
@@ -105,24 +111,30 @@ function ModalProduct(props) {
                     <div className="input-group">
                       <button
                         type="button"
-                        className="btn btn-pink"
+                        className="btn btn-pink mr-2 mb-2"
                         onClick={() =>
                           document.getElementById("inputImage").click()
                         }
                       >
                         Seleccionar imagen
                       </button>
-                      {props.image !== null && props.image.length > 0 && (
-                        <button
-                          type="button"
-                          className="btn btn-pink"
-                          onClick={() =>
-                            document.getElementById("inputImage").click()
-                          }
-                        >
-                          Agregar
-                        </button>
-                      )}
+                      {props.image !== null &&
+                        !props.url[0].includes("default") && (
+                          <>
+                            <button
+                              type="button"
+                              className="btn btn-pink mb-2"
+                              onClick={() =>
+                                document.getElementById("inputImage").click()
+                              }
+                            >
+                              Agregar
+                            </button>
+                            <button type="button" className="btn btn-pink">
+                              Ver imagenes
+                            </button>
+                          </>
+                        )}
                     </div>
                     <input
                       id="inputImage"
@@ -137,7 +149,10 @@ function ModalProduct(props) {
                 <div className="col-6">
                   <label className="float-left">Previsualización</label>
                   <div className="input-group justify-content-center">
+                    {loading && <Loading />}
                     <img
+                      style={loading ? { display: "none" } : {}}
+                      onLoad={() => setLoading(false)}
                       src={props.url}
                       id="imgProduct"
                       className="img-fluid img-prev"
