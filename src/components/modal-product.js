@@ -112,6 +112,17 @@ function ModalProduct(props) {
                       >
                         Seleccionar imagen
                       </button>
+                      {props.image !== null && props.image.length > 0 && (
+                        <button
+                          type="button"
+                          className="btn btn-pink"
+                          onClick={() =>
+                            document.getElementById("inputImage").click()
+                          }
+                        >
+                          Agregar
+                        </button>
+                      )}
                     </div>
                     <input
                       id="inputImage"

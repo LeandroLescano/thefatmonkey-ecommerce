@@ -18,7 +18,7 @@ function ProductCard(props) {
       setSoldOut(true);
     }
     if (url === null) {
-      let referencia = props.product.val().img;
+      let referencia = props.product.val().img[0];
       firebase
         .storage()
         .ref(referencia)

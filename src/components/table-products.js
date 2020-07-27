@@ -7,8 +7,8 @@ import ModalProduct from "./modal-product";
 import $ from "jquery";
 
 function TableProduct(props) {
-  const [url, setUrl] = useState(ProfileImg);
-  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState([ProfileImg]);
+  const [image, setImage] = useState([]);
   const [uploadValue, setUploadValue] = useState(0);
   const [productModify, setProductModify] = useState(null);
 
@@ -17,21 +17,24 @@ function TableProduct(props) {
   });
 
   const handleChange = (e) => {
-    if (
-      e.target.files[0].type === "image/jpeg" ||
-      e.target.files[0].type === "image.png"
-    ) {
-      setUrl(URL.createObjectURL(e.target.files[0]));
-      if (e.target.files.length > 0) {
-        setImage(e.target.files[0]);
+    if (e.target.files.length > 0) {
+      if (
+        e.target.files[0].type === "image/jpeg" ||
+        e.target.files[0].type === "image.png"
+      ) {
+        setUrl(URL.createObjectURL(e.target.files[0]));
+        if (e.target.files.length > 0) {
+          let newImg = e.target.files[0];
+          setImage((images) => [...image, { newImg }]);
+        }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Formato incorrecto",
+          text: "La imagen debe estar en formato JPEG o PNG.",
+          confirmButtonText: "Entendido",
+        });
       }
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Formato incorrecto",
-        text: "La imagen debe estar en formato JPEG o PNG.",
-        confirmButtonText: "Entendido",
-      });
     }
   };
 
@@ -41,9 +44,11 @@ function TableProduct(props) {
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
     let newStock = document.getElementById("inputStock");
-    let newImg;
+    var newImg = [];
     if (image !== null) {
-      newImg = `images/${image.name}`;
+      image.forEach((image) => {
+        newImg.push(`images/${Object.values(image)[0].name}`);
+      });
     } else {
       newImg = "images/default.jpg";
       setUploadValue(100);
@@ -78,28 +83,32 @@ function TableProduct(props) {
 
   const subirArchivo = (type) => {
     if (image !== null) {
-      const storageRef = firebase.storage().ref(`/images/${image.name}`);
-      const task = storageRef.put(image);
-      task.on(
-        "state_changed",
-        (snapshot) => {
-          let percentage =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUploadValue(Math.round(percentage));
-          console.log(percentage);
-        },
-        (error) => {
-          console.log(error.message);
-        },
-        () => {
-          setUploadValue(100);
-          if (type === "Cargar") {
-            uploadNewProduct();
-          } else {
-            modifyProduct();
+      let percentage;
+      image.forEach((image) => {
+        const storageRef = firebase
+          .storage()
+          .ref(`/images/${Object.values(image)[0].name}`);
+        const task = storageRef.put(Object.values(image)[0]);
+        task.on(
+          "state_changed",
+          (snapshot) => {
+            percentage +=
+              ((snapshot.bytesTransferred / snapshot.totalBytes) * 100) /
+              image.length;
+            setUploadValue(Math.round(percentage));
+            console.log(percentage);
+          },
+          (error) => {
+            console.log(error.message);
           }
-        }
-      );
+        );
+      });
+      setUploadValue(100);
+      if (type === "Cargar") {
+        uploadNewProduct();
+      } else {
+        modifyProduct();
+      }
     } else {
       if (type === "Cargar") {
         uploadNewProduct();
@@ -164,7 +173,7 @@ function TableProduct(props) {
   const fillModal = (e, item) => {
     setProductModify(item);
     document.getElementById("progressBar").classList.add("progress-modify");
-    let imgPath = item.val().img;
+    let imgPath = item.val().img[0];
     let category = document.getElementById("inputCategoria");
     let name = document.getElementById("inputNombre");
     let desc = document.getElementById("inputDescripcion");
@@ -333,6 +342,7 @@ function TableProduct(props) {
         </tbody>
       </table>
       <ModalProduct
+        image={image}
         categories={props.categories}
         url={url}
         upload={(ref) => checkModal(ref)}

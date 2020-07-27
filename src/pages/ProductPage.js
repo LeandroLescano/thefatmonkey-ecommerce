@@ -8,7 +8,7 @@ import Carousel from "../components/carousel-product";
 import "../styles/ProductPage.css";
 
 function ProductPage() {
-  const [url, setUrl] = useState(null);
+  const [url, setUrl] = useState([]);
   const [state, setState] = useState({
     product: {},
     loading: null,
@@ -16,6 +16,33 @@ function ProductPage() {
 
   useEffect(() => {
     let mounted = true;
+    if (Object.keys(state.product).length !== 0) {
+      state.product.img.forEach((image) => {
+        let referencia = image;
+        if (referencia !== undefined) {
+          firebase
+            .storage()
+            .ref(referencia)
+            .getDownloadURL()
+            .then((url) => {
+              if (mounted) {
+                setUrl((stateUrl) => [...stateUrl, url]);
+                setState((state) => ({
+                  ...state,
+                  loading: false,
+                }));
+              }
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+        }
+      });
+    }
+    return () => (mounted = false);
+  }, [state.product]);
+
+  useEffect(() => {
     setState((state) => ({
       ...state,
       loading: true,
@@ -36,29 +63,8 @@ function ProductPage() {
         ...state,
         product: snapshot.val(),
       }));
-      //Get image of the product from the BD
-      let referencia = state.product.img;
-      if (referencia !== undefined) {
-        firebase
-          .storage()
-          .ref(referencia)
-          .getDownloadURL()
-          .then((url) => {
-            if (mounted) {
-              setUrl(url);
-              setState((state) => ({
-                ...state,
-                loading: false,
-              }));
-            }
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-      }
     });
-    return () => (mounted = false);
-  }, [state.product.img]);
+  }, []);
 
   return (
     <>
