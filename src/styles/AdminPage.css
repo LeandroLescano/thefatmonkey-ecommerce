@@ -24,6 +24,10 @@
   width: calc(100% - 170px);
 }
 
+.progress-modify {
+  width: calc(100% - 190px);
+}
+
 .progress-bar {
   background-color: palevioletred !important;
 }

@@ -8,6 +8,17 @@
   border-bottom: 1px solid lightpink;
 }
 
+.sidebar .nav-item.active .nav-link {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar-btn {
+  margin: 0 !important;
+  border-style: none !important;
+  outline: none !important;
+  background-color: transparent !important;
+}
+
 /*
 Full screen Modal 
 */

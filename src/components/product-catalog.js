@@ -5,6 +5,7 @@ import JumbotronNoProducts from "./jumbotron-no-products";
 import "firebase/database";
 import "firebase/firebase-storage";
 import Loading from "./loading";
+import SideBar from "./side-bar";
 
 function ProductCatalog() {
   const [categories, setCategories] = useState([]);
@@ -25,7 +26,7 @@ function ProductCatalog() {
         snapshot.forEach((snapshotChild) => {
           setState((state) => ({
             ...state,
-            data: state.data.concat(snapshotChild.val()),
+            data: state.data.concat(snapshotChild),
           }));
         });
         setState((state) => ({ ...state, loading: false }));
@@ -40,51 +41,26 @@ function ProductCatalog() {
   }, []);
 
   return (
-    <>
-      <div className="container-fluid">
-        {state.loading ? (
-          <Loading />
-        ) : !state.loading && state.data.filter((prod) => prod.state) <= 0 ? (
-          <JumbotronNoProducts />
-        ) : (
+    <div className="container-fluid">
+      {state.loading ? (
+        <Loading />
+      ) : !state.loading &&
+        state.data.filter((prod) => prod.val().state) <= 0 ? (
+        <JumbotronNoProducts />
+      ) : (
+        <>
           <div className="row">
-            <nav
-              id="sidebarMenu"
-              className="colmd-3 col-lg-2 d-md-block bg-light sidebar collapse"
-            >
-              <div className="sidebar-sticky pt-3">
-                <ul className="nav flex-column">
-                  <li className="nav-item">
-                    <a
-                      href="/#"
-                      className="nav-link"
-                      onClick={() => setSelectCategory("")}
-                    >
-                      Todos
-                    </a>
-                  </li>
-                  {categories.map((item, i) => {
-                    return (
-                      <li key={i} className="nav-item">
-                        <a
-                          href="/#"
-                          className="nav-link"
-                          onClick={() => {
-                            setSelectCategory(item);
-                          }}
-                        >
-                          {item}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </nav>
+            <div className="col">
+              <SideBar
+                changeCategory={(item) => setSelectCategory(item)}
+                categories={categories}
+              />
+            </div>
             <div className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-              <div className="row row-cols-1 row-cols-md-4">
+              <div className="row row-cols-1 row-cols-md-4 pb-3">
+                {/* <div className="card-columns ml-sm-auto px-md-4"> */}
                 {state.data
-                  .filter((product) => product.state)
+                  .filter((product) => product.val().state)
                   .map((item, i) => {
                     return (
                       <Product
@@ -97,9 +73,9 @@ function ProductCatalog() {
               </div>
             </div>
           </div>
-        )}
-      </div>
-    </>
+        </>
+      )}
+    </div>
   );
 }
 

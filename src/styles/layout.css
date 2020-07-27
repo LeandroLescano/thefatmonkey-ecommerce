@@ -1,0 +1,10 @@
+.parent {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+body {
+  font-family: "Roboto", sans-serif !important;
+  margin: 0;
+}

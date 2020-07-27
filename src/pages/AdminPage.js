@@ -1,69 +1,27 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/navbar";
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/firebase-storage";
 import "firebase/auth";
-import Swal from "sweetalert2";
 import "../styles/AdminPage.css";
 import TableProduct from "../components/table-products";
-import UploadProduct from "../components/upload-product";
+import { useStoreState } from "easy-peasy";
 
 function AdminPage() {
-  const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [newProducts, setNewProducts] = useState(0);
-  const [emailsAuth, setEmailsAuth] = useState([]);
-
   const [state, setState] = useState({
     data: [],
     loading: null,
   });
-
-  document.addEventListener("DOMContentLoaded", () => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setUser({ user: user });
-      } else {
-        window.location.href = "/";
-      }
-    });
-  });
-
-  useEffect(() => {}, []);
-
-  const loguear = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then((result) => {
-        setUser(result);
-      })
-      .catch((error) => console.log(error.message));
-  };
-
-  const desloguear = () => {
-    Swal.fire({
-      title: "¿Deseas salir de tu cuenta?",
-      reverseButtons: true,
-      showCancelButton: true,
-      cancelButtonText: "Cancelar",
-      confirmButtonText: "Salir",
-    }).then((result) => {
-      if (result.value) {
-        firebase
-          .auth()
-          .signOut()
-          .then(function () {
-            setUser(null);
-          })
-          .catch((error) => console.log(error.message));
-      }
-    });
-  };
+  const [admin, setAdmin] = useState(false);
+  const todos = useStoreState((state) => state.todos.items);
 
   useEffect(() => {
+    todos.forEach((item) => {
+      if (Object.keys(item)[0] === "admin" && Object.values(item)[0] === true) {
+        setAdmin(true);
+      }
+    });
     const db = firebase.database();
     const dbRef = db.ref("products");
     dbRef.on("value", (snapshot) => {
@@ -72,47 +30,25 @@ function AdminPage() {
         loading: true,
       });
       let cat = [];
+      let prod = [];
       snapshot.forEach((snapshot) => {
         let categoryAct =
           snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
         cat.push(categoryAct);
         snapshot.forEach((snapshotChild) => {
-          setState((state) => ({
-            data: state.data.concat(snapshotChild),
-            loading: false,
-          }));
+          prod.push(snapshotChild);
         });
+        setState((state) => ({ ...state, data: prod, loading: false }));
       });
       setCategories(cat);
     });
-
-    const usersRef = firebase.database().ref("users");
-    let emails = [];
-    usersRef.on("child_added", (snapshot) => {
-      snapshot.forEach((snapshotChild) => {
-        emails.push(snapshotChild.val());
-      });
-      setEmailsAuth(emails);
-    });
-  }, []);
+  }, [todos]);
 
   return (
     <>
-      <Navbar
-        log={() => loguear()}
-        deslog={() => desloguear()}
-        usuario={user}
-        emails={emailsAuth}
-      />
-      {user !== null && (
+      {admin && (
         <div className="container">
-          <div className="float-right">
-            <UploadProduct
-              categories={categories}
-              new={() => setNewProducts(newProducts + 1)}
-            />
-          </div>
-          <TableProduct productos={state.data} />
+          <TableProduct categories={categories} productos={state.data} />
         </div>
       )}
     </>

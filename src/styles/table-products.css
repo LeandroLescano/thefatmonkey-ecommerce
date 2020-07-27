@@ -1,3 +1,15 @@
 th .col-state {
   min-width: 134px !important;
 }
+
+.text-description-table {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 255px;
+}
+
+tr th,
+td {
+  vertical-align: middle !important;
+}

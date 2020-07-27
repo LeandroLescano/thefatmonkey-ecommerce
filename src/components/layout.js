@@ -1,14 +1,21 @@
 import React from "react";
 import Footer from "./footer";
-// import Navbar from "./navbar";
+import Navbar from "./navbar";
+import "../styles/layout.css";
 function Layout(props) {
   const children = props.children;
 
   return (
     <React.Fragment>
-      {/* <Navbar /> */}
-      {children}
-      <Footer />
+      <div className="parent">
+        <header>
+          <Navbar />
+        </header>
+        <main>{children}</main>
+        <footer>
+          <Footer />
+        </footer>
+      </div>
     </React.Fragment>
   );
 }

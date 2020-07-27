@@ -4,8 +4,8 @@ import "../styles/footer.css";
 function Footer() {
   return (
     <React.Fragment>
-      <footer>
-        <div className="col-md-12 centrar">
+      <footer className="footer">
+        <div>
           <p className="footer-copyright mb-2 pb-1 pt-2 text-center">
             &copy; {new Date().getFullYear()} Copyright: Lescano, Leandro
             Nicolas
