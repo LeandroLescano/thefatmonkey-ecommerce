@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import autocomplete from "./autocomplete.js";
 import Loading from "../components/loading";
-import Swal from "sweetalert2";
+import ImageSelector from "./image-selector";
 
 function ModalProduct(props) {
   const [loading, setLoading] = useState(true);
+  const [tabImages, setTabImages] = useState(false);
+
+  const deleteImage = (index) => {
+    console.log(index);
+    props.deleteImage(index);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -18,7 +24,7 @@ function ModalProduct(props) {
         setLoading(false);
       }
     }
-  }, [props]);
+  }, [props, props.image]);
 
   return (
     <div
@@ -45,7 +51,16 @@ function ModalProduct(props) {
             </button>
           </div>
           <div className="modal-body">
-            <form>
+            {tabImages && (
+              <ImageSelector
+                images={props.image}
+                back={() => setTabImages(false)}
+                delete={(index) => deleteImage(index)}
+              />
+            )}
+            <form
+              style={tabImages ? { display: "none" } : { display: "block" }}
+            >
               <div className="row">
                 <div className="col-6">
                   {" "}
@@ -109,30 +124,43 @@ function ModalProduct(props) {
                   </div>
                   <div className="form-group">
                     <div className="input-group">
-                      <button
-                        type="button"
-                        className="btn btn-pink mr-2 mb-2"
-                        onClick={() =>
-                          document.getElementById("inputImage").click()
-                        }
-                      >
-                        Seleccionar imagen
-                      </button>
+                      {props.image !== null &&
+                        props.url[0].includes("default") && (
+                          <button
+                            type="button"
+                            className="btn btn-pink mr-2 mb-2"
+                            onClick={() =>
+                              document.getElementById("inputImage").click()
+                            }
+                          >
+                            Seleccionar imagen
+                          </button>
+                        )}
                       {props.image !== null &&
                         !props.url[0].includes("default") && (
                           <>
                             <button
                               type="button"
-                              className="btn btn-pink mb-2"
+                              className="btn btn-pink mr-2"
                               onClick={() =>
                                 document.getElementById("inputImage").click()
                               }
                             >
                               Agregar
                             </button>
-                            <button type="button" className="btn btn-pink">
+                            <button type="button" className="btn btn-pink mr-2">
+                              Eliminar
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-pink"
+                              onClick={() => setTabImages(true)}
+                            >
                               Ver imagenes
                             </button>
+                            <p className="mt-2">
+                              Cantidad: {props.image.length}
+                            </p>
                           </>
                         )}
                     </div>

@@ -85,7 +85,7 @@ function TableProduct(props) {
         if (typeof image !== "string") {
           const storageRef = firebase
             .storage()
-            .ref(`/images/${Object.values(image)[0]}`);
+            .ref(`/images/${Object.values(image)[0].name}`);
           const task = storageRef.put(Object.values(image)[0]);
           task.on(
             "state_changed",
@@ -286,6 +286,13 @@ function TableProduct(props) {
     });
   };
 
+  const deleteImage = (index) => {
+    console.log(index);
+    let imageToDelete = image;
+    imageToDelete.splice(index, 1);
+    setImage(imageToDelete);
+  };
+
   return (
     <>
       <div className="float-right">
@@ -360,6 +367,7 @@ function TableProduct(props) {
         upload={(ref) => checkModal(ref)}
         uploadValue={uploadValue}
         handleChange={(ref) => handleChange(ref)}
+        deleteImage={(index) => deleteImage(index)}
       />
     </>
   );
