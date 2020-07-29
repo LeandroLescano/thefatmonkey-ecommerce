@@ -15,14 +15,13 @@ function TableProduct(props) {
     if (e.target.files.length > 0) {
       if (
         e.target.files[0].type === "image/jpeg" ||
-        e.target.files[0].type === "image.png"
+        e.target.files[0].type === "image/png"
       ) {
         setUrl(URL.createObjectURL(e.target.files[0]));
         if (e.target.files.length > 0) {
           let newImg = e.target.files[0];
           setImage((image) => [...image, { newImg }]);
         }
-        console.log(image);
       } else {
         Swal.fire({
           icon: "error",
@@ -49,7 +48,6 @@ function TableProduct(props) {
       newImg[0] = "images/default.jpg";
       setUploadValue(100);
     }
-    console.log(newImg);
     const product = {
       category: newCategory.toLowerCase(),
       name: newName.value,
@@ -80,7 +78,6 @@ function TableProduct(props) {
   const subirArchivo = (type) => {
     if (image !== null && Object.values(image)[0] !== "images/default.jpg") {
       let percentage;
-      console.log(image);
       image.forEach((image) => {
         if (typeof image !== "string") {
           const storageRef = firebase
@@ -94,7 +91,6 @@ function TableProduct(props) {
                 ((snapshot.bytesTransferred / snapshot.totalBytes) * 100) /
                 image.length;
               setUploadValue(Math.round(percentage));
-              console.log(percentage);
             },
             (error) => {
               console.log(error.message);
@@ -230,11 +226,20 @@ function TableProduct(props) {
       setUploadValue(100);
     }
 
+    if (newCategory !== productModify.val().category) {
+      firebase
+        .database()
+        .ref()
+        .child(
+          "/products/" + productModify.val().category + "/" + productModify.key
+        )
+        .remove();
+    }
     const dbRef = firebase
       .database()
       .ref()
       .child(
-        "/products/" + productModify.val().category + "/" + productModify.key
+        "/products/" + newCategory.toLowerCase() + "/" + productModify.key
       );
     dbRef.update(
       {
@@ -254,13 +259,9 @@ function TableProduct(props) {
           title: "Producto modificado",
           timer: 3000,
           timerProgressBar: true,
+        }).then(() => {
+          setUploadValue(0);
         });
-        if (uploadValue < 100) {
-          setUploadValue(100);
-          setTimeout(() => {
-            cleanModal();
-          }, 3000);
-        }
       }
     );
   };

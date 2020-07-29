@@ -29,6 +29,7 @@ Full screen Modal
   margin-left: auto;
   width: 100%;
 }
+/* 
 @media (min-width: 768px) {
   .fullscreen-modal .modal-dialog,
   .modal-backdrop {
@@ -44,6 +45,6 @@ Full screen Modal
 @media (min-width: 1200px) {
   .fullscreen-modal .modal-dialog,
   .modal-backdrop {
-    width: 1170px;
+    width: 100%;
   }
-}
+} */

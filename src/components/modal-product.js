@@ -8,12 +8,13 @@ function ModalProduct(props) {
   const [tabImages, setTabImages] = useState(false);
 
   const deleteImage = (index) => {
-    console.log(index);
     props.deleteImage(index);
   };
 
   useEffect(() => {
-    setLoading(true);
+    if (!document.getElementById("imgProduct").complete) {
+      setLoading(true);
+    }
     autocomplete(document.getElementById("inputCategoria"), props.categories);
     if (
       props.image !== null &&
@@ -51,13 +52,12 @@ function ModalProduct(props) {
             </button>
           </div>
           <div className="modal-body">
-            {tabImages && (
-              <ImageSelector
-                images={props.image}
-                back={() => setTabImages(false)}
-                delete={(index) => deleteImage(index)}
-              />
-            )}
+            <ImageSelector
+              show={tabImages}
+              images={props.image}
+              back={() => setTabImages(false)}
+              delete={(index) => deleteImage(index)}
+            />
             <form
               style={tabImages ? { display: "none" } : { display: "block" }}
             >
@@ -184,8 +184,6 @@ function ModalProduct(props) {
                       src={props.url}
                       id="imgProduct"
                       className="img-fluid img-prev"
-                      height="200"
-                      width="200"
                       alt="previewProduct"
                     />
                   </div>
