@@ -5,6 +5,7 @@ import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/firebase-storage";
 import "firebase/auth";
+import ProfileImg from "../images/default.jpg";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
@@ -109,7 +110,7 @@ function Navbar() {
             height="50px"
             width="50px"
             alt="logo"
-            src="https://instagram.faep9-1.fna.fbcdn.net/v/t51.2885-19/s150x150/106581789_713587769216315_4930581092014284635_n.jpg?_nc_ht=instagram.faep9-1.fna.fbcdn.net&_nc_ohc=zxRvX-gOyoEAX_o-WSo&oh=3d01471a6228c70e956f82a9d878d549&oe=5F3770C6"
+            src={ProfileImg}
           />
         </div>
       </Link>

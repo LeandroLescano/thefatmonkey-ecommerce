@@ -16,40 +16,76 @@ function ImageSelector(props) {
 
   return (
     <div
+      className="image-controller"
       style={
-        props.show ? { display: "block", height: "446px" } : { display: "none" }
+        props.show
+          ? { display: "block", minHeight: "446px" }
+          : { display: "none" }
       }
     >
-      <p onClick={props.back}> Volver </p>
-      {actualImages !== null &&
-        actualImages.map((img, i) => {
-          if (typeof img === "string") {
-            return (
-              <div key={i} className="row mb-2 row-images">
-                <div className="col">{img}</div>
-                <div className="col">TESTIMGDATA</div>
-                <div className="col">
-                  <button
-                    className="btn btn-pink"
-                    onClick={() => deleteTest(i)}
-                  >
-                    X
-                  </button>
+      <div className="row">
+        <div className="col">
+          <p onClick={props.back} className="btn btn-pink">
+            ← Volver
+          </p>
+        </div>
+        <div className="col text-right">
+          <p className="btn btn-pink" onClick={props.add}>
+            Agregar
+          </p>
+        </div>
+      </div>
+      <div className="row row-cols-1 row-cols-md-3">
+        {actualImages !== null &&
+          actualImages.map((img, i) => {
+            if (typeof img === "string") {
+              return (
+                <div className="col mb-2">
+                  <div key={i} className="card">
+                    <img
+                      className="card-img-top img-fluid"
+                      src={props.url[i]}
+                      alt="ProductImg"
+                      width="150"
+                      height="150"
+                    ></img>
+                    <div className="card-body text-right">
+                      <button
+                        className="btn btn-pink"
+                        onClick={() => deleteTest(i)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            );
-          } else {
-            return (
-              <div key={i} className="row">
-                <div className="col">{Object.values(img).name}</div>
-                <div className="col">TESTIMGDATA</div>
-                <div className="col">
-                  <button onClick={() => deleteTest(i)}>X</button>
+              );
+            } else {
+              return (
+                <div className="col mb-2">
+                  <div key={i} className="card">
+                    {" "}
+                    <img
+                      className="card-img-top img-fluid"
+                      src={props.url[i]}
+                      alt="ProductImg"
+                      width="150"
+                      height="150"
+                    ></img>
+                    <div className="card-body text-right">
+                      <button
+                        className="btn btn-pink"
+                        onClick={() => deleteTest(i)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            );
-          }
-        })}
+              );
+            }
+          })}
+      </div>
     </div>
   );
 }

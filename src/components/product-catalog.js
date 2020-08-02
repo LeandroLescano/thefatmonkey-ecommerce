@@ -14,8 +14,29 @@ function ProductCatalog() {
     data: [],
     loading: null,
   });
+  const [showCategories, setShowCategories] = useState(false);
+  var sidebar = document.getElementById("sidebarMenu");
+
+  window.addEventListener("resize", () => {
+    if (sidebar !== null) {
+      if (window.innerWidth > 768) {
+        sidebar.style.right = "0";
+        sidebar.classList.remove("fadeOutRight");
+        sidebar.classList.remove("fadeInRight");
+      } else {
+        sidebar.style.right = "-200px";
+      }
+    }
+  });
+
+  window.addEventListener("load", () => {
+    if (window.innerWidth <= 768) {
+      sidebar.style.right = "-200px";
+    }
+  });
 
   useEffect(() => {
+    sidebar = document.getElementById("sidebarMenu");
     function getProducts() {
       const db = firebase.database();
       const dbRef = db.ref("products");
@@ -40,41 +61,65 @@ function ProductCatalog() {
     getProducts();
   }, []);
 
+  const changeStateCategories = () => {
+    if (sidebar.style.right !== "5px") {
+      sidebar.style.right = "5px";
+    }
+    setShowCategories(!showCategories);
+    if (showCategories) {
+      sidebar.classList.remove("fadeInRight");
+      sidebar.classList.add("fadeOutRight");
+    } else {
+      sidebar.classList.add("fadeInRight");
+      sidebar.classList.remove("fadeOutRight");
+    }
+  };
+
   return (
-    <div className="container-fluid">
-      {state.loading ? (
-        <Loading />
-      ) : !state.loading &&
-        state.data.filter((prod) => prod.val().state) <= 0 ? (
-        <JumbotronNoProducts />
-      ) : (
-        <>
-          <div className="row">
-            <div className="col">
-              <SideBar
-                changeCategory={(item) => setSelectCategory(item)}
-                categories={categories}
-              />
+    <div className="parent-catalog">
+      <div className="section-filter" onClick={() => changeStateCategories()}>
+        <span id="btnCategories" className="btn-categories">
+          Categorias
+          <img
+            id="arrow-categories"
+            src="https://image.flaticon.com/icons/svg/892/892498.svg"
+            height="20"
+            width="15"
+            alt=""
+          />
+        </span>
+      </div>
+      <div className="section-sidebar">
+        <SideBar
+          changeCategory={(item) => setSelectCategory(item)}
+          categories={categories}
+        />
+      </div>
+      <div id="main-catalog" className="container-fluid">
+        {state.loading ? (
+          <Loading />
+        ) : !state.loading &&
+          state.data.filter((prod) => prod.val().state) <= 0 ? (
+          <JumbotronNoProducts />
+        ) : (
+          <>
+            <div className="row row-cols-1 row-cols-md-4 pb-3">
+              {/* <div className="card-columns"> */}
+              {state.data
+                .filter((product) => product.val().state)
+                .map((item, i) => {
+                  return (
+                    <Product
+                      product={item}
+                      key={i}
+                      show={selectCategory.toLowerCase()}
+                    />
+                  );
+                })}
             </div>
-            <div className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-              <div className="row row-cols-1 row-cols-md-4 pb-3">
-                {/* <div className="card-columns ml-sm-auto px-md-4"> */}
-                {state.data
-                  .filter((product) => product.val().state)
-                  .map((item, i) => {
-                    return (
-                      <Product
-                        product={item}
-                        key={i}
-                        show={selectCategory.toLowerCase()}
-                      />
-                    );
-                  })}
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

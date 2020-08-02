@@ -19,9 +19,6 @@
   background-color: transparent !important;
 }
 
-/*
-Full screen Modal 
-*/
 .fullscreen-modal .modal-dialog,
 .modal-backdrop {
   margin: 0;
@@ -29,22 +26,3 @@ Full screen Modal
   margin-left: auto;
   width: 100%;
 }
-/* 
-@media (min-width: 768px) {
-  .fullscreen-modal .modal-dialog,
-  .modal-backdrop {
-    width: 750px;
-  }
-}
-@media (min-width: 992px) {
-  .fullscreen-modal .modal-dialog,
-  .modal-backdrop {
-    width: 970px;
-  }
-}
-@media (min-width: 1200px) {
-  .fullscreen-modal .modal-dialog,
-  .modal-backdrop {
-    width: 100%;
-  }
-} */

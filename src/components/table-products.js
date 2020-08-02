@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "../styles/table-products.css";
 import Swal from "sweetalert2";
@@ -17,10 +17,15 @@ function TableProduct(props) {
         e.target.files[0].type === "image/jpeg" ||
         e.target.files[0].type === "image/png"
       ) {
-        setUrl(URL.createObjectURL(e.target.files[0]));
+        let urlCreated = URL.createObjectURL(e.target.files[0]);
+        if (url[0].match("default")) {
+          setUrl([urlCreated]);
+        } else {
+          setUrl((url) => [...url, urlCreated]);
+        }
         if (e.target.files.length > 0) {
           let newImg = e.target.files[0];
-          setImage((image) => [...image, { newImg }]);
+          setImage(image.concat(newImg));
         }
       } else {
         Swal.fire({
@@ -170,9 +175,10 @@ function TableProduct(props) {
   };
 
   const fillModal = (e, item) => {
+    setUrl([ProfileImg]);
     setProductModify(item);
     document.getElementById("progressBar").classList.add("progress-modify");
-    let imgPath = item.val().img[0];
+    let imgPath = item.val().img;
     setImage(item.val().img);
     let category = document.getElementById("inputCategoria");
     let name = document.getElementById("inputNombre");
@@ -181,18 +187,27 @@ function TableProduct(props) {
     let stock = document.getElementById("inputStock");
     let itemCategory = item.val().category;
 
-    if (imgPath.substring(imgPath.indexOf("/") + 1) !== "default.jpg") {
+    if (imgPath[0].substring(imgPath[0].indexOf("/") + 1) !== "default.jpg") {
       //Get product img from DB
-      firebase
-        .storage()
-        .ref(imgPath)
-        .getDownloadURL()
-        .then((url) => {
-          setUrl([url]);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      var first = true;
+      imgPath.forEach((img, i) => {
+        firebase
+          .storage()
+          .ref(img)
+          .getDownloadURL()
+          .then((url) => {
+            if (first) {
+              setUrl([url]);
+              first = false;
+            } else {
+              setUrl((stateUrl) => [...stateUrl, url]);
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+        setUrl(url.slice(0));
+      });
     } else {
       setUrl([ProfileImg]);
     }
@@ -288,10 +303,12 @@ function TableProduct(props) {
   };
 
   const deleteImage = (index) => {
-    console.log(index);
     let imageToDelete = image;
+    let urlToDelete = url;
+    urlToDelete.splice(index, 1);
     imageToDelete.splice(index, 1);
     setImage(imageToDelete);
+    setUrl(urlToDelete);
   };
 
   return (
@@ -362,7 +379,7 @@ function TableProduct(props) {
         </tbody>
       </table>
       <ModalProduct
-        image={image}
+        images={image}
         categories={props.categories}
         url={url}
         upload={(ref) => checkModal(ref)}

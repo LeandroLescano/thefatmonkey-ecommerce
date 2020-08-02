@@ -2,3 +2,9 @@
   padding: 5px;
   border-bottom: 1px solid lightpink;
 }
+
+.image-controller {
+  max-height: 446px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

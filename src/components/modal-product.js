@@ -12,20 +12,23 @@ function ModalProduct(props) {
   };
 
   useEffect(() => {
+    if (props.images.length <= 0) {
+      setTabImages(false);
+    }
     if (!document.getElementById("imgProduct").complete) {
       setLoading(true);
     }
     autocomplete(document.getElementById("inputCategoria"), props.categories);
     if (
-      props.image !== null &&
-      props.image.length > 0 &&
-      typeof props.image[0] === "string"
+      props.images !== null &&
+      props.images.length > 0 &&
+      typeof props.images[0] === "string"
     ) {
-      if (props.image[0].includes("default")) {
+      if (props.images[0].includes("default")) {
         setLoading(false);
       }
     }
-  }, [props, props.image]);
+  }, [props, props.images]);
 
   return (
     <div
@@ -53,10 +56,12 @@ function ModalProduct(props) {
           </div>
           <div className="modal-body">
             <ImageSelector
+              url={props.url}
               show={tabImages}
-              images={props.image}
+              images={props.images}
               back={() => setTabImages(false)}
               delete={(index) => deleteImage(index)}
+              add={() => document.getElementById("inputImage").click()}
             />
             <form
               style={tabImages ? { display: "none" } : { display: "block" }}
@@ -124,7 +129,8 @@ function ModalProduct(props) {
                   </div>
                   <div className="form-group">
                     <div className="input-group">
-                      {props.image !== null &&
+                      {props.images !== null &&
+                        props.images.length <= 0 &&
                         props.url[0].includes("default") && (
                           <button
                             type="button"
@@ -136,33 +142,29 @@ function ModalProduct(props) {
                             Seleccionar imagen
                           </button>
                         )}
-                      {props.image !== null &&
-                        !props.url[0].includes("default") && (
-                          <>
-                            <button
-                              type="button"
-                              className="btn btn-pink mr-2"
-                              onClick={() =>
-                                document.getElementById("inputImage").click()
-                              }
-                            >
-                              Agregar
-                            </button>
-                            <button type="button" className="btn btn-pink mr-2">
-                              Eliminar
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-pink"
-                              onClick={() => setTabImages(true)}
-                            >
-                              Ver imagenes
-                            </button>
-                            <p className="mt-2">
-                              Cantidad: {props.image.length}
-                            </p>
-                          </>
-                        )}
+                      {props.images !== null && props.images.length > 0 && (
+                        <>
+                          <button
+                            type="button"
+                            className="btn btn-pink mr-2"
+                            onClick={() =>
+                              document.getElementById("inputImage").click()
+                            }
+                          >
+                            Agregar
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-pink clear-right"
+                            onClick={() => setTabImages(true)}
+                          >
+                            Ver imagenes
+                          </button>
+                          <p className="mt-2">
+                            Cantidad de imágenes: {props.images.length}
+                          </p>
+                        </>
+                      )}
                     </div>
                     <input
                       id="inputImage"
@@ -181,7 +183,7 @@ function ModalProduct(props) {
                     <img
                       style={loading ? { display: "none" } : {}}
                       onLoad={() => setLoading(false)}
-                      src={props.url}
+                      src={props.url[0]}
                       id="imgProduct"
                       className="img-fluid img-prev"
                       alt="previewProduct"
