@@ -30,13 +30,13 @@ function ProductCatalog() {
   });
 
   window.addEventListener("load", () => {
+    sidebar = document.getElementById("sidebarMenu");
     if (window.innerWidth <= 768) {
       sidebar.style.right = "-200px";
     }
   });
 
   useEffect(() => {
-    sidebar = document.getElementById("sidebarMenu");
     function getProducts() {
       const db = firebase.database();
       const dbRef = db.ref("products");

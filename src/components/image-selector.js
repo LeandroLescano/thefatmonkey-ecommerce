@@ -40,8 +40,8 @@ function ImageSelector(props) {
           actualImages.map((img, i) => {
             if (typeof img === "string") {
               return (
-                <div className="col mb-2">
-                  <div key={i} className="card">
+                <div key={i} className="col mb-2">
+                  <div className="card">
                     <img
                       className="card-img-top img-fluid"
                       src={props.url[i]}
@@ -62,8 +62,8 @@ function ImageSelector(props) {
               );
             } else {
               return (
-                <div className="col mb-2">
-                  <div key={i} className="card">
+                <div key={i} className="col mb-2">
+                  <div className="card">
                     {" "}
                     <img
                       className="card-img-top img-fluid"

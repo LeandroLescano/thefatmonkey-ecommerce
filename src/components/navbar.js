@@ -7,14 +7,14 @@ import "firebase/firebase-storage";
 import "firebase/auth";
 import ProfileImg from "../images/default.jpg";
 import { Link } from "react-router-dom";
-import { useStoreActions, useStoreState } from "easy-peasy";
+import { useStoreActions } from "easy-peasy";
 
 function Navbar() {
   const [admin, setAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [emailsAuth, setEmailsAuth] = useState([]);
 
-  const todos = useStoreState((state) => state.todos.items);
+  // const todos = useStoreState((state) => state.todos.items);
   const add = useStoreActions((actions) => actions.todos.add);
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -99,7 +99,7 @@ function Navbar() {
         }
       }
     }
-  }, [user, emailsAuth]);
+  }, [user, emailsAuth, add]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
