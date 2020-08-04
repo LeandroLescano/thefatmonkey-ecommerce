@@ -1,0 +1,24 @@
+.img-category {
+  max-width: 120px !important;
+  border-right: 1px lightpink solid;
+}
+
+.col-category {
+  max-width: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .card-category {
+    margin-bottom: 0;
+  }
+
+  #card-content-wrapper {
+    display: inline;
+  }
+
+  .img-category {
+    max-width: 100% !important;
+    border-bottom: 1px lightpink solid;
+    border-right: 0px;
+  }
+}

@@ -7,7 +7,7 @@ import "firebase/firebase-storage";
 import Loading from "./loading";
 import SideBar from "./side-bar";
 
-function ProductCatalog() {
+function ProductCatalog(props) {
   const [categories, setCategories] = useState([]);
   const [selectCategory, setSelectCategory] = useState("");
   const [state, setState] = useState({
@@ -20,21 +20,37 @@ function ProductCatalog() {
   window.addEventListener("resize", () => {
     if (sidebar !== null) {
       if (window.innerWidth > 768) {
-        sidebar.style.right = "0";
-        sidebar.classList.remove("fadeOutRight");
-        sidebar.classList.remove("fadeInRight");
+        sidebar.style.display = "block";
       } else {
-        sidebar.style.right = "-200px";
+        sidebar.style.display = "none";
       }
     }
   });
 
   window.addEventListener("load", () => {
     sidebar = document.getElementById("sidebarMenu");
+    console.log(window.innerWidth);
     if (window.innerWidth <= 768) {
-      sidebar.style.right = "-200px";
+      sidebar.style.display = "none";
+    } else {
+      sidebar.style.display = "block";
     }
   });
+
+  useEffect(() => {
+    sidebar = document.getElementById("sidebarMenu");
+    if (window.innerWidth <= 768) {
+      sidebar.style.display = "none";
+    }
+    setSelectCategory(props.category);
+    if (
+      document.getElementById("todos") !== null &&
+      document.getElementById(props.category) !== null
+    ) {
+      document.getElementById("todos").classList.remove("active");
+      document.getElementById(props.category).classList.add("active");
+    }
+  }, [props.category]);
 
   useEffect(() => {
     function getProducts() {
@@ -62,16 +78,11 @@ function ProductCatalog() {
   }, []);
 
   const changeStateCategories = () => {
-    if (sidebar.style.right !== "5px") {
-      sidebar.style.right = "5px";
-    }
     setShowCategories(!showCategories);
     if (showCategories) {
-      sidebar.classList.remove("fadeInRight");
-      sidebar.classList.add("fadeOutRight");
+      sidebar.style.display = "block";
     } else {
-      sidebar.classList.add("fadeInRight");
-      sidebar.classList.remove("fadeOutRight");
+      sidebar.style.display = "none";
     }
   };
 
@@ -93,6 +104,7 @@ function ProductCatalog() {
         <SideBar
           changeCategory={(item) => setSelectCategory(item)}
           categories={categories}
+          selectCategory={selectCategory}
         />
       </div>
       <div id="main-catalog" className="container-fluid">
