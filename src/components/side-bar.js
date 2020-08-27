@@ -28,7 +28,7 @@ function SideBar(props) {
         document.getElementById(props.selectCategory).classList.add("active");
       }
     }
-  }, [props.selectCategory]);
+  }, [props.selectCategory, props.categories]);
 
   return (
     <>

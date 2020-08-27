@@ -73,6 +73,7 @@ function ModalProduct(props) {
                     <label htmlFor="inputCategoria">Categoría</label>
                     <div className="autocomplete">
                       <input
+                        autoComplete="off"
                         className="form-control"
                         type="text"
                         id="inputCategoria"

@@ -47,7 +47,7 @@ function TableProduct(props) {
     var newImg = [];
     if (image.length > 0) {
       image.forEach((image) => {
-        newImg.push(`images/${Object.values(image)[0].name}`);
+        newImg.push(`images/${image.name}`);
       });
     } else {
       newImg[0] = "images/default.jpg";
