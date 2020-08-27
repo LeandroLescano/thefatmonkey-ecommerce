@@ -20,12 +20,12 @@ function TableProduct(props) {
         let urlCreated = URL.createObjectURL(e.target.files[0]);
         if (url[0].match("default")) {
           setUrl([urlCreated]);
+          let newImg = e.target.files[0];
+          setImage([newImg]);
         } else {
           setUrl((url) => [...url, urlCreated]);
-        }
-        if (e.target.files.length > 0) {
           let newImg = e.target.files[0];
-          setImage(image.concat(newImg));
+          setImage((img) => [...img, newImg]);
         }
       } else {
         Swal.fire({
@@ -81,14 +81,12 @@ function TableProduct(props) {
   };
 
   const subirArchivo = (type) => {
-    if (image !== null && Object.values(image)[0] !== "images/default.jpg") {
+    if (image !== null && image[0] !== "images/default.jpg") {
       let percentage;
       image.forEach((image) => {
         if (typeof image !== "string") {
-          const storageRef = firebase
-            .storage()
-            .ref(`/images/${Object.values(image)[0].name}`);
-          const task = storageRef.put(Object.values(image)[0]);
+          const storageRef = firebase.storage().ref(`/images/${image.name}`);
+          const task = storageRef.put(image);
           task.on(
             "state_changed",
             (snapshot) => {
@@ -231,7 +229,7 @@ function TableProduct(props) {
     if (image.length > 0) {
       image.forEach((image) => {
         if (typeof image !== "string") {
-          newImg.push(`images/${Object.values(image)[0].name}`);
+          newImg.push(`images/${image.name}`);
         } else {
           newImg.push(image);
         }
@@ -241,7 +239,7 @@ function TableProduct(props) {
       setUploadValue(100);
     }
 
-    if (newCategory !== productModify.val().category) {
+    if (newCategory.toLowerCase() !== productModify.val().category) {
       firebase
         .database()
         .ref()
@@ -323,61 +321,63 @@ function TableProduct(props) {
           Nuevo producto
         </button>
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Nro.</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Stock</th>
-            <th scope="col">Modificar</th>
-            <th scope="col col-state">Estado</th>
-            <th scope="col">Eliminar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.productos.map((item, i) => {
-            return (
-              <tr key={i}>
-                <th scope="row">{i + 1}</th>
-                <td>{item.val().name}</td>
-                <td className="text-description-table">
-                  {item.val().description}
-                </td>
-                <td>${item.val().price}</td>
-                <td>{item.val().stock}</td>
-                <td>
-                  <button
-                    data-toggle="modal"
-                    data-target="#modalProduct"
-                    className="btn btn-pink"
-                    onClick={(ref) => fillModal(ref, item)}
-                  >
-                    Modificar
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-pink"
-                    onClick={(ref) => changeStateProduct(ref, item)}
-                  >
-                    {item.val().state ? "Deshabilitar" : "Habilitar"}
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-pink"
-                    onClick={(ref) => deleteProduct(ref, item)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Nro.</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Descripcion</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Modificar</th>
+              <th scope="col col-state">Estado</th>
+              <th scope="col">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.productos.map((item, i) => {
+              return (
+                <tr key={i}>
+                  <th scope="row">{i + 1}</th>
+                  <td>{item.val().name}</td>
+                  <td className="text-description-table">
+                    {item.val().description}
+                  </td>
+                  <td>${item.val().price}</td>
+                  <td>{item.val().stock}</td>
+                  <td>
+                    <button
+                      data-toggle="modal"
+                      data-target="#modalProduct"
+                      className="btn btn-pink"
+                      onClick={(ref) => fillModal(ref, item)}
+                    >
+                      Modificar
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-pink"
+                      onClick={(ref) => changeStateProduct(ref, item)}
+                    >
+                      {item.val().state ? "Deshabilitar" : "Habilitar"}
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-pink"
+                      onClick={(ref) => deleteProduct(ref, item)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       <ModalProduct
         images={image}
         categories={props.categories}

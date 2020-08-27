@@ -3,13 +3,10 @@
   border-right: 1px lightpink solid;
 }
 
-.col-category {
-  max-width: 0;
-}
-
 @media only screen and (min-width: 768px) {
   .card-category {
     margin-bottom: 0;
+    max-width: 255px;
   }
 
   #card-content-wrapper {
@@ -20,5 +17,9 @@
     max-width: 100% !important;
     border-bottom: 1px lightpink solid;
     border-right: 0px;
+  }
+
+  .card-deck {
+    justify-content: center;
   }
 }
