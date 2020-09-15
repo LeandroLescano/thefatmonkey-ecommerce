@@ -3,6 +3,16 @@
   border-right: 1px lightpink solid;
 }
 
+.img-fluid.fluid-category {
+  object-fit: cover;
+  width: 100%;
+  max-height: 253px;
+}
+
+.img-fluid {
+  max-height: 253px;
+}
+
 @media only screen and (min-width: 768px) {
   .card-category {
     margin-bottom: 0;

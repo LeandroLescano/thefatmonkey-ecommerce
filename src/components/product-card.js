@@ -52,13 +52,17 @@ function ProductCard(props) {
               props.product.key
             }
           >
-            <div className="card product-card img-fluid">
+            <div className="card product-card">
               {!show && <Loading />}
               <div className="img-container">
                 <img
                   style={show ? {} : { display: "none" }}
                   src={url}
-                  className={soldOut ? "card-img-top sold-out" : "card-img-top"}
+                  className={
+                    soldOut
+                      ? "card-img-top img-fluid sold-out"
+                      : "img-fluid card-img-top"
+                  }
                   alt="..."
                   onLoad={() => showCard()}
                 />

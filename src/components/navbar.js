@@ -12,6 +12,7 @@ import { useStoreActions } from "easy-peasy";
 function Navbar() {
   const [admin, setAdmin] = useState(false);
   const [user, setUser] = useState(null);
+  const [profileImg, setProfileImg] = useState(ProfileImg);
   const [emailsAuth, setEmailsAuth] = useState([]);
 
   // const todos = useStoreState((state) => state.todos.items);
@@ -88,6 +89,26 @@ function Navbar() {
 
   useEffect(() => {
     let path = window.location.pathname;
+    let mounted = true;
+    firebase
+      .database()
+      .ref("profileImg")
+      .once("value", (snapshot) => {
+        add({ profilePath: snapshot.val() });
+        firebase
+          .storage()
+          .ref(snapshot.val())
+          .getDownloadURL()
+          .then((url) => {
+            if (mounted) {
+              add({ profileImg: url });
+              setProfileImg(url);
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      });
     if (user !== null && emailsAuth.length > 0) {
       if (emailsAuth.includes(user.email)) {
         add({ admin: true });
@@ -99,6 +120,7 @@ function Navbar() {
         }
       }
     }
+    return () => (mounted = false);
   }, [user, emailsAuth, add]);
 
   return (
@@ -110,7 +132,7 @@ function Navbar() {
             height="50px"
             width="50px"
             alt="logo"
-            src={ProfileImg}
+            src={profileImg}
           />
         </div>
       </Link>

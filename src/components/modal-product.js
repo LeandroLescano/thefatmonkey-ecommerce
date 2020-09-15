@@ -132,8 +132,7 @@ function ModalProduct(props) {
                     <div className="input-group">
                       {props.images !== null &&
                         props.url.length > 0 &&
-                        props.images.length <= 0 &&
-                        props.url[0].includes("default") && (
+                        props.images.length <= 0 && (
                           <button
                             type="button"
                             className="btn btn-pink mr-2 mb-2"

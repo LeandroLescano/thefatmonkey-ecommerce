@@ -4,12 +4,15 @@ import "../styles/table-products.css";
 import Swal from "sweetalert2";
 import ProfileImg from "../images/default.jpg";
 import ModalProduct from "./modal-product";
+import { useStoreState } from "easy-peasy";
+import { useEffect } from "react";
 
 function TableProduct(props) {
   const [url, setUrl] = useState([ProfileImg]);
   const [image, setImage] = useState([]);
   const [uploadValue, setUploadValue] = useState(0);
   const [productModify, setProductModify] = useState(null);
+  const todos = useStoreState((state) => state.todos.items);
 
   const handleChange = (e) => {
     if (e.target.files.length > 0) {
@@ -50,7 +53,11 @@ function TableProduct(props) {
         newImg.push(`images/${image.name}`);
       });
     } else {
-      newImg[0] = "images/default.jpg";
+      todos.forEach((item) => {
+        if (Object.keys(item)[0] === "profilePath") {
+          newImg[0] = Object.values(item)[0];
+        }
+      });
       setUploadValue(100);
     }
     const product = {
@@ -145,11 +152,24 @@ function TableProduct(props) {
     }
   };
 
+  const searchDefaultImage = () => {
+    let finded = false;
+    todos.forEach((item) => {
+      if (Object.keys(item)[0] === "profileImg") {
+        setUrl([Object.values(item)[0]]);
+        finded = true;
+      }
+    });
+    if (!finded) {
+      setUrl([ProfileImg]);
+    }
+  };
+
   const cleanModal = () => {
     setProductModify(null);
     setUploadValue(0);
     setImage([]);
-    setUrl([ProfileImg]);
+    searchDefaultImage();
     document.getElementById("inputCategoria").value = "";
     document.getElementById("inputNombre").value = "";
     document.getElementById("inputDescripcion").value = "";
@@ -207,7 +227,7 @@ function TableProduct(props) {
         setUrl(url.slice(0));
       });
     } else {
-      setUrl([ProfileImg]);
+      searchDefaultImage();
     }
     category.value =
       itemCategory.charAt(0).toUpperCase() + itemCategory.slice(1);
@@ -309,8 +329,87 @@ function TableProduct(props) {
     setUrl(urlToDelete);
   };
 
+  const updateDefaultImage = (e) => {
+    if (e.target.files.length > 0) {
+      if (
+        e.target.files[0].type === "image/jpeg" ||
+        e.target.files[0].type === "image/png"
+      ) {
+        let urlCreated = URL.createObjectURL(e.target.files[0]);
+        let defaultImg = e.target.files[0];
+        Swal.fire({
+          title: "Confirmar cambio",
+          text:
+            "¿Desea cambiar la foto por defecto por la imagen seleccionada?",
+          imageUrl: urlCreated,
+          imageWidth: 300,
+          imageHeight: 300,
+          imageAlt: "Default image",
+          confirmButtonText: "Confirmar",
+        }).then((response) => {
+          if (response.value) {
+            const storageRef = firebase
+              .storage()
+              .ref(`/images/${defaultImg.name}`);
+            storageRef.put(defaultImg).then(() => {
+              firebase
+                .database()
+                .ref()
+                .update({ profileImg: `/images/${defaultImg.name}` });
+              Swal.fire({
+                toast: true,
+                timerProgressBar: true,
+                timer: 3000,
+                position: "bottom-end",
+                icon: "success",
+                title: "Imagen cambiada",
+                confirmButtonText: "Continuar",
+              });
+            });
+          } else {
+            document.getElementById("inputDefaultImage").value = "";
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Formato incorrecto",
+          text: "La imagen debe estar en formato JPEG o PNG.",
+          confirmButtonText: "Entendido",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    let finded = false;
+    todos.forEach((item) => {
+      if (Object.keys(item)[0] === "profileImg") {
+        setUrl([Object.values(item)[0]]);
+        finded = true;
+      }
+    });
+    if (!finded) {
+      setUrl([ProfileImg]);
+    }
+  }, [todos]);
+
   return (
     <>
+      <input
+        id="inputDefaultImage"
+        type="file"
+        hidden
+        onChange={(ref) => updateDefaultImage(ref)}
+      ></input>
+      <div className="float-left">
+        <button
+          className="btn btn-pink my-2"
+          onClick={() => document.getElementById("inputDefaultImage").click()}
+        >
+          Cambiar imagen por defecto
+        </button>
+      </div>
       <div className="float-right">
         <button
           className="btn btn-pink my-2"
