@@ -19,6 +19,10 @@
   top: 0;
 }
 
+.img-fluid.card-img-top {
+  max-height: 100%;
+}
+
 .sold-out-img {
   position: absolute;
   top: 0px;

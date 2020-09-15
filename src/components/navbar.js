@@ -34,9 +34,13 @@ function Navbar() {
   const changeNavbarActive = (btn) => {
     if (btn === "Administrar") {
       document.getElementById("btnProductos").classList.remove("active");
-      document.getElementById("btnAdministrar").classList.add("active");
+      if (document.getElementById("btnAdministrar") !== null) {
+        document.getElementById("btnAdministrar").classList.add("active");
+      }
     } else {
-      document.getElementById("btnAdministrar").classList.remove("active");
+      if (document.getElementById("btnAdministrar") !== null) {
+        document.getElementById("btnAdministrar").classList.remove("active");
+      }
       document.getElementById("btnProductos").classList.add("active");
     }
   };
