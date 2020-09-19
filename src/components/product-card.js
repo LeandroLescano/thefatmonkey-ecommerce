@@ -60,8 +60,8 @@ function ProductCard(props) {
                   src={url}
                   className={
                     soldOut
-                      ? "card-img-top img-fluid sold-out"
-                      : "img-fluid card-img-top"
+                      ? "card-img-top img-fluid img-card-product sold-out"
+                      : "img-fluid img-card-product card-img-top"
                   }
                   alt="..."
                   onLoad={() => showCard()}

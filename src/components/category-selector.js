@@ -30,21 +30,26 @@ function CategorySelector(props) {
         <h2>Categorias</h2>
       </div>
       <div className="card-deck">
-        <CardCategory
-          url={undefined}
-          select={() => handleSelect("")}
-          category="Todas"
-        />
-        {categories.map((cat, i) => {
-          return (
+        <div className="row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-4">
+          <div className="col">
             <CardCategory
-              url={urlImg[i]}
-              select={() => handleSelect(cat)}
-              key={i}
-              category={cat}
+              url={undefined}
+              select={() => handleSelect("")}
+              category="Todas"
             />
-          );
-        })}
+          </div>
+          {categories.map((cat, i) => {
+            return (
+              <div className="col" key={i}>
+                <CardCategory
+                  url={urlImg[i]}
+                  select={() => handleSelect(cat)}
+                  category={cat}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

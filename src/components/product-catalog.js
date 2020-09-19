@@ -115,7 +115,7 @@ function ProductCatalog(props) {
           <JumbotronNoProducts />
         ) : (
           <>
-            <div className="row row-cols-1 row-cols-md-4 pb-3">
+            <div className="row row-cols-1 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 pb-3">
               {/* <div className="card-columns"> */}
               {state.data
                 .filter((product) => product.val().state)
