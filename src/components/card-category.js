@@ -44,6 +44,7 @@ function CardCategory(props) {
                 src={url}
                 alt="categoryImg"
                 className="img-fluid fluid-category"
+                onLoad={props.imgLoad}
               />
             </div>
             <div className="col col-category m-auto">

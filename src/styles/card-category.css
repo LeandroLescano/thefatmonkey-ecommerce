@@ -6,13 +6,19 @@
 .img-fluid.fluid-category {
   object-fit: cover;
   width: 100%;
-  max-height: 253px;
+}
+
+.col-category {
+  min-width: 0px !important;
 }
 
 .img-fluid.card-img-top {
   object-fit: cover;
   width: 100%;
-  max-height: 253px;
+}
+
+.card-deck {
+  text-align: -webkit-center;
 }
 
 @media only screen and (min-width: 768px) {
@@ -23,6 +29,14 @@
 
   #card-content-wrapper {
     display: inline;
+  }
+
+  .img-fluid.fluid-category {
+    max-height: 230px;
+  }
+
+  .col-category {
+    min-width: inherit;
   }
 
   .img-category {

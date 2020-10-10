@@ -29,7 +29,6 @@ function ProductCatalog(props) {
 
   window.addEventListener("load", () => {
     sidebar = document.getElementById("sidebarMenu");
-    console.log(window.innerWidth);
     if (window.innerWidth <= 768) {
       sidebar.style.display = "none";
     } else {
@@ -102,7 +101,10 @@ function ProductCatalog(props) {
       </div>
       <div className="section-sidebar">
         <SideBar
-          changeCategory={(item) => setSelectCategory(item)}
+          changeCategory={(item) => {
+            setSelectCategory(item);
+            window.sessionStorage.setItem("catSelected", item);
+          }}
           categories={categories}
           selectCategory={selectCategory}
         />

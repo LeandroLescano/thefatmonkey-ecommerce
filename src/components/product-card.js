@@ -82,7 +82,9 @@ function ProductCard(props) {
                   ${props.product.val().price} c/u
                 </p>
                 <p className="card-text text-card">
-                  Stock: {props.product.val().stock}
+                  {props.product.val().stock > 0
+                    ? "Stock disponible!"
+                    : "Sin stock"}
                 </p>
                 <div className="text-right">
                   <p className="link-more">Ver más</p>
