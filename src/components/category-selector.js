@@ -11,20 +11,19 @@ function CategorySelector(props) {
   const mountedRef = useRef(true);
 
   useEffect(() => {
-    console.log(firebase.auth());
-    if (mountedRef.current) {
-      function getCategories() {
-        const db = firebase.database();
-        const dbRef = db.ref("products");
-        dbRef.on("child_added", (snapshot) => {
+    function getCategories() {
+      const db = firebase.database();
+      const dbRef = db.ref("products");
+      dbRef.on("child_added", (snapshot) => {
+        if (mountedRef.current) {
           let categoryAct =
             snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
           setCategories((categories) => [...categories, categoryAct]);
           setUrlImg((url) => [...url, Object.values(snapshot.val())[0].img[0]]);
-        });
-      }
-      getCategories();
+        }
+      });
     }
+    getCategories();
     return () => (mountedRef.current = false);
   }, []);
 
