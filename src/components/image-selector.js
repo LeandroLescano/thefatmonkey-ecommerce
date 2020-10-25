@@ -9,7 +9,7 @@ function ImageSelector(props) {
     setActualImages(props.images);
   }, [props, handleChange]);
 
-  const deleteTest = (i) => {
+  const deleteImage = (i) => {
     setHandleChange(handleChange + 1);
     props.delete(i);
   };
@@ -52,7 +52,7 @@ function ImageSelector(props) {
                     <div className="card-body text-right">
                       <button
                         className="btn btn-pink"
-                        onClick={() => deleteTest(i)}
+                        onClick={() => deleteImage(i)}
                       >
                         Eliminar
                       </button>
@@ -75,7 +75,7 @@ function ImageSelector(props) {
                     <div className="card-body text-right">
                       <button
                         className="btn btn-pink"
-                        onClick={() => deleteTest(i)}
+                        onClick={() => deleteImage(i)}
                       >
                         Eliminar
                       </button>

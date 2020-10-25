@@ -130,19 +130,17 @@ function ModalProduct(props) {
                   </div>
                   <div className="form-group">
                     <div className="input-group">
-                      {props.images !== null &&
-                        props.url.length > 0 &&
-                        props.images.length <= 0 && (
-                          <button
-                            type="button"
-                            className="btn btn-pink mr-2 mb-2"
-                            onClick={() =>
-                              document.getElementById("inputImage").click()
-                            }
-                          >
-                            Seleccionar imagen
-                          </button>
-                        )}
+                      {props.images !== null && props.images.length <= 0 && (
+                        <button
+                          type="button"
+                          className="btn btn-pink mr-2 mb-2"
+                          onClick={() =>
+                            document.getElementById("inputImage").click()
+                          }
+                        >
+                          Seleccionar imagen
+                        </button>
+                      )}
                       {props.images !== null && props.images.length > 0 && (
                         <>
                           <button
@@ -171,6 +169,7 @@ function ModalProduct(props) {
                       id="inputImage"
                       type="file"
                       hidden
+                      multiple
                       onChange={(ref) => {
                         props.handleChange(ref);
                       }}
@@ -184,7 +183,7 @@ function ModalProduct(props) {
                     <img
                       style={loading ? { display: "none" } : {}}
                       onLoad={() => setLoading(false)}
-                      src={props.url[0]}
+                      src={props.url[props.url.length - 1]}
                       id="imgProduct"
                       className="img-fluid img-prev"
                       alt="previewProduct"

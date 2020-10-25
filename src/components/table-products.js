@@ -15,29 +15,31 @@ function TableProduct(props) {
   const todos = useStoreState((state) => state.todos.items);
 
   const handleChange = (e) => {
+    let firstFile = true;
     if (e.target.files.length > 0) {
-      if (
-        e.target.files[0].type === "image/jpeg" ||
-        e.target.files[0].type === "image/png"
-      ) {
-        let urlCreated = URL.createObjectURL(e.target.files[0]);
-        if (url[0].match("default")) {
-          setUrl([urlCreated]);
-          let newImg = e.target.files[0];
-          setImage([newImg]);
+      Array.from(e.target.files).forEach((file) => {
+        if (file.type === "image/jpeg" || file.type === "image/png") {
+          let urlCreated = URL.createObjectURL(file);
+          console.log(url[0].match("default"));
+          if (url[0].match("default") && firstFile) {
+            setUrl([urlCreated]);
+            let newImg = file;
+            setImage([newImg]);
+          } else {
+            setUrl((url) => [...url, urlCreated]);
+            let newImg = file;
+            setImage((img) => [...img, newImg]);
+          }
         } else {
-          setUrl((url) => [...url, urlCreated]);
-          let newImg = e.target.files[0];
-          setImage((img) => [...img, newImg]);
+          Swal.fire({
+            icon: "error",
+            title: "Formato incorrecto",
+            text: "La imagen debe estar en formato JPEG o PNG.",
+            confirmButtonText: "Entendido",
+          });
         }
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Formato incorrecto",
-          text: "La imagen debe estar en formato JPEG o PNG.",
-          confirmButtonText: "Entendido",
-        });
-      }
+        firstFile = false;
+      });
     }
   };
 
@@ -325,8 +327,22 @@ function TableProduct(props) {
     let urlToDelete = url;
     urlToDelete.splice(index, 1);
     imageToDelete.splice(index, 1);
-    setImage(imageToDelete);
-    setUrl(urlToDelete);
+    if (imageToDelete.length > 0 && urlToDelete.length > 0) {
+      setImage(imageToDelete);
+      setUrl(urlToDelete);
+    } else {
+      let finded = false;
+      setImage([]);
+      todos.forEach((item) => {
+        if (Object.keys(item)[0] === "profileImg") {
+          setUrl([Object.values(item)[0]]);
+          finded = true;
+        }
+      });
+      if (!finded) {
+        setUrl([ProfileImg]);
+      }
+    }
   };
 
   const updateDefaultImage = (e) => {

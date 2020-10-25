@@ -7,8 +7,20 @@ function Footer() {
       <footer className="footer">
         <div>
           <p className="footer-copyright mb-2 pb-1 pt-2 text-center">
-            &copy; {new Date().getFullYear()} Copyright: Lescano, Leandro
+            &copy; {new Date().getFullYear()} Desarrollado por Lescano Leandro
             Nicolas
+            <a
+              href="https://www.instagram.com/thefatmonkeydeco"
+              target="_blank"
+              className="float-right mr-2"
+              style={{ position: "absolute", right: 0 }}
+            >
+              <img
+                src="https://www.flaticon.es/svg/static/icons/svg/174/174855.svg"
+                height="20"
+                width="20"
+              />
+            </a>
           </p>
         </div>
       </footer>
