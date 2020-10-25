@@ -7,6 +7,9 @@
   overflow: auto;
 }
 .footer-copyright {
+  font-size: 85%;
+  text-align: start;
+  padding-left: 20px;
   overflow: hidden;
   color: hsla(0, 21%, 9%, 0.747);
   background-color: #ffb4bf !important;
@@ -19,5 +22,12 @@
     bottom: 0;
     width: 100%;
     display: block;
+  }
+
+  .footer-copyright {
+    text-align: center;
+    overflow: hidden;
+    color: hsla(0, 21%, 9%, 0.747);
+    background-color: #ffb4bf !important;
   }
 }
