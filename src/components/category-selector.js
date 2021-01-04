@@ -45,9 +45,9 @@ function CategorySelector(props) {
         <h2 className="mt-2">Categorias</h2>
       </div>
       {!show && <Loading />}
-      <div className="card-deck mt-4" style={show ? {} : { display: "none" }}>
-        <div className="row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-4">
-          <div className="col">
+      <div className="mt-4" style={show ? {} : { display: "none" }}>
+        <div className="row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-4 justify-content-center">
+          <div className="col mb-2">
             <CardCategory
               url={undefined}
               select={() => handleSelect("")}
@@ -56,7 +56,7 @@ function CategorySelector(props) {
           </div>
           {categories.map((cat, i) => {
             return (
-              <div className="col" key={i}>
+              <div className="col mb-2" key={i}>
                 <CardCategory
                   url={urlImg[i]}
                   select={() => handleSelect(cat)}

@@ -55,3 +55,27 @@ td {
   background-color: DodgerBlue !important;
   color: #ffffff;
 }
+
+.custom-control {
+  display: inline-block !important;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #fd415db4 !important;
+  background-color: #fd415db4 !important;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 0.2rem #ffb4bf !important;
+}
+
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+  border-color: #ffb4bf !important;
+}
+
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+  color: #fff;
+  background-color: #ffb4bf !important;
+  border-color: #ffb4bf !important;
+}

@@ -6,6 +6,7 @@ import ProfileImg from "../images/default.jpg";
 import ModalProduct from "./modal-product";
 import { useStoreState } from "easy-peasy";
 import { useEffect } from "react";
+import axios from "axios";
 
 function TableProduct(props) {
   const [url, setUrl] = useState([ProfileImg]);
@@ -425,6 +426,17 @@ function TableProduct(props) {
         >
           Cambiar imagen por defecto
         </button>
+        {/* <div className="ml-2 custom-control custom-switch">
+          <input
+            type="checkbox"
+            className="custom-control-input"
+            id="switchIgProfile"
+            onChange={(ref) => changeIgProfileState(ref)}
+          />
+          <label className="custom-control-label" htmlFor="switchIgProfile">
+            Usar imagen por defecto de Instagram
+          </label>
+        </div> */}
       </div>
       <div className="float-right">
         <button

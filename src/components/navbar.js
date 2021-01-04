@@ -8,6 +8,7 @@ import "firebase/auth";
 import ProfileImg from "../images/default.jpg";
 import { Link } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
+import axios from "axios";
 
 function Navbar() {
   const [admin, setAdmin] = useState(false);
@@ -38,6 +39,14 @@ function Navbar() {
         document.getElementById("btnAdministrar").classList.add("active");
       }
     } else {
+      // Swal.fire({
+      //   title: "¿Te interesa aprender a realizar nuestros productos?",
+      //   html:
+      //     "<h3>Unite a nuestro taller</h3> <p>Hace <a style='color:#E75480' href='#'>click acá</a> para ver más información!</p>",
+      //   showConfirmButton: false,
+      //   showCancelButton: true,
+      //   cancelButtonText: "Cerrar",
+      // });
       if (document.getElementById("btnAdministrar") !== null) {
         document.getElementById("btnAdministrar").classList.remove("active");
       }
@@ -94,6 +103,7 @@ function Navbar() {
   useEffect(() => {
     let path = window.location.pathname;
     let mounted = true;
+    let emails = [];
     firebase
       .database()
       .ref("profileImg")
