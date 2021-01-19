@@ -12,6 +12,7 @@ function TableProduct(props) {
   const [url, setUrl] = useState([ProfileImg]);
   const [image, setImage] = useState([]);
   const [uploadValue, setUploadValue] = useState(0);
+  const [phone, setPhone] = useState(0);
   const [productModify, setProductModify] = useState(null);
   const todos = useStoreState((state) => state.todos.items);
 
@@ -398,6 +399,49 @@ function TableProduct(props) {
     }
   };
 
+  const changePhoneNumber = () => {
+    Swal.fire({
+      title: "Nuevo número de whatsapp",
+      text: "Ingrese el nuevo número donde recibir pedidos.",
+      footer: `N° actual: ${phone}`,
+      input: "text",
+      inputPlaceholder: "5411XXXXXXXX",
+      confirmButtonText: "Confirmar",
+      inputValidator: (value) => {
+        if (!value) {
+          return "No has ingresado ningún número!";
+        }
+      },
+    }).then((response) => {
+      if (response.value) {
+        firebase
+          .database()
+          .ref()
+          .update({ phoneNumber: response.value })
+          .then(() => {
+            Swal.fire({
+              toast: true,
+              timerProgressBar: true,
+              timer: 3000,
+              position: "bottom-end",
+              icon: "success",
+              title: "Número cambiado",
+              confirmButtonText: "Continuar",
+            });
+          });
+      }
+    });
+  };
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref("phoneNumber")
+      .on("value", (snapshot) => {
+        setPhone(snapshot.val());
+      });
+  }, []);
+
   useEffect(() => {
     let finded = false;
     todos.forEach((item) => {
@@ -421,10 +465,13 @@ function TableProduct(props) {
       ></input>
       <div className="float-left">
         <button
-          className="btn btn-pink my-2"
+          className="btn btn-pink my-2 mr-2"
           onClick={() => document.getElementById("inputDefaultImage").click()}
         >
           Cambiar imagen por defecto
+        </button>
+        <button className="btn btn-pink" onClick={() => changePhoneNumber()}>
+          Cambiar número de whatsapp
         </button>
         {/* <div className="ml-2 custom-control custom-switch">
           <input

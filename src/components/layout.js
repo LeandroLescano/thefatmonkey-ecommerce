@@ -2,6 +2,7 @@ import React from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import "../styles/layout.css";
+
 function Layout(props) {
   const children = props.children;
 
@@ -12,6 +13,7 @@ function Layout(props) {
           <Navbar />
         </header>
         <main>{children}</main>
+        {/* <ShoppingCart /> */}
         <footer>
           <Footer />
         </footer>

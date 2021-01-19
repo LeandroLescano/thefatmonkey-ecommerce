@@ -1,0 +1,68 @@
+.shoppingCart {
+  position: absolute;
+  right: 5px;
+  top: -20px;
+  max-height: 45px;
+  border: solid 1px #fd415db4;
+  border-radius: 50%;
+}
+
+.amountCart {
+  position: absolute;
+  z-index: 2;
+  right: 5px;
+  top: -25px;
+  font-size: 15px;
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  color: white;
+  background-color: #fd415d;
+  border-radius: 50%;
+}
+
+.listCart {
+  position: absolute;
+  z-index: 3;
+  left: -350px;
+  right: 0;
+  padding: 0;
+  background-color: white;
+  border: 1px solid #fd415d;
+  list-style: none;
+}
+
+.btn-danger {
+  padding: 1px 8px !important;
+}
+
+.btn-whatsapp {
+  color: white !important;
+  background-color: #01e675 !important;
+  border-radius: 5px;
+  border-style: none;
+  padding: 5px 10px;
+}
+
+.img-cart {
+  height: 100px !important;
+  width: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cart-controller {
+  max-height: calc(100vh - 188px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.list-group-item h4 {
+  margin: 0;
+}
+
+#shoppingCartIcon:hover {
+  cursor: pointer;
+}

@@ -6,13 +6,17 @@ import "firebase/auth";
 import Loading from "../components/loading";
 import Carousel from "../components/carousel-product";
 import "../styles/ProductPage.css";
+import { connect } from "react-redux";
+import addProducts from "../redux/actions/addProducts";
 
-function ProductPage() {
+function ProductPage({ addProducts }) {
   const [url, setUrl] = useState([]);
   const [state, setState] = useState({
     product: {},
     loading: null,
   });
+  const [amount, setAmount] = useState(1);
+  const [description, setdescription] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -60,15 +64,27 @@ function ProductPage() {
       .ref()
       .child("/products/" + productCategory + "/" + productKey);
     dbRef.on("value", (snapshot) => {
+      let prod = snapshot.val();
+      prod["key"] = snapshot.key;
       if (mounted) {
         setState((state) => ({
           ...state,
-          product: snapshot.val(),
+          product: prod,
         }));
       }
     });
     return () => (mounted = false);
   }, []);
+
+  const updateShoppingCart = (prod) => {
+    console.log(url[0]);
+    addProducts({
+      product: prod,
+      amount: amount,
+      description: description,
+      url: url[0],
+    });
+  };
 
   return (
     <>
@@ -102,6 +118,27 @@ function ProductPage() {
                   The Fat Monkey Deco
                 </a>
               </h5>
+              <div className="form-inline">
+                <div className="form-group">
+                  <input
+                    className="form-control"
+                    style={{ width: "100px" }}
+                    id="amountProduct"
+                    type="number"
+                    min="1"
+                    value={amount}
+                    onChange={(ref) => setAmount(+ref.target.value)}
+                  />
+                  <button
+                    className="btn btn-pink ml-2"
+                    onClick={() => {
+                      updateShoppingCart(state.product);
+                    }}
+                  >
+                    Agregar al carrito
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -110,4 +147,4 @@ function ProductPage() {
   );
 }
 
-export default ProductPage;
+export default connect(null, { addProducts })(ProductPage);

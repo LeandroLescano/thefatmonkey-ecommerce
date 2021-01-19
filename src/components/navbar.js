@@ -8,7 +8,7 @@ import "firebase/auth";
 import ProfileImg from "../images/default.jpg";
 import { Link } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
-import axios from "axios";
+import ShoppingCart from "./shopping-cart";
 
 function Navbar() {
   const [admin, setAdmin] = useState(false);
@@ -103,7 +103,6 @@ function Navbar() {
   useEffect(() => {
     let path = window.location.pathname;
     let mounted = true;
-    let emails = [];
     firebase
       .database()
       .ref("profileImg")
@@ -174,6 +173,7 @@ function Navbar() {
             </Link>
           </li>
         </ul>
+        <ShoppingCart />
         {admin && (
           <div className="navbar-nav mr-2">
             <div id="btnAdministrar" className="nav-item">

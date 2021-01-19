@@ -55,17 +55,23 @@ function ProductCatalog(props) {
     function getProducts() {
       const db = firebase.database();
       const dbRef = db.ref("products");
-      dbRef.on("child_added", (snapshot) => {
-        let categoryAct =
-          snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
-        setCategories((categories) => [...categories, categoryAct]);
-        snapshot.forEach((snapshotChild) => {
-          setState((state) => ({
-            ...state,
-            data: state.data.concat(snapshotChild),
-          }));
-        });
-        setState((state) => ({ ...state, loading: false }));
+      dbRef.once("value").then((snap) => {
+        if (snap.exists()) {
+          dbRef.on("child_added", (snapshot) => {
+            let categoryAct =
+              snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
+            setCategories((categories) => [...categories, categoryAct]);
+            snapshot.forEach((snapshotChild) => {
+              setState((state) => ({
+                ...state,
+                data: state.data.concat(snapshotChild),
+              }));
+            });
+            setState((state) => ({ ...state, loading: false }));
+          });
+        } else {
+          setState((state) => ({ ...state, loading: false }));
+        }
       });
     }
     setCategories([]);

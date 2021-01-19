@@ -34,7 +34,9 @@ function HomePage() {
           }}
         />
       ) : (
-        <ProductCatalog category={catSelected} />
+        <>
+          <ProductCatalog category={catSelected} />
+        </>
       )}
     </>
   );
