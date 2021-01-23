@@ -18,11 +18,24 @@
   background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
+.carousel-item img {
+  height: 50vh;
+}
+
 @media only screen and (min-width: 768px) {
   .carousel-container {
     width: 70vh;
     max-height: 100vh;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .carousel-item {
+    height: 70vh;
+  }
+
+  .carousel-item img {
+    object-fit: cover;
+    height: 70vh;
   }
 }

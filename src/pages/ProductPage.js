@@ -15,8 +15,6 @@ function ProductPage({ addProducts }) {
     product: {},
     loading: null,
   });
-  const [amount, setAmount] = useState(1);
-  const [description, setdescription] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -80,8 +78,8 @@ function ProductPage({ addProducts }) {
     console.log(url[0]);
     addProducts({
       product: prod,
-      amount: amount,
-      description: description,
+      amount: 1,
+      description: "",
       url: url[0],
     });
   };
@@ -98,39 +96,14 @@ function ProductPage({ addProducts }) {
             </div>
             <div className="section-product-page data-section">
               <h2>{state.product.name}</h2>
-              <h5>{state.product.description}</h5>
-              <div className="row">
-                <div className="col-auto">
-                  <h5 className="text-price">
-                    ${state.product.price} por unidad
-                  </h5>
+              <p className="txt-desc">{state.product.description}</p>
+              <div className="row m-2 pt-2 border-top justify-content-end">
+                <div className="col-auto my-auto">
+                  <h4 className="my-0">${state.product.price}*</h4>
                 </div>
                 <div className="col-auto">
-                  <h5>Stock: {state.product.stock}</h5>
-                </div>
-              </div>
-              <h5>
-                ¿Querés comprar? Contactame por Instagram:{" "}
-                <a
-                  href="https://www.instagram.com/thefatmonkeydeco/"
-                  target="blank_"
-                >
-                  The Fat Monkey Deco
-                </a>
-              </h5>
-              <div className="form-inline">
-                <div className="form-group">
-                  <input
-                    className="form-control"
-                    style={{ width: "100px" }}
-                    id="amountProduct"
-                    type="number"
-                    min="1"
-                    value={amount}
-                    onChange={(ref) => setAmount(+ref.target.value)}
-                  />
                   <button
-                    className="btn btn-pink ml-2"
+                    className="btn btn-pink ml-2 btn-add"
                     onClick={() => {
                       updateShoppingCart(state.product);
                     }}
@@ -139,6 +112,10 @@ function ProductPage({ addProducts }) {
                   </button>
                 </div>
               </div>
+              <p className="text-muted txt-price-desc">
+                * Precio por producto base, puede variar dependiendo el tamaño o
+                adicionales.
+              </p>
             </div>
           </div>
         </div>

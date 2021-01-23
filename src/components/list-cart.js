@@ -86,7 +86,7 @@ function ListCart(props) {
                           </div>
                           <div className="col-lg-2 col-3">
                             <input
-                              className="form-control"
+                              className="form-control w-75"
                               type="number"
                               value={list.amount}
                               onChange={(ref) => changeAmount(ref, i)}
@@ -117,7 +117,7 @@ function ListCart(props) {
                 target="blank_"
               >
                 <button className="btn-whatsapp">
-                  <i class="fab fa-whatsapp mr-2"></i>
+                  <i className="fab fa-whatsapp mr-2"></i>
                   Realizar pedido
                 </button>
               </a>
