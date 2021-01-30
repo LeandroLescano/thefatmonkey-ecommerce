@@ -173,22 +173,22 @@ function Navbar() {
             </Link>
           </li>
         </ul>
-        <ShoppingCart />
-        {admin && (
-          <div className="navbar-nav mr-2">
-            <div id="btnAdministrar" className="nav-item">
-              <Link
-                to="/administrar"
-                className="nav-link"
-                onClick={() => changeNavbarActive("Administrar")}
-              >
-                <p className="navbar-btn text-center">Administrar</p>
-              </Link>
+        <div className="navbar-nav mr-2 text-center">
+          <ShoppingCart />
+          {admin && (
+            <div>
+              <div id="btnAdministrar" className="nav-item">
+                <Link
+                  to="/administrar"
+                  className="nav-link"
+                  onClick={() => changeNavbarActive("Administrar")}
+                >
+                  <p className="navbar-btn text-center">Administrar</p>
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
-        {user !== null && (
-          <div className="navbar-nav mr-2 text-center">
+          )}
+          {user !== null && (
             <form>
               <span className="mr-3 align-middle">{user.displayName}</span>
               <img
@@ -200,15 +200,13 @@ function Navbar() {
                 onClick={() => desloguear()}
               />
             </form>
-          </div>
-        )}
-        {user == null && (
-          <div className="navbar-nav text-center">
+          )}
+          {user == null && (
             <div className="btn btn-secondary" onClick={() => loguear()}>
               Ingresar
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </nav>
   );

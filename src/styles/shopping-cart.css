@@ -1,7 +1,7 @@
 .shoppingCart {
-  position: absolute;
-  right: 5px;
-  top: -20px;
+  /* position: absolute; */
+  right: 60px;
+  top: -48px;
   max-height: 45px;
   border: solid 1px #fd415db4;
   border-radius: 50%;
@@ -10,8 +10,8 @@
 .amountCart {
   position: absolute;
   z-index: 2;
-  right: 5px;
-  top: -25px;
+  right: 135px;
+  top: -6px;
   font-size: 15px;
   height: 20px;
   width: 20px;
@@ -65,4 +65,31 @@
 
 #shoppingCartIcon:hover {
   cursor: pointer;
+}
+
+@media only screen and (min-width: 1024px) {
+  .shoppingCart {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    max-height: 45px;
+    border: solid 1px #fd415db4;
+    border-radius: 50%;
+  }
+
+  .amountCart {
+    position: absolute;
+    z-index: 2;
+    right: 5px;
+    top: -8px;
+    font-size: 15px;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    color: white;
+    background-color: #fd415d;
+    border-radius: 50%;
+  }
 }
