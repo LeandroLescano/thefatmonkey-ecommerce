@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Product from "../components/product-card";
 import firebase from "firebase/app";
 import JumbotronNoProducts from "./jumbotron-no-products";
@@ -15,31 +15,33 @@ function ProductCatalog(props) {
     loading: null,
   });
   const [showCategories, setShowCategories] = useState(false);
-  var sidebar = document.getElementById("sidebarMenu");
+  const sidebar = useRef(null);
 
   window.addEventListener("resize", () => {
-    if (sidebar !== null) {
-      if (window.innerWidth > 768) {
-        sidebar.style.display = "block";
-      } else {
-        sidebar.style.display = "none";
+    if (!window.location.pathname.includes("product")) {
+      if (sidebar.current !== null) {
+        if (window.innerWidth > 768) {
+          sidebar.current.style.display = "block";
+        } else {
+          sidebar.current.style.display = "none";
+        }
       }
     }
   });
 
   window.addEventListener("load", () => {
-    sidebar = document.getElementById("sidebarMenu");
-    if (window.innerWidth <= 768) {
-      sidebar.style.display = "none";
-    } else {
-      sidebar.style.display = "block";
+    if (!window.location.pathname.includes("product")) {
+      if (window.innerWidth <= 768) {
+        sidebar.current.style.display = "none";
+      } else {
+        sidebar.current.style.display = "block";
+      }
     }
   });
 
   useEffect(() => {
-    sidebar = document.getElementById("sidebarMenu");
     if (window.innerWidth <= 768) {
-      sidebar.style.display = "none";
+      sidebar.current.style.display = "none";
     }
     setSelectCategory(props.category);
     if (
@@ -85,9 +87,9 @@ function ProductCatalog(props) {
   const changeStateCategories = () => {
     setShowCategories(!showCategories);
     if (showCategories) {
-      sidebar.style.display = "block";
+      sidebar.current.style.display = "block";
     } else {
-      sidebar.style.display = "none";
+      sidebar.current.style.display = "none";
     }
   };
 
@@ -111,6 +113,7 @@ function ProductCatalog(props) {
             setSelectCategory(item);
             window.sessionStorage.setItem("catSelected", item);
           }}
+          sidebar={sidebar}
           categories={categories}
           selectCategory={selectCategory}
         />

@@ -32,7 +32,7 @@ function SideBar(props) {
 
   return (
     <>
-      <div id="sidebarMenu" className="bg-light sidebar">
+      <div ref={props.sidebar} id="sidebarMenu" className="bg-light sidebar">
         <div className="sidebar-sticky pt-3">
           <ul className="nav flex-column">
             <li className="nav-item active" id="todos">

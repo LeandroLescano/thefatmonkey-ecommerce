@@ -6,7 +6,6 @@ import ProfileImg from "../images/default.jpg";
 import ModalProduct from "./modal-product";
 import { useStoreState } from "easy-peasy";
 import { useEffect } from "react";
-import axios from "axios";
 
 function TableProduct(props) {
   const [url, setUrl] = useState([ProfileImg]);
@@ -425,7 +424,7 @@ function TableProduct(props) {
               timer: 3000,
               position: "bottom-end",
               icon: "success",
-              title: "Número cambiado",
+              title: "Número actualizado",
               confirmButtonText: "Continuar",
             });
           });

@@ -16,15 +16,11 @@
 
 .form-add-cart {
   justify-content: center;
-  /* position: absolute;
-  bottom: 10px; */
 }
 
 .txt-price-desc {
-  position: absolute;
-  font-size: 12px;
-  bottom: 0;
-  right: 20px;
+  font-size: 0.65rem;
+  margin-bottom: 0;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -36,6 +32,13 @@
 
   .txt-desc {
     min-height: 20vh;
+  }
+
+  .form-add-cart {
+    position: absolute;
+    bottom: 10px;
+    width: 98%;
+    right: 0px;
   }
 
   .row {
@@ -50,6 +53,14 @@
 
   .btn-add {
     float: right;
+  }
+
+  .txt-price-desc {
+    position: absolute;
+    margin-bottom: 0;
+    font-size: 12px;
+    bottom: 0px;
+    right: 20px;
   }
 
   .container-product {

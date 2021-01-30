@@ -19,6 +19,7 @@ function ListCart(props) {
           encode += ")";
         }
       }
+      return encode;
     });
     encode += `\nTotal: $${props.cart.totalAmount}`;
     return encodeURI(encode);
@@ -78,24 +79,26 @@ function ListCart(props) {
                           <div className="col-md-3 d-none d-lg-block">
                             <img
                               src={list.url}
+                              alt="imgProduct"
                               className="img-thumbnail mr-2 img-cart"
                             />
                           </div>
-                          <div className="col-lg-4 col-4">
+                          <div className="col-lg-4 col-12">
                             <h4>{list.product.name}</h4>
                           </div>
-                          <div className="col-lg-2 col-3">
+                          <div className="col-lg-2 col-4" align="center">
                             <input
                               className="form-control w-75"
+                              min="1"
                               type="number"
                               value={list.amount}
                               onChange={(ref) => changeAmount(ref, i)}
                             />
                           </div>
-                          <div className="col-lg-2 col-3 text-center">
+                          <div className="col-lg-2 col-5 text-center">
                             <h4>${list.product.price * list.amount}</h4>
                           </div>
-                          <div className="col-lg-1 col-2">
+                          <div className="col-lg-1 col-3">
                             <button
                               className="btn btn-danger ml-2"
                               onClick={() => props.deleteProduct(i)}
@@ -116,7 +119,7 @@ function ListCart(props) {
                 href={`https://wa.me/${number}?text=${getOrder()}`}
                 target="blank_"
               >
-                <button className="btn-whatsapp">
+                <button className="btn btn-whatsapp">
                   <i className="fab fa-whatsapp mr-2"></i>
                   Realizar pedido
                 </button>

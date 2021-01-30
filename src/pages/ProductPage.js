@@ -75,7 +75,6 @@ function ProductPage({ addProducts }) {
   }, []);
 
   const updateShoppingCart = (prod) => {
-    console.log(url[0]);
     addProducts({
       product: prod,
       amount: 1,
@@ -97,7 +96,7 @@ function ProductPage({ addProducts }) {
             <div className="section-product-page data-section">
               <h2>{state.product.name}</h2>
               <p className="txt-desc">{state.product.description}</p>
-              <div className="row m-2 pt-2 border-top justify-content-end">
+              <div className="row m-2 pt-2 border-top justify-content-end form-add-cart">
                 <div className="col-auto my-auto">
                   <h4 className="my-0">${state.product.price}*</h4>
                 </div>

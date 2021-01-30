@@ -51,7 +51,7 @@ function reducer(state = defaultState, { type, payload }) {
       state.products[payload["index"]].amount = payload["amount"];
       let total = 0;
       state.products.map((item) => {
-        total += item.amount * item.product.price;
+        return (total += item.amount * item.product.price);
       });
       state.totalAmount = total;
       return { ...state };
