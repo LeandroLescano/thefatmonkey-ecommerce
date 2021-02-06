@@ -1,5 +1,4 @@
 .shoppingCart {
-  /* position: absolute; */
   right: 60px;
   top: -48px;
   max-height: 45px;
@@ -7,11 +6,18 @@
   border-radius: 50%;
 }
 
+#shoppingCartIcon {
+  width: 45px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .amountCart {
   position: absolute;
   z-index: 2;
-  right: 135px;
-  top: -6px;
+  right: 0;
+  top: -8px;
+  justify-content: center;
   font-size: 15px;
   height: 20px;
   width: 20px;
@@ -68,6 +74,10 @@
 }
 
 @media only screen and (min-width: 1024px) {
+  #shoppingCartIcon {
+    left: auto;
+  }
+
   .shoppingCart {
     position: absolute;
     right: 5px;
