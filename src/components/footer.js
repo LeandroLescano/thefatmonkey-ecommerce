@@ -10,7 +10,7 @@ function Footer() {
             &copy; {new Date().getFullYear()} Desarrollado por Lescano Leandro
             Nicolas
             <a
-              href="https://www.instagram.com/thefatmonkeydeco"
+              href="https://www.instagram.com/dubelier_"
               target="_blank"
               rel="noopener noreferrer"
               className="float-right mr-2"

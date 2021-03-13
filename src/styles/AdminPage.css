@@ -1,14 +1,14 @@
-.btn-pink {
-  background-color: #ffb4bf !important;
+.btn-blue {
+  background-color: #b4b9ff !important;
 }
 
-.btn-pink:focus {
+.btn-blue:focus {
   outline: 0 !important;
-  box-shadow: 0px 0px 0px 0.2rem rgb(255, 153, 168) !important;
+  box-shadow: 0px 0px 0px 0.2rem rgb(160, 153, 255) !important;
 }
 
-.btn-pink:hover {
-  background-color: #fca4b1 !important;
+.btn-blue:hover {
+  background-color: #a4a5fc !important;
 }
 
 .img-prev {
@@ -29,5 +29,5 @@
 }
 
 .progress-bar {
-  background-color: palevioletred !important;
+  background-color: rgb(112, 131, 216) !important;
 }
