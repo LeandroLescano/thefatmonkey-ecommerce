@@ -1,5 +1,5 @@
 .footer {
-  background-color: #fd415db4 !important;
+  background-color: #4192fdb4 !important;
   color: gray;
   bottom: 0;
   width: 100%;
@@ -12,12 +12,11 @@
   padding-left: 20px;
   overflow: hidden;
   color: hsla(0, 21%, 9%, 0.747);
-  background-color: #ffb4bf !important;
+  background-color: #b4c2ff !important;
 }
 
 @media only screen and (min-width: 768px) {
   .footer {
-    background-color: #ffb4bf;
     color: gray;
     bottom: 0;
     width: 100%;
@@ -28,6 +27,6 @@
     text-align: center;
     overflow: hidden;
     color: hsla(0, 21%, 9%, 0.747);
-    background-color: #ffb4bf !important;
+    background-color: #b4c2ff !important;
   }
 }

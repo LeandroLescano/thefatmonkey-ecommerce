@@ -8,6 +8,7 @@ import Carousel from "../components/carousel-product";
 import "../styles/ProductPage.css";
 import { connect } from "react-redux";
 import addProducts from "../redux/actions/addProducts";
+import Swal from "sweetalert2";
 
 function ProductPage({ addProducts }) {
   const [url, setUrl] = useState([]);
@@ -81,6 +82,14 @@ function ProductPage({ addProducts }) {
       description: "",
       url: url[0],
     });
+    Swal.fire({
+      toast: true,
+      timer: 2000,
+      icon: "success",
+      position: "bottom-end",
+      title: "Producto añadido al carrito",
+      showConfirmButton: false,
+    });
   };
 
   return (
@@ -95,14 +104,16 @@ function ProductPage({ addProducts }) {
             </div>
             <div className="section-product-page data-section">
               <h2>{state.product.name}</h2>
-              <p className="txt-desc">{state.product.description}</p>
+              <p className="txt-desc" style={{ whiteSpace: "pre-line" }}>
+                {state.product.description}
+              </p>
               <div className="row m-2 pt-2 border-top justify-content-end form-add-cart">
                 <div className="col-auto my-auto">
                   <h4 className="my-0">${state.product.price}*</h4>
                 </div>
                 <div className="col-auto">
                   <button
-                    className="btn btn-pink ml-2 btn-add"
+                    className="btn btn-blue ml-2 btn-add"
                     onClick={() => {
                       updateShoppingCart(state.product);
                     }}

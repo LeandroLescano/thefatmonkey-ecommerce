@@ -18,13 +18,13 @@
 
 .section-filter {
   text-align: end;
-  border-bottom: 1px solid lightpink;
+  border-bottom: 1px solid lightblue;
 }
 
 .btn-categories {
   margin: 5px;
   padding: 3px 3px 3px 6px;
-  border-left: 1px solid lightpink;
+  border-left: 1px solid lightblue;
 }
 
 .clear-right {
@@ -32,18 +32,23 @@
 }
 
 .jumbotron {
-  background: #ee9ca7; /* fallback for old browsers */
+  background: rgb(204, 204, 255);
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(204, 204, 255, 1) 0%,
+    rgba(149, 150, 198, 1) 100%
+  );
   background: -webkit-linear-gradient(
-    to right,
-    #ffdde1,
-    #ee9ca7
-  ); /* Chrome 10-25, Safari 5.1-6 */
+    90deg,
+    rgba(204, 204, 255, 1) 0%,
+    rgba(149, 150, 198, 1) 100%
+  );
   background: linear-gradient(
-    to right,
-    #ffdde1,
-    #ee9ca7
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  color: blac;
+    90deg,
+    rgba(204, 204, 255, 1) 0%,
+    rgba(149, 150, 198, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ccccff",endColorstr="#9596c6",GradientType=1);
 
   -webkit-box-shadow: 0px 0px 49px -26px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 49px -26px rgba(0, 0, 0, 0.75);
@@ -52,8 +57,8 @@
 
 .form-control:focus {
   outline: 0 !important;
-  border-color: #ff6a80b4 !important;
-  box-shadow: 0px 0px 0px 0.2rem #ffb4bf !important;
+  border-color: #a4a5fc !important;
+  box-shadow: 0px 0px 0px 0.2rem #a4a5fc !important;
 }
 
 @media only screen and (min-width: 768px) {
