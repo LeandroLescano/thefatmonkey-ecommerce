@@ -202,7 +202,7 @@ function Navbar() {
             </form>
           )}
           {user == null && (
-            <div className="btn btn-secondary" onClick={() => loguear()}>
+            <div className="btn btn-secondary ml-2" onClick={() => loguear()}>
               Ingresar
             </div>
           )}

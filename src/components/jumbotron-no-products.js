@@ -8,11 +8,11 @@ function JumbotronNoProducts() {
       <hr className="my-4" />
       <p>No dejes de visitar nuestro Instagram!</p>
       <a
-        className="btn btn-blue btn-lg"
-        href="https://www.instagram.com/dubelier_/"
+        className="btn btn-pink btn-lg"
+        href="https://www.instagram.com/thefatmonkeydeco/"
         role="button"
       >
-        Dubelier
+        The fat monkey deco
       </a>
     </div>
   );

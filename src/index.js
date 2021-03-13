@@ -8,14 +8,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCNG8Fv0FtzlrYx1ZrucjH7nD0VGILuH5k",
-  authDomain: "dubelier-ecommerce.firebaseapp.com",
-  databaseURL: "https://dubelier-ecommerce-default-rtdb.firebaseio.com",
-  projectId: "dubelier-ecommerce",
-  storageBucket: "dubelier-ecommerce.appspot.com",
-  messagingSenderId: "842879086425",
-  appId: "1:842879086425:web:6bf1466f1c1749cbbd6648",
-  measurementId: "G-EZTT7ZSPRZ",
+  apiKey: "AIzaSyBBodUp6hxMxCcsH4qX3gAHi3ZpyZlNFoI",
+  authDomain: "thefatmonkey-ecommerce.firebaseapp.com",
+  databaseURL: "https://thefatmonkey-ecommerce.firebaseio.com",
+  projectId: "thefatmonkey-ecommerce",
+  storageBucket: "thefatmonkey-ecommerce.appspot.com",
+  messagingSenderId: "575085913143",
+  appId: "1:575085913143:web:23d1e15480a95aa1668bb2",
+  measurementId: "G-J3F1RBRHPR",
 });
 ReactDOM.render(<App />, document.getElementById("root"));
 

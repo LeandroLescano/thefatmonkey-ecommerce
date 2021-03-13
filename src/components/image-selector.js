@@ -25,12 +25,12 @@ function ImageSelector(props) {
     >
       <div className="row">
         <div className="col">
-          <p onClick={props.back} className="btn btn-blue">
+          <p onClick={props.back} className="btn btn-pink">
             ← Volver
           </p>
         </div>
         <div className="col text-right">
-          <p className="btn btn-blue" onClick={props.add}>
+          <p className="btn btn-pink" onClick={props.add}>
             Agregar
           </p>
         </div>
@@ -51,7 +51,7 @@ function ImageSelector(props) {
                     ></img>
                     <div className="card-body text-right">
                       <button
-                        className="btn btn-blue"
+                        className="btn btn-pink"
                         onClick={() => deleteImage(i)}
                       >
                         Eliminar
@@ -74,7 +74,7 @@ function ImageSelector(props) {
                     ></img>
                     <div className="card-body text-right">
                       <button
-                        className="btn btn-blue"
+                        className="btn btn-pink"
                         onClick={() => deleteImage(i)}
                       >
                         Eliminar

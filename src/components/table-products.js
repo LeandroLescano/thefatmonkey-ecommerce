@@ -288,9 +288,6 @@ function TableProduct(props) {
         state: 1,
       },
       () => {
-        if (uploadValue < 100) {
-          setUploadValue(100);
-        }
         Swal.fire({
           toast: true,
           position: "bottom-end",
@@ -467,12 +464,12 @@ function TableProduct(props) {
       ></input>
       <div className="float-left">
         <button
-          className="btn btn-blue my-2 mr-2"
+          className="btn btn-pink my-2 mr-2"
           onClick={() => document.getElementById("inputDefaultImage").click()}
         >
           Cambiar imagen por defecto
         </button>
-        <button className="btn btn-blue" onClick={() => changePhoneNumber()}>
+        <button className="btn btn-pink" onClick={() => changePhoneNumber()}>
           Cambiar número de whatsapp
         </button>
         {/* <div className="ml-2 custom-control custom-switch">
@@ -489,7 +486,7 @@ function TableProduct(props) {
       </div>
       <div className="float-right">
         <button
-          className="btn btn-blue my-2"
+          className="btn btn-pink my-2"
           data-toggle="modal"
           data-target="#modalProduct"
           onClick={() => cleanModal()}
@@ -526,7 +523,7 @@ function TableProduct(props) {
                     <button
                       data-toggle="modal"
                       data-target="#modalProduct"
-                      className="btn btn-blue"
+                      className="btn btn-pink"
                       onClick={(ref) => fillModal(ref, item)}
                     >
                       Modificar
@@ -534,7 +531,7 @@ function TableProduct(props) {
                   </td>
                   <td>
                     <button
-                      className="btn btn-blue"
+                      className="btn btn-pink"
                       onClick={(ref) => changeStateProduct(ref, item)}
                     >
                       {item.val().state ? "Deshabilitar" : "Habilitar"}
@@ -542,7 +539,7 @@ function TableProduct(props) {
                   </td>
                   <td>
                     <button
-                      className="btn btn-blue"
+                      className="btn btn-pink"
                       onClick={(ref) => deleteProduct(ref, item)}
                     >
                       Eliminar

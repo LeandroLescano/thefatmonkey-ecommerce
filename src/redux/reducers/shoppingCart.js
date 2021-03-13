@@ -19,37 +19,20 @@ function reducer(state = defaultState, { type, payload }) {
           totalAmount: payload.product.price * payload.amount,
         };
       } else {
-        /* Check if product was added */
-        let exist = false;
-        let index = 0;
-        state.products.forEach((item, i) => {
-          if (item.product.key === payload.product.key) {
-            exist = true;
-            index = i;
-          }
-        });
-        if (exist) {
-          state.products[index].amount =
-            state.products[index].amount + payload.amount;
-          state.totalAmount =
-            state.totalAmount + payload.product.price * payload.amount;
-          return { ...state };
-        } else {
-          return {
-            ...state,
-            products: [
-              ...state.products,
-              {
-                product: payload.product,
-                amount: +payload.amount,
-                description: payload.description,
-                url: payload.url,
-              },
-            ],
-            totalAmount:
-              state.totalAmount + payload.product.price * payload.amount,
-          };
-        }
+        return {
+          ...state,
+          products: [
+            ...state.products,
+            {
+              product: payload.product,
+              amount: +payload.amount,
+              description: payload.description,
+              url: payload.url,
+            },
+          ],
+          totalAmount:
+            state.totalAmount + payload.product.price * payload.amount,
+        };
       }
     }
     case "deleteProduct": {

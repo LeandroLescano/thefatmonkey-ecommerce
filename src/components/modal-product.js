@@ -95,7 +95,7 @@ function ModalProduct(props) {
               </div>
               <div className="form-group">
                 <label htmlFor="inputDescripcion">Descripción</label>
-                <textarea
+                <input
                   type="text"
                   className="form-control"
                   id="inputDescripcion"
@@ -133,7 +133,7 @@ function ModalProduct(props) {
                       {props.images !== null && props.images.length <= 0 && (
                         <button
                           type="button"
-                          className="btn btn-blue mr-2 mb-2"
+                          className="btn btn-pink mr-2 mb-2"
                           onClick={() =>
                             document.getElementById("inputImage").click()
                           }
@@ -145,7 +145,7 @@ function ModalProduct(props) {
                         <>
                           <button
                             type="button"
-                            className="btn btn-blue mr-2"
+                            className="btn btn-pink mr-2"
                             onClick={() =>
                               document.getElementById("inputImage").click()
                             }
@@ -154,7 +154,7 @@ function ModalProduct(props) {
                           </button>
                           <button
                             type="button"
-                            className="btn btn-blue clear-right"
+                            className="btn btn-pink clear-right"
                             onClick={() => setTabImages(true)}
                           >
                             Ver imagenes
@@ -216,7 +216,7 @@ function ModalProduct(props) {
             <button
               id="btnSubmit"
               type="button"
-              className="btn btn-blue"
+              className="btn btn-pink"
               onClick={(ref) => props.upload(ref)}
             >
               Cargar

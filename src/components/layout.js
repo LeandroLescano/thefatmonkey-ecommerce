@@ -13,7 +13,6 @@ function Layout(props) {
           <Navbar />
         </header>
         <main>{children}</main>
-        {/* <ShoppingCart /> */}
         <footer>
           <Footer />
         </footer>
