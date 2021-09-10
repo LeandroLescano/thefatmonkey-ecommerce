@@ -1,8 +1,10 @@
 import { createStore, combineReducers } from "redux";
 import shoppingCart from "./reducers/shoppingCart";
+import flags from "./reducers/flags";
 
 const reducer = combineReducers({
   shoppingCart,
+  flags,
 });
 
 const store = createStore(

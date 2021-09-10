@@ -9,15 +9,40 @@ import ProfileImg from "../images/default.jpg";
 import { Link } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
 import ShoppingCart from "./shopping-cart";
+import switchFlagCategory from "../redux/actions/flagCategory";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import ReactDOM from "react-dom";
 
-function Navbar() {
+function Navbar(props) {
   const [admin, setAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [profileImg, setProfileImg] = useState(ProfileImg);
   const [emailsAuth, setEmailsAuth] = useState([]);
+  const [DOMReady, setDOMReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // const todos = useStoreState((state) => state.todos.items);
   const add = useStoreActions((actions) => actions.todos.add);
+
+  const loginContainer = document.getElementById("loginContainer");
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+      setIsMobile(false);
+    } else {
+      setIsMobile(true);
+    }
+  });
+
+  window.addEventListener("load", () => {
+    console.log(window.sessionStorage.getItem("catSelected"));
+    if (window.innerWidth > 768) {
+      setIsMobile(false);
+    } else {
+      setIsMobile(true);
+    }
+  });
 
   document.addEventListener("DOMContentLoaded", () => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -29,16 +54,20 @@ function Navbar() {
           window.location.href = "/";
         }
       }
+      if (window.sessionStorage.getItem("catSelected") !== null) {
+        props.switchFlagCategory();
+      }
     });
   });
 
   const changeNavbarActive = (btn) => {
     if (btn === "Administrar") {
       document.getElementById("btnProductos").classList.remove("active");
+      document.getElementById("btnNosotros").classList.remove("active");
       if (document.getElementById("btnAdministrar") !== null) {
         document.getElementById("btnAdministrar").classList.add("active");
       }
-    } else {
+    } else if (btn === "Productos") {
       // Swal.fire({
       //   title: "¿Te interesa aprender a realizar nuestros productos?",
       //   html:
@@ -50,7 +79,14 @@ function Navbar() {
       if (document.getElementById("btnAdministrar") !== null) {
         document.getElementById("btnAdministrar").classList.remove("active");
       }
+      document.getElementById("btnNosotros").classList.remove("active");
       document.getElementById("btnProductos").classList.add("active");
+    } else {
+      if (document.getElementById("btnAdministrar") !== null) {
+        document.getElementById("btnAdministrar").classList.remove("active");
+      }
+      document.getElementById("btnNosotros").classList.add("active");
+      document.getElementById("btnProductos").classList.remove("active");
     }
   };
 
@@ -98,6 +134,7 @@ function Navbar() {
       });
       setEmailsAuth(emails);
     });
+    setDOMReady(true);
   }, []);
 
   useEffect(() => {
@@ -149,67 +186,106 @@ function Navbar() {
           />
         </div>
       </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarCategories"
-        aria-controls="navbarCategories"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarCategories">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link
-              to="/"
-              className="nav-link active"
-              id="btnProductos"
-              onClick={() => changeNavbarActive("Productos")}
-            >
-              <p className="navbar-btn text-center">Productos</p>
-            </Link>
-          </li>
-        </ul>
-        <div className="navbar-nav mr-2 text-center">
-          <ShoppingCart />
-          {admin && (
-            <div>
-              <div id="btnAdministrar" className="nav-item">
-                <Link
-                  to="/administrar"
-                  className="nav-link"
-                  onClick={() => changeNavbarActive("Administrar")}
-                >
-                  <p className="navbar-btn text-center">Administrar</p>
-                </Link>
-              </div>
+      {props.flagCategory && (
+        <>
+          {isMobile && <ShoppingCart />}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarCategories"
+            aria-controls="navbarCategories"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarCategories">
+            <ul className="navbar-nav mr-auto">
+              {props.flagCategory && (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      to="/"
+                      className="nav-link"
+                      id="btnCategorias"
+                      onClick={() => props.switchFlagCategory()}
+                    >
+                      <p className="navbar-btn text-center">Categorias</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/"
+                      className="nav-link active"
+                      id="btnProductos"
+                      onClick={() => changeNavbarActive("Productos")}
+                    >
+                      <p className="navbar-btn text-center">Productos</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/nosotros"
+                      className="nav-link"
+                      id="btnNosotros"
+                      onClick={() => changeNavbarActive("Nosotros")}
+                    >
+                      <p className="navbar-btn text-center">Nosotros</p>
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+            <div className="navbar-nav mr-2 text-center">
+              {props.flagCategory && !isMobile && <ShoppingCart />}
+              {admin && (
+                <div>
+                  <div id="btnAdministrar" className="nav-item">
+                    <Link
+                      to="/administrar"
+                      className="nav-link"
+                      onClick={() => changeNavbarActive("Administrar")}
+                    >
+                      <p className="navbar-btn text-center">Administrar</p>
+                    </Link>
+                  </div>
+                </div>
+              )}
+              {user !== null && (
+                <form>
+                  <span className="mr-3 align-middle">{user.displayName}</span>
+                  <img
+                    alt="user-img"
+                    height="40"
+                    width="40"
+                    className="rounded-circle img-user"
+                    src={user.photoURL}
+                    onClick={() => desloguear()}
+                  />
+                </form>
+              )}
             </div>
-          )}
-          {user !== null && (
-            <form>
-              <span className="mr-3 align-middle">{user.displayName}</span>
-              <img
-                alt="user-img"
-                height="40"
-                width="40"
-                className="rounded-circle img-user"
-                src={user.photoURL}
-                onClick={() => desloguear()}
-              />
-            </form>
-          )}
-          {user == null && (
-            <div className="btn btn-secondary ml-2" onClick={() => loguear()}>
+          </div>
+        </>
+      )}
+      {user == null &&
+        DOMReady &&
+        ReactDOM.createPortal(
+          <>
+            <div className="txt-login ml-2" onClick={() => loguear()}>
               Ingresar
             </div>
-          )}
-        </div>
-      </div>
+          </>,
+          loginContainer
+        )}
     </nav>
   );
 }
+const mapStateToProps = (state) => ({ flagCategory: state.flags.flagCategory });
 
-export default Navbar;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ switchFlagCategory }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

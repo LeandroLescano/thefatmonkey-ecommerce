@@ -12,6 +12,18 @@
   color: rgba(0, 0, 0, 0.9);
 }
 
+.nav-link:hover {
+  cursor: pointer;
+}
+
+.txt-login:hover {
+  cursor: pointer;
+}
+
+#loginContainer {
+  max-width: 200px;
+}
+
 .navbar-btn {
   margin: 0 !important;
   border-style: none !important;

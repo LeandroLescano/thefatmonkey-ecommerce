@@ -8,6 +8,7 @@ import { StoreProvider, action, createStore } from "easy-peasy";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { CookiesProvider, withCookies } from "react-cookie";
+import AboutPage from "./pages/AboutPage";
 
 function Routes() {
   const storeP = createStore({
@@ -68,6 +69,7 @@ function Routes() {
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/administrar" component={AdminPage} />
+                <Route exact path="/nosotros" component={AboutPage} />
                 <Route
                   exact
                   path="/product/:productCat/:productKey"

@@ -45,7 +45,9 @@ function TableProduct(props) {
   };
 
   const uploadNewProduct = () => {
-    let newCategory = document.getElementById("inputCategoria").value;
+    let newCategory = document
+      .getElementById("inputCategoria")
+      .value.replace(/ /g, "");
     let newName = document.getElementById("inputNombre");
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
@@ -243,7 +245,9 @@ function TableProduct(props) {
   };
 
   const modifyProduct = () => {
-    let newCategory = document.getElementById("inputCategoria").value;
+    let newCategory = document
+      .getElementById("inputCategoria")
+      .value.replace(/ /g, "");
     let newName = document.getElementById("inputNombre");
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
