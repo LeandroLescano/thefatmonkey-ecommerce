@@ -12,21 +12,26 @@ function CardCategory(props) {
     if (props.url !== undefined) {
       let referencia = props.url;
       let mounted = true;
-      firebase
-        .storage()
-        .ref(referencia)
-        .getDownloadURL()
-        .then((url) => {
-          if (mounted) {
-            setUrl(url);
-          }
-        })
-        .catch((error) => {
-          setUrl(ProfileImg);
-          console.log(error.message);
-        });
+      setUrl(
+        "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
+          referencia
+      );
+      // firebase
+      //   .storage()
+      //   .ref(referencia)
+      //   .getDownloadURL()
+      //   .then((url) => {
+      //     if (mounted) {
+      //       setUrl(url);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     setUrl(ProfileImg);
+      //     console.log(error.message);
+      //   });
       return () => (mounted = false);
     }
+    console.log(todos);
     todos.forEach((item) => {
       if (Object.keys(item)[0] === "profileImg") {
         setUrl(Object.values(item)[0]);

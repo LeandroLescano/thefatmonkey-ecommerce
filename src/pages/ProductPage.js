@@ -22,23 +22,35 @@ function ProductPage({ addProducts }) {
       state.product.img.forEach((image) => {
         let referencia = image;
         if (referencia !== undefined) {
-          firebase
-            .storage()
-            .ref(referencia)
-            .getDownloadURL()
-            .then((url) => {
-              if (mounted) {
-                setUrl((stateUrl) => [...stateUrl, url]);
-                setState((state) => ({
-                  ...state,
-                  loading: false,
-                }));
-              }
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
+          if (mounted) {
+            setUrl((stateUrl) => [
+              ...stateUrl,
+              "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
+                referencia,
+            ]);
+            setState((state) => ({
+              ...state,
+              loading: false,
+            }));
+          }
         }
+        //   firebase
+        //     .storage()
+        //     .ref(referencia)
+        //     .getDownloadURL()
+        //     .then((url) => {
+        //       if (mounted) {
+        //         setUrl((stateUrl) => [...stateUrl, url]);
+        //         setState((state) => ({
+        //           ...state,
+        //           loading: false,
+        //         }));
+        //       }
+        //     })
+        //     .catch((error) => {
+        //       console.log(error.message);
+        //     });
+        // }
       });
     }
     return () => (mounted = false);

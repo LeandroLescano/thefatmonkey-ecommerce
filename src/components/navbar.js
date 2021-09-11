@@ -140,25 +140,29 @@ function Navbar(props) {
   useEffect(() => {
     let path = window.location.pathname;
     let mounted = true;
-    firebase
-      .database()
-      .ref("profileImg")
-      .once("value", (snapshot) => {
-        add({ profilePath: snapshot.val() });
-        firebase
-          .storage()
-          .ref(snapshot.val())
-          .getDownloadURL()
-          .then((url) => {
-            if (mounted) {
-              add({ profileImg: url });
-              setProfileImg(url);
-            }
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-      });
+    let urlProfileImg =
+      "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/images/default.jpg";
+    add({ profileImg: urlProfileImg });
+    setProfileImg(urlProfileImg);
+    // firebase
+    //   .database()
+    //   .ref("profileImg")
+    //   .once("value", (snapshot) => {
+    //     add({ profilePath: snapshot.val() });
+    //     firebase
+    //       .storage()
+    //       .ref(snapshot.val())
+    //       .getDownloadURL()
+    //       .then((url) => {
+    //         if (mounted) {
+    //           add({ profileImg: url });
+    //           setProfileImg(url);
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.log(error.message);
+    //       });
+    //   });
     if (user !== null && emailsAuth.length > 0) {
       if (emailsAuth.includes(user.email)) {
         add({ admin: true });

@@ -19,18 +19,22 @@ function ProductCard(props) {
     }
     if (url === null) {
       let referencia = props.product.val().img[0];
-      firebase
-        .storage()
-        .ref(referencia)
-        .getDownloadURL()
-        .then((url) => {
-          if (mounted) {
-            setUrl(url);
-          }
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      setUrl(
+        "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
+          referencia
+      );
+      // firebase
+      //   .storage()
+      //   .ref(referencia)
+      //   .getDownloadURL()
+      //   .then((url) => {
+      //     if (mounted) {
+      //       setUrl(url);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.message);
+      //   });
       return () => (mounted = false);
     }
   }, [props.product, url]);

@@ -213,23 +213,37 @@ function TableProduct(props) {
     if (imgPath[0].substring(imgPath[0].indexOf("/") + 1) !== "default.jpg") {
       //Get product img from DB
       var first = true;
-      imgPath.forEach((img, i) => {
-        firebase
-          .storage()
-          .ref(img)
-          .getDownloadURL()
-          .then((url) => {
-            if (first) {
-              setUrl([url]);
-              first = false;
-            } else {
-              setUrl((stateUrl) => [...stateUrl, url]);
-            }
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-        setUrl(url.slice(0));
+      imgPath.forEach((imgUrl, i) => {
+        if (first) {
+          setUrl([
+            "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
+              imgUrl,
+          ]);
+          first = false;
+        } else {
+          setUrl((stateUrl) => [
+            ...stateUrl,
+            "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
+              imgUrl,
+          ]);
+        }
+        // }
+        // firebase
+        //   .storage()
+        //   .ref(imgUrl)
+        //   .getDownloadURL()
+        //   .then((url) => {
+        //     if (first) {
+        //       setUrl([url]);
+        //       first = false;
+        //     } else {
+        //       setUrl((stateUrl) => [...stateUrl, url]);
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.log(error.message);
+        //   });
+        // setUrl(url.slice(0));
       });
     } else {
       searchDefaultImage();
@@ -310,8 +324,7 @@ function TableProduct(props) {
     Swal.fire({
       icon: "warning",
       title: "¿Deseas eliminar este producto?",
-      text:
-        "Una vez eliminado, en caso de requerirlo deberás volver a cargarlo",
+      text: "Una vez eliminado, en caso de requerirlo deberás volver a cargarlo",
       showCancelButton: true,
       reverseButtons: true,
       cancelButtonText: "Cancelar",
@@ -360,8 +373,7 @@ function TableProduct(props) {
         let defaultImg = e.target.files[0];
         Swal.fire({
           title: "Confirmar cambio",
-          text:
-            "¿Desea cambiar la foto por defecto por la imagen seleccionada?",
+          text: "¿Desea cambiar la foto por defecto por la imagen seleccionada?",
           imageUrl: urlCreated,
           imageWidth: 300,
           imageHeight: 300,

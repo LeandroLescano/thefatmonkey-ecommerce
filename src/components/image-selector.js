@@ -37,53 +37,53 @@ function ImageSelector(props) {
       </div>
       <div className="row row-cols-1 row-cols-md-3">
         {actualImages !== null &&
-          actualImages.map((img, i) => {
-            if (typeof img === "string") {
-              return (
-                <div key={i} className="col mb-2">
-                  <div className="card">
-                    <img
-                      className="card-img-top img-fluid"
-                      src={props.url[i]}
-                      alt="ProductImg"
-                      width="150"
-                      height="150"
-                    ></img>
-                    <div className="card-body text-right">
-                      <button
-                        className="btn btn-pink"
-                        onClick={() => deleteImage(i)}
-                      >
-                        Eliminar
-                      </button>
-                    </div>
+          props.url.map((img, i) => {
+            // if (typeof img === "string") {
+            //   return (
+            //     <div key={i} className="col mb-2">
+            //       <div className="card">
+            //         <img
+            //           className="card-img-top img-fluid"
+            //           src={props.url[i]}
+            //           alt="ProductImg"
+            //           width="150"
+            //           height="150"
+            //         ></img>
+            //         <div className="card-body text-right">
+            //           <button
+            //             className="btn btn-pink"
+            //             onClick={() => deleteImage(i)}
+            //           >
+            //             Eliminar
+            //           </button>
+            //         </div>
+            //       </div>
+            //     </div>
+            //   );
+            // } else {
+            return (
+              <div key={i} className="col mb-2">
+                <div className="card">
+                  {" "}
+                  <img
+                    className="card-img-top img-fluid"
+                    src={img}
+                    alt="ProductImg"
+                    width="150"
+                    height="150"
+                  ></img>
+                  <div className="card-body text-right">
+                    <button
+                      className="btn btn-pink"
+                      onClick={() => deleteImage(i)}
+                    >
+                      Eliminar
+                    </button>
                   </div>
                 </div>
-              );
-            } else {
-              return (
-                <div key={i} className="col mb-2">
-                  <div className="card">
-                    {" "}
-                    <img
-                      className="card-img-top img-fluid"
-                      src={props.url[i]}
-                      alt="ProductImg"
-                      width="150"
-                      height="150"
-                    ></img>
-                    <div className="card-body text-right">
-                      <button
-                        className="btn btn-pink"
-                        onClick={() => deleteImage(i)}
-                      >
-                        Eliminar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
+              </div>
+            );
+            // }
           })}
       </div>
     </div>

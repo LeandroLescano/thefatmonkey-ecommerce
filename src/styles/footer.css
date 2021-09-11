@@ -15,6 +15,15 @@
   background-color: #ffb4bf !important;
 }
 
+.link-author {
+  color: inherit;
+  font-weight: bold;
+}
+
+.link-author:hover {
+  color: inherit;
+}
+
 .footer span {
   color: black;
 }

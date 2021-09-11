@@ -15,7 +15,7 @@ function Footer() {
                 rel="noopener noreferrer"
                 className="text-decoration-none"
               >
-                <span>Instagram</span>
+                <span>Visitá nuestro instagram!</span>
                 <img
                   src={require("../images/instagram-logo.png")}
                   className="ml-2"
@@ -27,8 +27,15 @@ function Footer() {
             </div>
           </div>
           <p className="footer-copyright mb-2 py-1">
-            &copy; {new Date().getFullYear()} Desarrollado por Lescano Leandro
-            Nicolas
+            &copy; {new Date().getFullYear()} Desarrollado por{" "}
+            <a
+              target="_blank"
+              href="https://lescanoleandro.vercel.app/"
+              rel="noopener noreferrer"
+              className="link-author"
+            >
+              Lescano Leandro Nicolas
+            </a>
           </p>
         </div>
         {/* <div>
