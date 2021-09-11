@@ -36,7 +36,6 @@ function Navbar(props) {
   });
 
   window.addEventListener("load", () => {
-    console.log(window.sessionStorage.getItem("catSelected"));
     if (window.innerWidth > 768) {
       setIsMobile(false);
     } else {
@@ -142,8 +141,10 @@ function Navbar(props) {
     let mounted = true;
     let urlProfileImg =
       "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/images/default.jpg";
-    add({ profileImg: urlProfileImg });
-    setProfileImg(urlProfileImg);
+    if (mounted) {
+      add({ profileImg: urlProfileImg });
+      setProfileImg(urlProfileImg);
+    }
     // firebase
     //   .database()
     //   .ref("profileImg")

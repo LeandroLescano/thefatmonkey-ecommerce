@@ -1,11 +1,28 @@
 .container-product {
   display: flex;
   flex-wrap: wrap;
-  margin: 10px 0 10px 0;
+  margin: 0 0 10px 0;
 }
 
 .row {
   justify-content: center;
+}
+
+.txt-back {
+  margin: 5px 0 0 8px;
+  color: gray;
+}
+
+.txt-back:hover {
+  color: darkgray;
+}
+
+.txt-breadcrumb {
+  color: gray;
+}
+
+.txt-breadcrumb:hover {
+  cursor: default;
 }
 
 .section-product-page {

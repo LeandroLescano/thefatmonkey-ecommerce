@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import firebase from "firebase/app";
-import "firebase/firebase-storage";
 import "../styles/product-card.css";
 import Loading from "../components/loading";
 import imgSoldOut from "../images/sinstock.png";
@@ -19,10 +17,12 @@ function ProductCard(props) {
     }
     if (url === null) {
       let referencia = props.product.val().img[0];
-      setUrl(
-        "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
-          referencia
-      );
+      if (mounted) {
+        setUrl(
+          "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
+            referencia
+        );
+      }
       // firebase
       //   .storage()
       //   .ref(referencia)

@@ -34,7 +34,6 @@ function CategorySelector(props) {
   const checkImages = () => {
     setCount(count + 1);
     if (categories.length === count) {
-      console.log(categories.length, count);
       setShow(true);
     }
   };

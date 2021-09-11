@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ProfileImg from "../images/default.jpg";
 import { useStoreState } from "easy-peasy";
 import "../styles/card-category.css";
-import firebase from "firebase/app";
 
 function CardCategory(props) {
   const [url, setUrl] = useState("");
@@ -12,10 +10,12 @@ function CardCategory(props) {
     if (props.url !== undefined) {
       let referencia = props.url;
       let mounted = true;
-      setUrl(
-        "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
-          referencia
-      );
+      if (mounted) {
+        setUrl(
+          "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/" +
+            referencia
+        );
+      }
       // firebase
       //   .storage()
       //   .ref(referencia)
@@ -31,7 +31,6 @@ function CardCategory(props) {
       //   });
       return () => (mounted = false);
     }
-    console.log(todos);
     todos.forEach((item) => {
       if (Object.keys(item)[0] === "profileImg") {
         setUrl(Object.values(item)[0]);

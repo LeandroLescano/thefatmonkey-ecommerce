@@ -8,13 +8,20 @@ import Carousel from "../components/carousel-product";
 import "../styles/ProductPage.css";
 import { connect } from "react-redux";
 import addProducts from "../redux/actions/addProducts";
+import { Link } from "react-router-dom";
 
 function ProductPage({ addProducts }) {
   const [url, setUrl] = useState([]);
   const [state, setState] = useState({
     product: {},
-    loading: null,
+    loading: true,
   });
+
+  const toCapitalizeLetter = (text) => {
+    if (text.length > 0) {
+      return text[0].toUpperCase() + text.slice(1);
+    }
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -100,7 +107,13 @@ function ProductPage({ addProducts }) {
       {state.loading || url === null ? (
         <Loading />
       ) : (
-        <div className="container">
+        <div className="container mt-1">
+          <Link to="/" className="txt-back text-decoration-none">
+            Volver a los productos
+          </Link>
+          <span className="txt-breadcrumb d-none d-md-inline-block ml-1">
+            | Categoria: {toCapitalizeLetter(state.product.category)}
+          </span>
           <div className="container-product">
             <div className="section-product-page img-section">
               <Carousel url={url} />
