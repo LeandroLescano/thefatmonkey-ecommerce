@@ -15,7 +15,6 @@ function Footer() {
                 rel="noopener noreferrer"
                 className="text-decoration-none"
               >
-                <span>Visitá nuestro instagram!</span>
                 <img
                   src={require("../images/instagram-logo.png")}
                   className="ml-2"

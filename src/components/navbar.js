@@ -21,7 +21,12 @@ function Navbar(props) {
   const [emailsAuth, setEmailsAuth] = useState([]);
   const [DOMReady, setDOMReady] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
+  const navbarButtons = {
+    productos: document.getElementById("btnProductos"),
+    categorias: document.getElementById("btnCategorias"),
+    nosotros: document.getElementById("btnNosotros"),
+    admin: document.getElementById("btnAdministrar"),
+  };
   // const todos = useStoreState((state) => state.todos.items);
   const add = useStoreActions((actions) => actions.todos.add);
 
@@ -60,33 +65,33 @@ function Navbar(props) {
   });
 
   const changeNavbarActive = (btn) => {
-    if (btn === "Administrar") {
-      document.getElementById("btnProductos").classList.remove("active");
-      document.getElementById("btnNosotros").classList.remove("active");
-      if (document.getElementById("btnAdministrar") !== null) {
-        document.getElementById("btnAdministrar").classList.add("active");
+    for (let key in navbarButtons) {
+      if (key !== btn) {
+        if (navbarButtons[key] !== null) {
+          navbarButtons[key].classList.remove("active");
+        }
+      } else {
+        navbarButtons[key].classList.add("active");
       }
-    } else if (btn === "Productos") {
-      // Swal.fire({
-      //   title: "¿Te interesa aprender a realizar nuestros productos?",
-      //   html:
-      //     "<h3>Unite a nuestro taller</h3> <p>Hace <a style='color:#E75480' href='#'>click acá</a> para ver más información!</p>",
-      //   showConfirmButton: false,
-      //   showCancelButton: true,
-      //   cancelButtonText: "Cerrar",
-      // });
-      if (document.getElementById("btnAdministrar") !== null) {
-        document.getElementById("btnAdministrar").classList.remove("active");
-      }
-      document.getElementById("btnNosotros").classList.remove("active");
-      document.getElementById("btnProductos").classList.add("active");
-    } else {
-      if (document.getElementById("btnAdministrar") !== null) {
-        document.getElementById("btnAdministrar").classList.remove("active");
-      }
-      document.getElementById("btnNosotros").classList.add("active");
-      document.getElementById("btnProductos").classList.remove("active");
     }
+    if (btn === "productos") {
+      if (!props.flagCategory) {
+        props.switchFlagCategory();
+      }
+    } else if (btn === "categorias") {
+      if (props.flagCategory) {
+        props.switchFlagCategory();
+      }
+    }
+    // else if (btn === "nosotros") {
+    //   Swal.fire({
+    //     title: "¿Te interesa aprender a realizar nuestros productos?",
+    //     html: "<h3>Unite a nuestro taller</h3> <p>Hace <a style='color:#E75480' href='#'>click acá</a> para ver más información!</p>",
+    //     showConfirmButton: false,
+    //     showCancelButton: true,
+    //     cancelButtonText: "Cerrar",
+    //   });
+    // }
   };
 
   const loguear = () => {
@@ -191,89 +196,87 @@ function Navbar(props) {
           />
         </div>
       </Link>
-      {props.flagCategory && (
-        <>
-          {isMobile && <ShoppingCart />}
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarCategories"
-            aria-controls="navbarCategories"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarCategories">
-            <ul className="navbar-nav mr-auto">
-              {props.flagCategory && (
-                <>
-                  <li className="nav-item">
-                    <Link
-                      to="/"
-                      className="nav-link"
-                      id="btnCategorias"
-                      onClick={() => props.switchFlagCategory()}
-                    >
-                      <p className="navbar-btn text-center">Categorias</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link
-                      to="/"
-                      className="nav-link active"
-                      id="btnProductos"
-                      onClick={() => changeNavbarActive("Productos")}
-                    >
-                      <p className="navbar-btn text-center">Productos</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link
-                      to="/nosotros"
-                      className="nav-link"
-                      id="btnNosotros"
-                      onClick={() => changeNavbarActive("Nosotros")}
-                    >
-                      <p className="navbar-btn text-center">Nosotros</p>
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-            <div className="navbar-nav mr-2 text-center">
-              {props.flagCategory && !isMobile && <ShoppingCart />}
-              {admin && (
-                <div>
-                  <div id="btnAdministrar" className="nav-item">
-                    <Link
-                      to="/administrar"
-                      className="nav-link"
-                      onClick={() => changeNavbarActive("Administrar")}
-                    >
-                      <p className="navbar-btn text-center">Administrar</p>
-                    </Link>
-                  </div>
+      <>
+        {isMobile && <ShoppingCart />}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarCategories"
+          aria-controls="navbarCategories"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarCategories">
+          <ul className="navbar-nav mr-auto">
+            <>
+              <li className="nav-item">
+                <Link
+                  to="/"
+                  className="nav-link active"
+                  id="btnCategorias"
+                  onClick={() => changeNavbarActive("categorias")}
+                >
+                  <p className="navbar-btn text-center">Categorias</p>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/"
+                  className="nav-link"
+                  id="btnProductos"
+                  onClick={() => {
+                    changeNavbarActive("productos");
+                  }}
+                >
+                  <p className="navbar-btn text-center">Productos</p>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/nosotros"
+                  className="nav-link"
+                  id="btnNosotros"
+                  onClick={() => changeNavbarActive("nosotros")}
+                >
+                  <p className="navbar-btn text-center">Nosotros</p>
+                </Link>
+              </li>
+            </>
+          </ul>
+          <div className="navbar-nav mr-2 text-center">
+            {!isMobile && <ShoppingCart />}
+            {admin && (
+              <div>
+                <div id="btnAdministrar" className="nav-item">
+                  <Link
+                    to="/administrar"
+                    className="nav-link"
+                    onClick={() => changeNavbarActive("administrar")}
+                  >
+                    <p className="navbar-btn text-center">Administrar</p>
+                  </Link>
                 </div>
-              )}
-              {user !== null && (
-                <form>
-                  <span className="mr-3 align-middle">{user.displayName}</span>
-                  <img
-                    alt="user-img"
-                    height="40"
-                    width="40"
-                    className="rounded-circle img-user"
-                    src={user.photoURL}
-                    onClick={() => desloguear()}
-                  />
-                </form>
-              )}
-            </div>
+              </div>
+            )}
+            {user !== null && (
+              <form>
+                <span className="mr-3 align-middle">{user.displayName}</span>
+                <img
+                  alt="user-img"
+                  height="40"
+                  width="40"
+                  className="rounded-circle img-user"
+                  src={user.photoURL}
+                  onClick={() => desloguear()}
+                />
+              </form>
+            )}
           </div>
-        </>
-      )}
+        </div>
+      </>
       {user == null &&
         DOMReady &&
         ReactDOM.createPortal(
