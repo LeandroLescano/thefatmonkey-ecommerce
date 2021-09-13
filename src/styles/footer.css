@@ -31,7 +31,7 @@
 @media only screen and (min-width: 768px) {
   .footer {
     background-color: #ffb4bf;
-    color: gray;
+    color: #ffb4bf;
     bottom: 0;
     width: 100%;
     display: block;

@@ -33,7 +33,7 @@ function Navbar(props) {
   const loginContainer = document.getElementById("loginContainer");
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 991) {
       setIsMobile(false);
     } else {
       setIsMobile(true);
@@ -183,6 +183,17 @@ function Navbar(props) {
     return () => (mounted = false);
   }, [user, emailsAuth, add]);
 
+  useEffect(() => {
+    let mounted = true;
+    if (props.flagCategory) {
+      if (mounted) {
+        changeNavbarActive("productos");
+      }
+    }
+
+    return () => (mounted = false);
+  }, [props.flagCategory]);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link to="/">
@@ -263,7 +274,9 @@ function Navbar(props) {
             )}
             {user !== null && (
               <form>
-                <span className="mr-3 align-middle">{user.displayName}</span>
+                <span className={`mr-3 align-middle ${!admin && "ml-3"}`}>
+                  {user.displayName}
+                </span>
                 <img
                   alt="user-img"
                   height="40"

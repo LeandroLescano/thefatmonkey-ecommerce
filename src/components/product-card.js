@@ -11,7 +11,6 @@ function ProductCard(props) {
 
   useEffect(() => {
     let mounted = true;
-    setShow(false);
     if (props.product.val().stock <= 0) {
       setSoldOut(true);
     }
@@ -40,6 +39,7 @@ function ProductCard(props) {
   }, [props.product, url]);
 
   const showCard = () => {
+    console.log("showwwwwCard", url, show);
     setShow(true);
   };
 
@@ -85,11 +85,11 @@ function ProductCard(props) {
                 <p className="card-text text-price">
                   ${props.product.val().price} c/u
                 </p>
-                {/* <p className="card-text text-card">
+                <p className="card-text text-card">
                   {props.product.val().stock > 0
-                    ? "Stock disponible!"
+                    ? `Stock: ${props.product.val().stock} unidad(es)`
                     : "Sin stock"}
-                </p> */}
+                </p>
                 <div className="text-right">
                   <p className="link-more">Ver más</p>
                 </div>

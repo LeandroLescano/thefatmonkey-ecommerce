@@ -76,6 +76,10 @@ function ProductCatalog(props) {
         }
       });
     }
+    let sessionCategorySelected = window.sessionStorage.getItem("catSelected");
+    if (sessionCategorySelected !== null) {
+      setSelectCategory(sessionCategorySelected);
+    }
     setCategories([]);
     setState({
       data: [],

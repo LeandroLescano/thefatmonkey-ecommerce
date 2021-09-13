@@ -7,11 +7,7 @@ import ListCart from "./list-cart";
 
 function ShoppingCart(props) {
   return (
-    <div
-      id="shoppingCartIcon"
-      className="nav-item mb-2"
-      style={{ position: "relative" }}
-    >
+    <div id="shoppingCartIcon" className="nav-item">
       <ListCart
         cart={props.shoppingCart}
         deleteProduct={(i) => props.deleteProduct(i)}
