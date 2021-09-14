@@ -20,46 +20,6 @@ function Routes() {
     },
   });
 
-  // const [shoppingCart, setShoppingCart] = useState({
-  //   products: [
-  //     {
-  //       product: null,
-  //       amount: 0,
-  //       description: "",
-  //     },
-  //   ],
-  //   totalAmount: 0,
-  // });
-
-  // const updateShoppingCart = (newP) => {
-  //   if (shoppingCart.products[0].product == null) {
-  //     setShoppingCart({
-  //       products: [
-  //         {
-  //           product: newP.product,
-  //           amount: +newP.amount,
-  //           description: newP.description,
-  //         },
-  //       ],
-  //       totalAmount: newP.product.price * newP.amount,
-  //     });
-  //   } else {
-  //     setShoppingCart((shoppingCart) => ({
-  //       ...shoppingCart,
-  //       products: [
-  //         ...shoppingCart.products,
-  //         {
-  //           product: newP.product,
-  //           amount: +newP.amount,
-  //           description: newP.description,
-  //         },
-  //       ],
-  //       totalAmount:
-  //         shoppingCart.totalAmount + newP.product.price * newP.amount,
-  //     }));
-  //   }
-  // };
-
   return (
     <CookiesProvider>
       <Provider store={store}>

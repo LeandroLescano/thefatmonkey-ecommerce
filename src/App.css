@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+main {
+  background-color: #c3fcf2;
+}
+
 html::-webkit-scrollbar {
   width: 0.7em;
   position: absolute;

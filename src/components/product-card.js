@@ -39,7 +39,6 @@ function ProductCard(props) {
   }, [props.product, url]);
 
   const showCard = () => {
-    console.log("showwwwwCard", url, show);
     setShow(true);
   };
 

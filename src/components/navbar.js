@@ -144,37 +144,24 @@ function Navbar(props) {
   useEffect(() => {
     let path = window.location.pathname;
     let mounted = true;
-    let urlProfileImg =
-      "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com/images/default.jpg";
-    if (mounted) {
-      add({ profileImg: urlProfileImg });
-      setProfileImg(urlProfileImg);
-    }
-    // firebase
-    //   .database()
-    //   .ref("profileImg")
-    //   .once("value", (snapshot) => {
-    //     add({ profilePath: snapshot.val() });
-    //     firebase
-    //       .storage()
-    //       .ref(snapshot.val())
-    //       .getDownloadURL()
-    //       .then((url) => {
-    //         if (mounted) {
-    //           add({ profileImg: url });
-    //           setProfileImg(url);
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         console.log(error.message);
-    //       });
-    //   });
+    firebase
+      .database()
+      .ref("profileImg")
+      .once("value", (snapshot) => {
+        add({ profilePath: snapshot.val() });
+        let urlProfileImg =
+          "https://storage.googleapis.com/thefatmonkey-ecommerce.appspot.com" +
+          snapshot.val();
+        if (mounted) {
+          add({ profileImg: urlProfileImg });
+          setProfileImg(urlProfileImg);
+        }
+      });
     if (user !== null && emailsAuth.length > 0) {
       if (emailsAuth.includes(user.email)) {
         add({ admin: true });
         setAdmin(true);
       } else {
-        console.log(emailsAuth, user.email);
         if (path === "/administrar") {
           window.location.href = "/";
         }
