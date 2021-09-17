@@ -70,7 +70,7 @@ function Navbar(props) {
         if (navbarButtons[key] !== null) {
           navbarButtons[key].classList.remove("active");
         }
-      } else {
+      } else if (navbarButtons[key] !== null) {
         navbarButtons[key].classList.add("active");
       }
     }
@@ -172,14 +172,17 @@ function Navbar(props) {
 
   useEffect(() => {
     let mounted = true;
-    if (props.flagCategory) {
-      if (mounted) {
+    let path = window.location.pathname;
+    if (mounted) {
+      if (path.substring(1) === "nosotros") {
+        changeNavbarActive("nosotros");
+      } else if (props.flagCategory) {
         changeNavbarActive("productos");
       }
     }
 
     return () => (mounted = false);
-  }, [props.flagCategory]);
+  }, [props.flagCategory, navbarButtons]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">

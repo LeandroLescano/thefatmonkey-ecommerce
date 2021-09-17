@@ -7,9 +7,9 @@
   pointer-events: none;
 }
 
-main {
-  background-color: #c3fcf2;
-}
+/* main {
+   background-color: #c3fcf2;
+} */
 
 html::-webkit-scrollbar {
   width: 0.7em;
@@ -18,7 +18,7 @@ html::-webkit-scrollbar {
   overflow: overlay;
 }
 html::-webkit-scrollbar-thumb {
-  background: #fd415db4;
+  background: var(--primary-color);
   border-radius: 15px;
 }
 html::-webkit-scrollbar-track {

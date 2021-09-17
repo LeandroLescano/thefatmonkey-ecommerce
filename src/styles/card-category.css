@@ -1,6 +1,6 @@
 .img-category {
   max-width: 120px !important;
-  border-right: 1px lightpink solid;
+  border-right: 1px var(--primary-color-light) solid;
 }
 
 .img-fluid.fluid-category {
@@ -41,7 +41,7 @@
 
   .img-category {
     max-width: 100% !important;
-    border-bottom: 1px lightpink solid;
+    border-bottom: 1px var(--primary-color-light) solid;
     border-right: 0px;
   }
 

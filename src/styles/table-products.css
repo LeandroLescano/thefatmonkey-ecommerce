@@ -62,20 +62,20 @@ td {
 
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
-  border-color: #fd415db4 !important;
-  background-color: #fd415db4 !important;
+  border-color: var(--primary-color) !important;
+  background-color: var(--primary-color) !important;
 }
 
 .custom-control-input:focus ~ .custom-control-label::before {
-  box-shadow: 0 0 0 0.2rem #ffb4bf !important;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light) !important;
 }
 
 .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
-  border-color: #ffb4bf !important;
+  border-color: var(--primary-color-light) !important;
 }
 
 .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
   color: #fff;
-  background-color: #ffb4bf !important;
-  border-color: #ffb4bf !important;
+  background-color: var(--primary-color-light) !important;
+  border-color: var(--primary-color-light) !important;
 }

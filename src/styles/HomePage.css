@@ -1,3 +1,11 @@
+:root {
+  /* --primary-color: #fd415db4;
+  --primary-color-light: lightpink; */
+  --primary-color: #41c1fd;
+  --primary-color-light: #a8e3ffb4;
+  --primary-color-lighter: #80d7ffb4;
+}
+
 .centrar {
   text-align: center;
 }
@@ -18,13 +26,13 @@
 
 .section-filter {
   text-align: end;
-  border-bottom: 1px solid lightpink;
+  border-bottom: 1px solid var(--primary-color-light);
 }
 
 .btn-categories {
   margin: 5px;
   padding: 3px 3px 3px 6px;
-  border-left: 1px solid lightpink;
+  border-left: 1px solid var(--primary-color-light);
 }
 
 .clear-right {
@@ -32,16 +40,16 @@
 }
 
 .jumbotron {
-  background: #ee9ca7; /* fallback for old browsers */
+  background: var(--primary-color); /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #ffdde1,
-    #ee9ca7
+    var(--primary-color-light),
+    var(--primary-color)
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #ffdde1,
-    #ee9ca7
+    var(--primary-color-light),
+    var(--primary-color)
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: blac;
 
@@ -52,8 +60,8 @@
 
 .form-control:focus {
   outline: 0 !important;
-  border-color: #ff6a80b4 !important;
-  box-shadow: 0px 0px 0px 0.2rem #ffb4bf !important;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0px 0px 0px 0.2rem var(--primary-color-light) !important;
 }
 
 @media only screen and (min-width: 768px) {
