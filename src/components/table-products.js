@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import firebase from "firebase/app";
 import "../styles/table-products.css";
 import Swal from "sweetalert2";
@@ -10,9 +10,26 @@ import { useEffect } from "react";
 function TableProduct(props) {
   const [url, setUrl] = useState([ProfileImg]);
   const [image, setImage] = useState([]);
+  const [imagesToDelete, setImagesToDelete] = useState([]);
   const [uploadValue, setUploadValue] = useState(0);
   const [phone, setPhone] = useState(0);
   const [productModify, setProductModify] = useState(null);
+  const [search, setSearch] = useState("");
+  const productsFilter = useMemo(
+    () =>
+      props.productos.filter((p) => {
+        let searchText = search.toUpperCase();
+        if (search === "") {
+          return true;
+        }
+        return (
+          p.val().name.toUpperCase().includes(searchText) ||
+          p.val().category.toUpperCase().includes(searchText) ||
+          p.val().description.toUpperCase().includes(searchText)
+        );
+      }),
+    [search, props]
+  );
   const todos = useStoreState((state) => state.todos.items);
 
   const handleChange = (e) => {
@@ -203,6 +220,7 @@ function TableProduct(props) {
     document.getElementById("progressBar").classList.add("progress-modify");
     let imgPath = item.val().img;
     setImage(item.val().img);
+    setImagesToDelete([]);
     let category = document.getElementById("inputCategoria");
     let name = document.getElementById("inputNombre");
     let desc = document.getElementById("inputDescripcion");
@@ -227,23 +245,6 @@ function TableProduct(props) {
               imgUrl,
           ]);
         }
-        // }
-        // firebase
-        //   .storage()
-        //   .ref(imgUrl)
-        //   .getDownloadURL()
-        //   .then((url) => {
-        //     if (first) {
-        //       setUrl([url]);
-        //       first = false;
-        //     } else {
-        //       setUrl((stateUrl) => [...stateUrl, url]);
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     console.log(error.message);
-        //   });
-        // setUrl(url.slice(0));
       });
     } else {
       searchDefaultImage();
@@ -266,6 +267,7 @@ function TableProduct(props) {
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
     let newStock = document.getElementById("inputStock");
+    deleteImgFromStorage();
     var newImg = [];
     if (image.length > 0) {
       image.forEach((image) => {
@@ -331,6 +333,17 @@ function TableProduct(props) {
       confirmButtonText: "Eliminar",
     }).then((result) => {
       if (result.value) {
+        let pathProfile;
+        todos.forEach((item) => {
+          if (Object.keys(item)[0] === "profilePath") {
+            pathProfile = Object.entries(item)[0][1].substring(1);
+          }
+        });
+        item.val().img.forEach((img) => {
+          if (pathProfile !== img) {
+            firebase.storage().ref(img).delete();
+          }
+        });
         firebase
           .database()
           .ref()
@@ -343,6 +356,10 @@ function TableProduct(props) {
   const deleteImage = (index) => {
     let imageToDelete = image;
     let urlToDelete = url;
+    setImagesToDelete((img) => [
+      ...img,
+      url[index].substring(url[index].indexOf("images")),
+    ]);
     urlToDelete.splice(index, 1);
     imageToDelete.splice(index, 1);
     if (imageToDelete.length > 0 && urlToDelete.length > 0) {
@@ -360,6 +377,14 @@ function TableProduct(props) {
       if (!finded) {
         setUrl([ProfileImg]);
       }
+    }
+  };
+
+  const deleteImgFromStorage = () => {
+    if (imagesToDelete.length > 0) {
+      imagesToDelete.forEach((img) => {
+        firebase.storage().ref(img).delete();
+      });
     }
   };
 
@@ -478,27 +503,26 @@ function TableProduct(props) {
         hidden
         onChange={(ref) => updateDefaultImage(ref)}
       ></input>
-      <div className="float-left">
+      <div className="float-left d-flex">
+        <input
+          type="text"
+          className="form-control my-2 mr-2 w-25"
+          placeholder="Buscar..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <button
           className="btn btn-pink my-2 mr-2"
           onClick={() => document.getElementById("inputDefaultImage").click()}
         >
           Cambiar imagen por defecto
         </button>
-        <button className="btn btn-pink" onClick={() => changePhoneNumber()}>
+        <button
+          className="btn btn-pink my-2 mr-2"
+          onClick={() => changePhoneNumber()}
+        >
           Cambiar número de whatsapp
         </button>
-        {/* <div className="ml-2 custom-control custom-switch">
-          <input
-            type="checkbox"
-            className="custom-control-input"
-            id="switchIgProfile"
-            onChange={(ref) => changeIgProfileState(ref)}
-          />
-          <label className="custom-control-label" htmlFor="switchIgProfile">
-            Usar imagen por defecto de Instagram
-          </label>
-        </div> */}
       </div>
       <div className="float-right">
         <button
@@ -525,7 +549,7 @@ function TableProduct(props) {
             </tr>
           </thead>
           <tbody>
-            {props.productos.map((item, i) => {
+            {productsFilter.map((item, i) => {
               return (
                 <tr key={i}>
                   <th scope="row">{i + 1}</th>

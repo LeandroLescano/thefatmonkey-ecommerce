@@ -142,7 +142,6 @@ function Navbar(props) {
   }, []);
 
   useEffect(() => {
-    let path = window.location.pathname;
     let mounted = true;
     firebase
       .database()
@@ -157,10 +156,18 @@ function Navbar(props) {
           setProfileImg(urlProfileImg);
         }
       });
+    return () => (mounted = false);
+  }, [add]);
+
+  useEffect(() => {
+    let path = window.location.pathname;
+    let mounted = true;
     if (user !== null && emailsAuth.length > 0) {
       if (emailsAuth.includes(user.email)) {
-        add({ admin: true });
-        setAdmin(true);
+        if (mounted) {
+          add({ admin: true });
+          setAdmin(true);
+        }
       } else {
         if (path === "/administrar") {
           window.location.href = "/";
