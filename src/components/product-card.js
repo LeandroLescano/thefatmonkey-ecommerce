@@ -22,18 +22,6 @@ function ProductCard(props) {
             referencia
         );
       }
-      // firebase
-      //   .storage()
-      //   .ref(referencia)
-      //   .getDownloadURL()
-      //   .then((url) => {
-      //     if (mounted) {
-      //       setUrl(url);
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.message);
-      //   });
       return () => (mounted = false);
     }
   }, [props.product, url]);
@@ -76,19 +64,22 @@ function ProductCard(props) {
                   className="sold-out-img"
                 />
               </div>
-              <div className="card-body">
+              <div className="card-body card-body-product">
                 <h5 className="card-title">{props.product.val().name}</h5>
                 <p className="card-text text-card text-description">
                   {props.product.val().description}
                 </p>
-                <p className="card-text text-price">
+                {/* <span className="card-text text-price">
                   ${props.product.val().price} c/u
-                </p>
+                </span> */}
                 <p className="card-text text-card">
                   {props.product.val().stock > 0
                     ? `Stock: ${props.product.val().stock} unidad(es)`
                     : "Sin stock"}
                 </p>
+                <span className="card-text text-price float-left">
+                  ${props.product.val().price} c/u
+                </span>
                 <div className="text-right">
                   <p className="link-more">Ver más</p>
                 </div>

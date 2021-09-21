@@ -1,5 +1,8 @@
 .text-price {
-  color: green;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 0.25em;
+  padding: 0.2em;
 }
 
 .text-card,
@@ -46,8 +49,9 @@
   cursor: auto;
 }
 
-.card-body {
+.card-body-product {
   padding-bottom: 0.8rem !important;
+  background-color: var(--primary-color-lighter);
 }
 
 .sold-out {
@@ -72,6 +76,7 @@
   color: rgb(0, 0, 0, 0.6) !important;
   margin: 0;
   cursor: pointer;
+  padding: 0.2em;
 }
 
 .link-more:hover {
