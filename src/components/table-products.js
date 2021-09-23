@@ -77,7 +77,7 @@ function TableProduct(props) {
     } else {
       todos.forEach((item) => {
         if (Object.keys(item)[0] === "profilePath") {
-          newImg[0] = Object.values(item)[0];
+          newImg[0] = Object.values(item)[0].slice(1);
         }
       });
       setUploadValue(100);
@@ -340,7 +340,7 @@ function TableProduct(props) {
           }
         });
         item.val().img.forEach((img) => {
-          if (pathProfile !== img) {
+          if (pathProfile !== img.slice(1)) {
             firebase.storage().ref(img).delete();
           }
         });
@@ -381,9 +381,17 @@ function TableProduct(props) {
   };
 
   const deleteImgFromStorage = () => {
+    let pathProfile;
+    todos.forEach((item) => {
+      if (Object.keys(item)[0] === "profilePath") {
+        pathProfile = Object.entries(item)[0][1].substring(1);
+      }
+    });
     if (imagesToDelete.length > 0) {
       imagesToDelete.forEach((img) => {
-        firebase.storage().ref(img).delete();
+        if (pathProfile !== img) {
+          firebase.storage().ref(img).delete();
+        }
       });
     }
   };
