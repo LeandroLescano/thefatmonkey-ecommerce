@@ -338,7 +338,7 @@ function TableProduct(props) {
           }
         });
         item.val().img.forEach((img) => {
-          if (pathProfile !== img.slice(1)) {
+          if (pathProfile !== img) {
             firebase.storage().ref(img).delete();
           }
         });
