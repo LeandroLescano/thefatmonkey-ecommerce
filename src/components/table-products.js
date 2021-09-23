@@ -62,9 +62,8 @@ function TableProduct(props) {
   };
 
   const uploadNewProduct = () => {
-    let newCategory = document
-      .getElementById("inputCategoria")
-      .value.replace(/ /g, "");
+    let newCategoryRawText = document.getElementById("inputCategoria").value;
+    let newCategory = newCategoryRawText.replace(/ /g, "_");
     let newName = document.getElementById("inputNombre");
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
@@ -83,7 +82,7 @@ function TableProduct(props) {
       setUploadValue(100);
     }
     const product = {
-      category: newCategory.toLowerCase(),
+      category: newCategory,
       name: newName.value,
       description: newDescription.value,
       price: newPrice.value,
@@ -92,8 +91,7 @@ function TableProduct(props) {
       state: 1,
     };
     const db = firebase.database();
-    const dbRef = db.ref("products/" + newCategory.toLowerCase());
-    console.log("products/" + newCategory.toLowerCase());
+    const dbRef = db.ref("products/" + newCategory);
     const newProduct = dbRef.push();
     newProduct.set(product);
     Swal.fire({

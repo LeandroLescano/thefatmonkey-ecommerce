@@ -32,7 +32,12 @@ function ProductCard(props) {
 
   return (
     <>
-      {(props.show === props.product.val().category || props.show === "") && (
+      {(props.show
+        .replace(/ /g, "_")
+        .localeCompare(props.product.val().category, undefined, {
+          sensitivity: "base",
+        }) === 0 ||
+        props.show === "") && (
         <div className="col">
           <Link
             className="link-card"

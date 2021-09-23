@@ -40,8 +40,8 @@ function AboutPage() {
         uno nuevo. Además depende de que productos y cuantos necesitan.
       </p>
       <p>
-        En fin para no aburrir se debería calcular aprox 15/20 en condiciones
-        normales.
+        En fin para no aburrir se debería calcular aprox 15/20 días hábiles en
+        condiciones normales.
       </p>
       <h3>¿Se pueden personalizar las piezas?</h3>
       <p>Contáctanos para ver si podemos cumplir con tus expectativas!</p>

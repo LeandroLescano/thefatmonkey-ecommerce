@@ -53,7 +53,9 @@ function CardCategory(props) {
             </div>
             <div className="col col-category m-auto">
               <div className="card-body text-center">
-                <h5 className="card-title">{props.category}</h5>
+                <h5 className="card-title">
+                  {props.category.replace(/_/g, " ")}
+                </h5>
               </div>
             </div>
           </div>

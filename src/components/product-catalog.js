@@ -62,7 +62,10 @@ function ProductCatalog(props) {
           dbRef.on("child_added", (snapshot) => {
             let categoryAct =
               snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
-            setCategories((categories) => [...categories, categoryAct]);
+            setCategories((categories) => [
+              ...categories,
+              categoryAct.replace(/_/g, " "),
+            ]);
             snapshot.forEach((snapshotChild) => {
               setState((state) => ({
                 ...state,
@@ -136,11 +139,7 @@ function ProductCatalog(props) {
                 .filter((product) => product.val().state)
                 .map((item, i) => {
                   return (
-                    <Product
-                      product={item}
-                      key={i}
-                      show={selectCategory.toLowerCase()}
-                    />
+                    <Product product={item} key={i} show={selectCategory} />
                   );
                 })}
             </div>

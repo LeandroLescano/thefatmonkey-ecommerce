@@ -71,9 +71,8 @@ function ProductPage({ addProducts }) {
     }));
     //Get data of product from the BD
     let path = window.location.pathname.slice(1);
-    let productCategory = path.substring(
-      path.indexOf("/") + 1,
-      path.lastIndexOf("/")
+    let productCategory = decodeURI(
+      path.substring(path.indexOf("/") + 1, path.lastIndexOf("/"))
     );
     let productKey = path.substring(path.lastIndexOf("/") + 1);
     const db = firebase.database();
@@ -112,7 +111,8 @@ function ProductPage({ addProducts }) {
             Volver a los productos
           </Link>
           <span className="txt-breadcrumb d-none d-md-inline-block ml-1">
-            | Categoria: {toCapitalizeLetter(state.product.category)}
+            | Categoria:{" "}
+            {toCapitalizeLetter(state.product.category.replace(/_/g, " "))}
           </span>
           <div className="container-product">
             <div className="section-product-page img-section">
