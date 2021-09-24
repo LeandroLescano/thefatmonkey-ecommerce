@@ -16,16 +16,17 @@ function SideBar(props) {
   };
 
   useEffect(() => {
-    let itemSelect = document.getElementById(props.selectCategory);
+    let categorySelected = props.selectCategory.replace(/_/g, " ");
+    let itemSelect = document.getElementById(categorySelected);
     if (itemSelect !== null && !itemSelect.classList.contains("active")) {
       props.categories.forEach((item) => {
         document.getElementById(item).classList.remove("active");
       });
-      if (props.selectCategory === "") {
+      if (categorySelected === "") {
         document.getElementById("todos").classList.add("active");
       } else {
         document.getElementById("todos").classList.remove("active");
-        document.getElementById(props.selectCategory).classList.add("active");
+        document.getElementById(categorySelected).classList.add("active");
       }
     }
   }, [props.selectCategory, props.categories]);
