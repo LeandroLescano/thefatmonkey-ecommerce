@@ -6,7 +6,6 @@ import Loading from "./loading";
 function CategorySelector(props) {
   const [categories, setCategories] = useState([]);
   const [urlImg, setUrlImg] = useState([]);
-  const [count, setCount] = useState(1);
   const [show, setShow] = useState(false);
   const mountedRef = useRef(true);
 
@@ -20,6 +19,7 @@ function CategorySelector(props) {
             snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
           setCategories((categories) => [...categories, categoryAct]);
           setUrlImg((url) => [...url, Object.values(snapshot.val())[0].img[0]]);
+          setShow(true);
         }
       });
     }
@@ -29,13 +29,6 @@ function CategorySelector(props) {
 
   const handleSelect = (cat) => {
     props.handleSelect(cat);
-  };
-
-  const checkImages = () => {
-    setCount(count + 1);
-    if (categories.length === count) {
-      setShow(true);
-    }
   };
 
   return (
@@ -60,7 +53,6 @@ function CategorySelector(props) {
                   url={urlImg[i]}
                   select={() => handleSelect(cat)}
                   category={cat}
-                  imgLoad={() => checkImages()}
                 />
               </div>
             );

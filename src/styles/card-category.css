@@ -25,7 +25,61 @@
   background-color: var(--primary-color-lighter);
 }
 
+.loader-stripes + .loader-stripes {
+  margin-top: 90px;
+}
+
+.loading-img {
+  aspect-ratio: 1;
+  width: 120px;
+}
+
+.loading {
+  position: relative;
+  background-color: var(--primary-color-lighter);
+  overflow: hidden;
+  color: transparent;
+}
+.loading::after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  animation: 2s loading linear 0.5s infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary-color-light),
+    transparent
+  );
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform: translateX(-100%);
+  z-index: 1;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 @media only screen and (min-width: 768px) {
+  .loading-img {
+    height: 230px;
+    width: 100%;
+  }
+
   .card-category {
     margin-bottom: 0;
     max-width: 255px;
