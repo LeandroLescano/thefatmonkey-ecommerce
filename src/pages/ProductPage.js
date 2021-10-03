@@ -80,13 +80,15 @@ function ProductPage({ addProducts }) {
       .ref()
       .child("/products/" + productCategory + "/" + productKey);
     dbRef.on("value", (snapshot) => {
-      let prod = snapshot.val();
-      prod["key"] = snapshot.key;
-      if (mounted) {
-        setState((state) => ({
-          ...state,
-          product: prod,
-        }));
+      if (snapshot.val() !== null) {
+        let prod = snapshot.val();
+        prod["key"] = snapshot.key;
+        if (mounted) {
+          setState((state) => ({
+            ...state,
+            product: prod,
+          }));
+        }
       }
     });
     return () => (mounted = false);
@@ -121,9 +123,31 @@ function ProductPage({ addProducts }) {
             <div className="section-product-page data-section">
               <h2>{state.product.name}</h2>
               <p className="txt-desc">{state.product.description}</p>
-              <div className="row m-2 pt-2 border-top justify-content-end form-add-cart">
+              <div className="row m-2 pt-2 border-top justify-content-lg-end form-add-cart">
                 <div className="col-auto my-auto">
-                  <h4 className="my-0">${state.product.price}*</h4>
+                  <div className="row">
+                    {state.product.discount && (
+                      <span className="badge mr-2 align-self-center badge-discount">
+                        {state.product.discount}% OFF
+                      </span>
+                    )}
+                    <h4 className="my-0">
+                      {state.product.discount ? (
+                        <>
+                          <del style={{ color: "lightgrey" }}>
+                            ${state.product.price}{" "}
+                          </del>
+                          {"$" +
+                            (state.product.price *
+                              (100 - state.product.discount)) /
+                              100}
+                        </>
+                      ) : (
+                        "$" + state.product.price
+                      )}
+                      *
+                    </h4>
+                  </div>
                 </div>
                 <div className="col-auto">
                   <button

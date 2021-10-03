@@ -59,6 +59,16 @@
   filter: grayscale(100%);
 }
 
+.discount-text {
+  position: absolute;
+  z-index: 999;
+  transform: rotate(321deg);
+  top: 22px;
+  left: 2px;
+  color: white;
+  font-size: 1.5em;
+}
+
 .text-description {
   display: -webkit-box;
   -webkit-line-clamp: 1;

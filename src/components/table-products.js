@@ -68,6 +68,7 @@ function TableProduct(props) {
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
     let newStock = document.getElementById("inputStock");
+    let newDiscount = document.getElementById("inputDescuento");
     var newImg = [];
     if (image.length > 0) {
       image.forEach((image) => {
@@ -87,6 +88,7 @@ function TableProduct(props) {
       description: newDescription.value,
       price: newPrice.value,
       stock: newStock.value,
+      discount: newDiscount.value,
       img: newImg,
       state: 1,
     };
@@ -194,6 +196,7 @@ function TableProduct(props) {
     document.getElementById("inputNombre").value = "";
     document.getElementById("inputDescripcion").value = "";
     document.getElementById("inputPrecio").value = "";
+    document.getElementById("inputDescuento").value = "";
     document.getElementById("inputStock").value = "";
     document.getElementById("btnSubmit").innerHTML = "Cargar";
     document.getElementById("modalTitle").innerHTML = "Nuevo producto";
@@ -224,6 +227,7 @@ function TableProduct(props) {
     let desc = document.getElementById("inputDescripcion");
     let price = document.getElementById("inputPrecio");
     let stock = document.getElementById("inputStock");
+    let discount = document.getElementById("inputDescuento");
     let itemCategory = item.val().category;
 
     if (imgPath[0].substring(imgPath[0].indexOf("/") + 1) !== "default.jpg") {
@@ -253,6 +257,9 @@ function TableProduct(props) {
     desc.value = item.val().description;
     price.value = item.val().price;
     stock.value = item.val().stock;
+    if (item.val().discount) {
+      discount.value = item.val().discount;
+    }
     document.getElementById("btnSubmit").innerHTML = "Modificar";
     document.getElementById("modalTitle").innerHTML = "Modificar producto";
   };
@@ -265,6 +272,7 @@ function TableProduct(props) {
     let newDescription = document.getElementById("inputDescripcion");
     let newPrice = document.getElementById("inputPrecio");
     let newStock = document.getElementById("inputStock");
+    let newDiscount = document.getElementById("inputDescuento");
     deleteImgFromStorage();
     var newImg = [];
     if (image.length > 0) {
@@ -302,6 +310,7 @@ function TableProduct(props) {
         description: newDescription.value,
         price: newPrice.value,
         stock: newStock.value,
+        discount: newDiscount.value,
         img: newImg,
         state: 1,
       },

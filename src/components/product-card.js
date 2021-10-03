@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/product-card.css";
 import Loading from "../components/loading";
 import imgSoldOut from "../images/sinstock.png";
+import imgDiscount from "../images/discount.png";
 import { Link } from "react-router-dom";
 
 function ProductCard(props) {
@@ -49,6 +50,14 @@ function ProductCard(props) {
             }
           >
             <div className="card product-card">
+              {!soldOut && show && props.product.val().discount && (
+                <>
+                  <img src={imgDiscount} alt="..." className="sold-out-img" />
+                  <span className="discount-text">
+                    {props.product.val().discount}% OFF
+                  </span>
+                </>
+              )}
               {!show && <Loading />}
               <div className="img-container">
                 <img
@@ -83,7 +92,20 @@ function ProductCard(props) {
                     : "Sin stock"}
                 </p>
                 <span className="card-text text-price float-left">
-                  ${props.product.val().price} c/u
+                  {props.product.val().discount ? (
+                    <>
+                      <del style={{ color: "lightgrey" }}>
+                        ${props.product.val().price}{" "}
+                      </del>
+                      {"$" +
+                        (props.product.val().price *
+                          (100 - props.product.val().discount)) /
+                          100}
+                    </>
+                  ) : (
+                    "$" + props.product.val().price
+                  )}{" "}
+                  c/u
                 </span>
                 <div className="text-right">
                   <p className="link-more">Ver más</p>

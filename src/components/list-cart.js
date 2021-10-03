@@ -96,7 +96,15 @@ function ListCart(props) {
                             />
                           </div>
                           <div className="col-lg-2 col-5 text-center">
-                            <h4>${list.product.price * list.amount}</h4>
+                            <h4>
+                              $
+                              {list.product.discount
+                                ? ((list.product.price *
+                                    (100 - list.product.discount)) /
+                                    100) *
+                                  list.amount
+                                : list.product.price * list.amount}
+                            </h4>
                           </div>
                           <div className="col-lg-1 col-3">
                             <button

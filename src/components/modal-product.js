@@ -103,20 +103,41 @@ function ModalProduct(props) {
               </div>
               <div className="row">
                 <div className="col-6">
-                  <div className="form-group">
-                    <label htmlFor="inputPrecio">Precio</label>
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">$</span>
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="inputPrecio">Precio</label>
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text">$</span>
+                          </div>
+                          <input
+                            type="text"
+                            id="inputPrecio"
+                            className="form-control rounded-right"
+                            required
+                          />
+                        </div>
                       </div>
-                      <input
-                        type="text"
-                        id="inputPrecio"
-                        className="form-control rounded-right"
-                        required
-                      />
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="inputDescuento">Descuento</label>
+                        <div className="input-group">
+                          <input
+                            type="text"
+                            id="inputDescuento"
+                            className="form-control rounded-left"
+                            required
+                          />
+                          <div className="input-group-append">
+                            <span className="input-group-text">%</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+
                   <div className="form-group">
                     <label htmlFor="inputStock">Stock</label>
                     <div className="input-group">
