@@ -126,13 +126,13 @@ function ProductPage({ addProducts }) {
               <div className="row m-2 pt-2 border-top justify-content-lg-end form-add-cart">
                 <div className="col-auto my-auto">
                   <div className="row">
-                    {state.product.discount && (
+                    {state.product.discount && state.product.discount > 0 && (
                       <span className="badge mr-2 align-self-center badge-discount">
                         {state.product.discount}% OFF
                       </span>
                     )}
                     <h4 className="my-0">
-                      {state.product.discount ? (
+                      {state.product.discount && state.product.discount > 0 ? (
                         <>
                           <del style={{ color: "lightgrey" }}>
                             ${state.product.price}{" "}
