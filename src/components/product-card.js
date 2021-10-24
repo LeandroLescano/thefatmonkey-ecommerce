@@ -50,14 +50,17 @@ function ProductCard(props) {
             }
           >
             <div className="card product-card">
-              {!soldOut && show && props.product.val().discount && (
-                <>
-                  <img src={imgDiscount} alt="..." className="sold-out-img" />
-                  <span className="discount-text">
-                    {props.product.val().discount}% OFF
-                  </span>
-                </>
-              )}
+              {!soldOut &&
+                show &&
+                props.product.val().discount &&
+                props.product.val().discount > 0 && (
+                  <>
+                    <img src={imgDiscount} alt="..." className="sold-out-img" />
+                    <span className="discount-text">
+                      {props.product.val().discount}% OFF
+                    </span>
+                  </>
+                )}
               {!show && <Loading />}
               <div className="img-container">
                 <img
@@ -92,7 +95,9 @@ function ProductCard(props) {
                     : "Sin stock"}
                 </p>
                 <span className="card-text text-price float-left">
-                  {props.product.val().discount ? (
+                  {props.product.val().discount &&
+                  props.product.val().discount > 0 &&
+                  props ? (
                     <>
                       <del style={{ color: "lightgrey" }}>
                         ${props.product.val().price}{" "}
