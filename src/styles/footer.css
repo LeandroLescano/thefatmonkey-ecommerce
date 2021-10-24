@@ -1,6 +1,6 @@
 .footer {
   background-color: var(--primary-color) !important;
-  color: gray;
+  color: var(--primary-color-light);
   bottom: 0;
   width: 100%;
   display: block;
@@ -31,7 +31,6 @@
 @media only screen and (min-width: 768px) {
   .footer {
     background-color: var(--primary-color-light);
-    color: var(--primary-color-light);
     bottom: 0;
     width: 100%;
     display: block;
