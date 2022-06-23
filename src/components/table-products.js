@@ -37,17 +37,43 @@ function TableProduct(props) {
     if (e.target.files.length > 0) {
       Array.from(e.target.files).forEach((file) => {
         if (file.type === "image/jpeg" || file.type === "image/png") {
-          let urlCreated = URL.createObjectURL(file);
-          console.log(url[0].match("default"));
-          if (url[0].match("default") && firstFile) {
-            setUrl([urlCreated]);
-            let newImg = file;
-            setImage([newImg]);
-          } else {
-            setUrl((url) => [...url, urlCreated]);
-            let newImg = file;
-            setImage((img) => [...img, newImg]);
-          }
+          //compress file with canvas
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          const img = new Image();
+          img.src = URL.createObjectURL(file);
+          img.onload = () => {
+            const MAX_WIDTH = 1024;
+            const width = img.width;
+            const height = img.height;
+            const scaleSize = MAX_WIDTH / width;
+            canvas.width = MAX_WIDTH;
+            canvas.height = height * scaleSize;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const urlCreated = canvas.toDataURL("image/jpeg");
+            //save file compressed
+            const fileCompressed = new File(
+              [dataURItoBlob(urlCreated), file.name],
+              file.name,
+              { type: file.type }
+            );
+
+            //get file weight
+            const fileWeight = file.size / 1024 / 1024;
+            console.log({ fileWeight });
+            const fileWeightCompressed = fileCompressed.size / 1024 / 1024;
+            console.log({ fileWeightCompressed });
+            // let urlCreated = URL.createObjectURL(file);
+            if (url[0].match("default") && firstFile) {
+              setUrl([urlCreated]);
+              let newImg = fileCompressed;
+              setImage([newImg]);
+            } else {
+              setUrl((url) => [...url, urlCreated]);
+              let newImg = fileCompressed;
+              setImage((img) => [...img, newImg]);
+            }
+          };
         } else {
           Swal.fire({
             icon: "error",
@@ -59,6 +85,30 @@ function TableProduct(props) {
         firstFile = false;
       });
     }
+  };
+
+  const dataURItoBlob = (dataURI) => {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(",")[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+
+    // create a view into the buffer
+    var ia = new Uint8Array(ab);
+
+    // set the bytes of the buffer to the correct values
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    // write the ArrayBuffer to a blob, and you're done
+    var blob = new Blob([ab], { type: mimeString });
+    return blob;
   };
 
   const uploadNewProduct = () => {
