@@ -45,6 +45,18 @@ html::-webkit-scrollbar-corner {
   color: white;
 }
 
+.link {
+  color: var(--primary-color);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.maintenance {
+  display: flex;
+  justify-content: center;
+  height: 90vh;
+}
+
 .App-link {
   color: #61dafb;
 }

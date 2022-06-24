@@ -13,12 +13,16 @@ function CategorySelector(props) {
     function getCategories() {
       const db = firebase.database();
       const dbRef = db.ref("products");
-      dbRef.on("child_added", (snapshot) => {
+      dbRef.once("value", (snapshot) => {
         if (mountedRef.current) {
-          let categoryAct =
-            snapshot.key.charAt(0).toUpperCase() + snapshot.key.slice(1);
-          setCategories((categories) => [...categories, categoryAct]);
-          setUrlImg((url) => [...url, Object.values(snapshot.val())[0].img[0]]);
+          const categories = Object.values(snapshot.val());
+          const categoriesNames = Object.keys(snapshot.val());
+          const categoryImages = [];
+          categories.forEach((category) => {
+            categoryImages.push(Object.values(category)[0].img[0]);
+          });
+          setCategories((prevCat) => [...prevCat, ...categoriesNames]);
+          setUrlImg((url) => [...url, ...categoryImages]);
           setShow(true);
         }
       });

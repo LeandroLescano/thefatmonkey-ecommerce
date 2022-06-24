@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { CookiesProvider, withCookies } from "react-cookie";
 import AboutPage from "./pages/AboutPage";
+import Maintenance from "./pages/Maintenance";
 
 function Routes() {
   const storeP = createStore({
@@ -25,8 +26,9 @@ function Routes() {
       <Provider store={store}>
         <StoreProvider store={storeP}>
           <BrowserRouter>
-            <Layout>
-              <Switch>
+            <Switch>
+              {/* <Route exact path="/maintenance" component={Maintenance} /> */}
+              <Layout>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/administrar" component={AdminPage} />
                 <Route exact path="/nosotros" component={AboutPage} />
@@ -39,7 +41,7 @@ function Routes() {
                   render={function () {
                     return (
                       <div
-                        className="mt-5"
+                        className="mt-5 mx-5"
                         style={{ justifyContent: "center" }}
                       >
                         <div className="jumbotron">
@@ -66,8 +68,8 @@ function Routes() {
                     );
                   }}
                 />
-              </Switch>
-            </Layout>
+              </Layout>
+            </Switch>
           </BrowserRouter>
         </StoreProvider>
       </Provider>
